@@ -1,0 +1,26 @@
+#SVN
+*.svn
+
+#Python
+*.pyc
+
+# project from Eclipse/Aptana IDE
+*.project
+*.pydevproject
+*.settings
+
+#OSX specifics
+.DS_Store
+
+# temp files
+.temp_*
+
+# all doc files
+*/doc/*
+
+# all build files
+*-build/*
+
+# all .log files
+*.log
+
