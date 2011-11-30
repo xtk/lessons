@@ -32,13 +32,16 @@ var run = function() {
     
     var model = new X.object();
     model.load('../../X/xtk-data/P0004_model.stl');
-    //model.transform().rotateX(90);
+    model.setColor(1.0,0,0);
+    model.transform().rotateX(90);
     
     var model2 = new X.object();
     model2.load('../../X/xtk-data/P0004_neckplane.stl');
+    model2.setColor(0,1,0);
     
     var model3 = new X.object();
     model3.load('../../X/xtk-data/tissue.stl');    
+    model3.setColor(0,0,1);
     
     var model4 = new X.object();
     model4.load('../../X/xtk-data/skull_bone.stl');
@@ -47,15 +50,15 @@ var run = function() {
     
     //r.add(box1);
     r.add(model);
-    r.add(model2);
-    r.add(model3);
-    r.add(model4);
+    //r.add(model2);
+    //r.add(model3);
+    //r.add(model4);
     
     setInterval(function() {
-      model.transform().rotateX(1);
-      model.transform().rotateY(1);
-      model3.transform().rotateZ(1);
-      model4.transform().rotateZ(1);
+  //model.transform().rotateX(1);
+//model.transform().rotateY(1);
+//model3.transform().rotateZ(1);
+//model4.transform().rotateZ(1);
       r.render();
     },15);
     
