@@ -1,0 +1,66 @@
+<html>
+<head>
+<title>XTK Lesson 06: Load a .STL-file</title>
+
+<!-- closure library includes -->
+<script type="text/javascript"
+	src="../../X/xtk/lib/closure-library/closure/goog/base.js"></script>
+
+<!-- ------------ -->
+<!-- xtk includes -->
+<script type="text/javascript" src="../../X/xtk/xtk-deps.js"></script>
+<!-- ------------ -->
+
+<!-- source code -->
+<script type="text/javascript">
+  goog.provide('run');
+  
+  goog.require('X.box');
+  goog.require('X.camera');
+  goog.require('X.renderer');
+  
+  var run = function() {
+
+    try {
+      
+      var r = new X.renderer('left');
+      r.init();
+      
+      var r2 = new X.renderer('right');
+      r2.init();
+      
+      r.camera().setPosition(0,0,400);
+      
+      r2.camera().setPosition(-400,0,0);
+      
+      var model = new X.object();
+      model.load('../../X/xtk-data/skull_bone.stl');
+      model.transform().rotateY(270);
+      
+      r.add(model);
+      r2.add(model);
+      
+      //setInterval(function() {
+
+      //  model.transform().rotateZ(1);
+      r.render();
+      r2.render();
+      //}, 15);
+      
+    } catch (e) {
+      
+      // catch any exception and print the error to the error log
+      console.error(e);
+      
+    }
+    
+  };
+</script>
+
+</head>
+
+<body onload="run()">
+	<div id='left' style='float:left; width: 49%; height: 100%;'></div>
+	<div id='right' style='float:right; width: 49%; height: 100%;'></div>
+</body>
+</html>

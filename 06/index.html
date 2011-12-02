@@ -16,14 +16,15 @@
   goog.provide('run');
   
   goog.require('X.box');
-  goog.require('X.renderer3D');
+  goog.require('X.camera');
+  goog.require('X.renderer');
   
   var run = function() {
 
     try {
       
-      var r = new X.renderer3D('r');
-      r.setBackgroundColor('#000000');
+      var r = new X.renderer('r');
+      r.setBackgroundColor('#fff');
       r.init();
       
       var box1 = new X.box([10, 10, 10], 5, 10, 20);
@@ -53,14 +54,14 @@
       r.add(model3);
       r.add(model4);
       
-      setInterval(function() {
+      //setInterval(function() {
 
         model.transform().rotateX(1);
         model.transform().rotateY(1);
         model3.transform().rotateZ(1);
         model4.transform().rotateZ(1);
         r.render();
-      }, 15);
+      //}, 15);
       
     } catch (e) {
       
