@@ -23,31 +23,19 @@
 
     try {
       
-      var r = new X.renderer('left');
+      var r = new X.renderer('r');
       r.init();
       
-      var r2 = new X.renderer('right');
-      r2.init();
-      
-      r.camera().setPosition(0,0,400);
-      
-      r2.camera().setPosition(-400,0,0);
-      
       var model = new X.object();
-      model.load('../../X/xtk-data/lh.pial.stl');
-      //model.load('../../X/xtk-data/porsche.stl');
-      //model.load('../../X/xtk-data/tissue.stl');
-      //model.transform().rotateY(270);
+      model.load('../../X/xtk-data/tissue.vtk');
       
       r.add(model);
-      r2.add(model);
       
       
       //setInterval(function() {
         
 	      //  model.transform().rotateZ(1);
 	      r.render();
-	      r2.render();
       //}, 15);
       
     } catch (e) {
@@ -63,7 +51,6 @@
 </head>
 
 <body onload="run()">
-	<div id='left' style='float: left; width: 49%; height: 100%;'></div>
-	<div id='right' style='float: right; width: 49%; height: 100%;'></div>
+	<div id='r' style='float: left; width: 100%; height: 100%;'></div>
 </body>
 </html>
