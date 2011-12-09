@@ -20,31 +20,35 @@
   goog.require('X.renderer');
   
   var run = function() {
-
-    try {
       
       var r = new X.renderer('r');
       r.init();
       
       var model = new X.object();
-      model.load('../../X/xtk-data/tissue.vtk');
+      model.load('../../X/xtk-data/P0004_model.vtk');
+      model.setOpacity(0.5);
+      model.setColor(0.7,0.7,0.7);
+      
+      var centerlines = new X.object();
+      centerlines.load('../../X/xtk-data/P0004_centerlines.vtk');
+      
+      var neckplane = new X.object();
+      neckplane.load('../../X/xtk-data/P0004_neckplane.vtk');
+      neckplane.setOpacity(0.7);
+      neckplane.setColor(0.3,0.3,0.3);
+      
+      var section = new X.object();
+      section.load('../../X/xtk-data/P0004_section.vtk');
+      section.setColor(1,0,0);
+      section.setLineWidth(5);
       
       r.add(model);
+      r.add(centerlines);      
+      r.add(neckplane);
+      r.add(section);
       
-      
-      //setInterval(function() {
-        
-	      //  model.transform().rotateZ(1);
-	      r.render();
-      //}, 15);
-      
-    } catch (e) {
-      
-      // catch any exception and print the error to the error log
-      console.error(e);
-      
-    }
-    
+      r.render();
+
   };
 </script>
 
