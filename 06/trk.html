@@ -1,0 +1,33 @@
+<html>
+<head>
+<title>XTK Load TRK File</title>
+
+<script type="text/javascript" src="../../X/lib/closure-library/closure/goog/base.js"></script>
+
+<script type="text/javascript" src="../../X/xtk-deps.js"></script>
+
+<script type="text/javascript">
+  
+  goog.require('X.renderer');
+  
+  var run = function() {
+      
+      var r = new X.renderer('r');
+      r.init();
+      
+      var tracks = new X.object();
+      tracks.load('../data/tracks.trk');
+      
+      r.add(tracks);
+      
+      r.render();
+
+  };
+</script>
+
+</head>
+
+<body onload="run()">
+  <div id='r' style='float: left; width: 100%; height: 100%;'></div>
+</body>
+</html>
