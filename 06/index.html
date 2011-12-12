@@ -2,50 +2,36 @@
 <head>
 <title>XTK Lesson 06: Load a .STL-file</title>
 
-<!-- closure library includes -->
-<script type="text/javascript"
-	src="../../X/xtk/lib/closure-library/closure/goog/base.js"></script>
-
-<!-- ------------ -->
-<!-- xtk includes -->
-<script type="text/javascript" src="../../X/xtk/xtk-deps.js"></script>
-<!-- ------------ -->
+<script type="text/javascript" src="../xtk.js"></script>
 
 <!-- source code -->
-<script type="text/javascript">
-  goog.provide('run');
-  
-  goog.require('X.box');
-  goog.require('X.camera');
-  goog.require('X.renderer');
-  
+<script type="text/javascript">  
   var run = function() {
-
-    try {
       
       var r = new X.renderer('r');
-      //r.setBackgroundColor('#fff');
       r.init();
       
       var box1 = new X.box([10, 10, 10], 5, 10, 20);
-      box1.setTexture(new X.texture('../../X/xtk.png'));
+      box1.setTexture(new X.texture('../data/xtk.png'));
       
       var model = new X.object();
-      model.load('../../X/xtk-data/P0004_model.stl');
+      model.load('../data/P0004_model.stl');
       model.setColor(1.0, 0, 0);
+      model.setOpacity(0.3);
       model.transform().rotateX(90);
       
       var model2 = new X.object();
-      model2.load('../../X/xtk-data/P0004_neckplane.stl');
+      model2.load('../data/P0004_neckplane.stl');
+      model2.setOpacity(0.3);
       model2.setColor(0, 1, 0);
       
       var model3 = new X.object();
-      model3.load('../../X/xtk-data/tissue.stl');
+      model3.load('../data/tissue.stl');
       model3.setColor(0, 0, 1);
       
       var model4 = new X.object();
-      model4.load('../../X/xtk-data/skull_bone.stl');
-      model4.setOpacity(0.4);
+      model4.load('../data/skull_bone.stl');
+      model4.setOpacity(1);
       model4.transform().rotateY(270);
       
       r.add(box1);
@@ -58,17 +44,10 @@
 
         model.transform().rotateX(1);
         model.transform().rotateY(1);
-        model3.transform().rotateZ(1);
+        model3.transform().rotateX(1);
         model4.transform().rotateZ(1);
         r.render();
       }, 15);
-      
-    } catch (e) {
-      
-      // catch any exception and print the error to the error log
-      console.error(e);
-      
-    }
     
   };
 </script>

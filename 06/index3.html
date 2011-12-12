@@ -1,23 +1,10 @@
 <html>
 <head>
-<title>XTK Lesson 06: Load a .STL-file</title>
+<title>XTK Demo Scene</title>
 
-<!-- closure library includes -->
-<script type="text/javascript"
-	src="../../X/xtk/lib/closure-library/closure/goog/base.js"></script>
+<script type="text/javascript" src="../xtk.js"></script>
 
-<!-- ------------ -->
-<!-- xtk includes -->
-<script type="text/javascript" src="../../X/xtk/xtk-deps.js"></script>
-<!-- ------------ -->
-
-<!-- source code -->
 <script type="text/javascript">
-  goog.provide('run');
-  
-  goog.require('X.box');
-  goog.require('X.camera');
-  goog.require('X.renderer');
   
   var run = function() {
       
@@ -25,20 +12,20 @@
       r.init();
       
       var model = new X.object();
-      model.load('../../X/xtk-data/P0004_model.vtk');
+      model.load('../data/P0004_model.vtk');
       model.setOpacity(0.5);
       model.setColor(0.7,0.7,0.7);
       
       var centerlines = new X.object();
-      centerlines.load('../../X/xtk-data/P0004_centerlines.vtk');
+      centerlines.load('../data/P0004_centerlines.vtk');
       
       var neckplane = new X.object();
-      neckplane.load('../../X/xtk-data/P0004_neckplane.vtk');
-      neckplane.setOpacity(0.7);
-      neckplane.setColor(0.3,0.3,0.3);
+      neckplane.load('../data/P0004_neckplane.vtk');
+      neckplane.setOpacity(0.7); // TODO has no effect, why?
+      neckplane.setColor(0.5,0.5,0.5);
       
       var section = new X.object();
-      section.load('../../X/xtk-data/P0004_section.vtk');
+      section.load('../data/P0004_section.vtk');
       section.setColor(1,0,0);
       section.setLineWidth(5);
       
