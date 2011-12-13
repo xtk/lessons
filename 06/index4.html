@@ -13,15 +13,15 @@
       r.init();
       
       var box1 = new X.box([10, 10, 10], 5, 10, 20);
-      box1.setTexture(new X.texture('../../X/xtk.png'));
+      box1.setTexture(new X.texture('../data/xtk.png'));
       
       
       
       var box2 = new X.box([-10, -10, -10], 5, 5, 5);
-      box2.setTexture(new X.texture('../../X/xtk.png'));
+      box2.setTexture(new X.texture('../data/xtk.png'));
       
       var box3 = new X.box([-20, -10, -10], 5, 5,5);
-      box3.setTexture(new X.texture('../../X/xtk_dark.png')); 
+      box3.setTexture(new X.texture('../data/xtk_dark.png')); 
       
       box1.children().push(box2);
       box2.children().push(box3);

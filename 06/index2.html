@@ -12,17 +12,16 @@
     r.init();
     
     var r2 = new X.renderer('right');
-    r2.init();
-    
-    r.camera().setPosition(0, 0, 400);
-    
-    r2.camera().setPosition(-400, 0, 0);
+    r2.init();    
     
     var model = new X.object();
     model.load('../data/lh.pial.stl');
     
     r.add(model);
     r2.add(model);
+    
+    r.camera().setPosition(0, 0, 400);
+    r2.camera().setPosition(-400, 0, 0);     
     
     r.render();
     r2.render();
