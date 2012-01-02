@@ -2,20 +2,34 @@
 <head>
 <title>XTK Lesson 01: Create a box</title>
 
-<script type="text/javascript" src="../xtk.js"></script>
+<script type="text/javascript" src="../../X/lib/closure-library/closure/goog/base.js"></script>
+<script type="text/javascript" src="../../X/xtk-deps.js"></script>
 
 <script type="text/javascript">
+
+  goog.require('X.box');
+  goog.require('X.renderer');
   
   var run = function() {
-      
+try{      
       var r = new X.renderer('r');
       r.init();
       
-      var box1 = new X.box([10, 10, 10], 5, 10, 20);
+      var box1 = new X.box([-10,-10,-10], 5, 5, 5);
+      var box2 = new X.box([10,10,10], 5, 5, 5);
       //box1.setTexture(new X.texture('../data/xtk.png'));
       
       r.add(box1);
+      r.add(box2);
       r.render();
+}
+catch (e) {
+  
+  console.log(e);
+  
+  }      
+
+      
   };
 </script>
 
