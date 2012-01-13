@@ -1,0 +1,85 @@
+<!-- 
+/*
+ * 
+ *                  xxxxxxx      xxxxxxx
+ *                   x:::::x    x:::::x 
+ *                    x:::::x  x:::::x  
+ *                     x:::::xx:::::x   
+ *                      x::::::::::x    
+ *                       x::::::::x     
+ *                       x::::::::x     
+ *                      x::::::::::x    
+ *                     x:::::xx:::::x   
+ *                    x:::::x  x:::::x  
+ *                   x:::::x    x:::::x 
+ *              THE xxxxxxx      xxxxxxx TOOLKIT
+ *                    
+ *                  http://www.goXTK.com
+ *                   
+ * Copyright (c) 2012 The X Toolkit Developers <dev@goXTK.com>
+ *                   
+ *    The X Toolkit (XTK) is licensed under the MIT License:
+ *      http://www.opensource.org/licenses/mit-license.php
+ *
+ * LESSON 03 - We need more cubes!!
+ */
+-->
+
+<html>
+<head>
+<title>XTK LESSON 03</title>
+
+<script type="text/javascript" src="../xtk.js"></script>
+
+<script type="text/javascript">
+  var run = function() {
+    
+    var r = new X.renderer('r');
+    // the limit for objects with picking is right now 999
+    // but we are gonna create 1000 cubes - so let's deactivate picking
+    //
+    // remember, XTK is optimized for large objects rather than a lot.. maybe you can help?
+    r.config.PICKING_ENABLED = false;
+    r.init();
+    
+    // create a bunch of cubes
+    cubes = [];
+
+    for (var y=0; y<20; y++) {
+	    for (var x=0; x<50;x++) {
+	     
+	      var c = new X.cube([x*3,y*3,0],1,1,1);
+	      c.setColor(150 % x, 150 % y, 1);
+	      cubes.push(c);
+	      
+	      r.add(c);
+	      
+	    }
+    }    
+    
+    r.render();
+    
+    // .. and make'em move!!
+    setInterval(function() {
+      
+      for (var x=0; x<cubes.length;x++){
+        
+        var c = cubes[x];
+        
+        c.transform().rotateX(1);
+        
+      }
+      
+      r.render();
+      
+    }, 15);    
+    
+  };
+</script>
+
+<body onload="run()">
+  
+  <!-- the container for the renderer -->
+  <div id="r" style="background-color: #000000; width: 100%; height: 100%;"></div>
+    
+</body>

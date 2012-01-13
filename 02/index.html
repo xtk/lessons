@@ -37,24 +37,30 @@
     var r = new X.renderer('r');
     r.init();
     
-    // create some CSG primitives..
+    // create some CSG primitives.. this is by the way an official example of CSG
     var cube = new X.cube([0,0,0],10,10,10);
     cube.setColor(1,0,0);
+    cube.setCaption('a cube');
     
     var sphere = new X.sphere([0,0,0],13,13,13);
     sphere.setColor(0,1,0);
+    sphere.setCaption('a sphere');
     
     var cylinder1 = new X.cylinder([-10,0,0],[10,0,0],7);
     cylinder1.setColor(0,0,1);
+    cylinder1.setCaption('cylinder 1');
     
     var cylinder2 = new X.cylinder([0,-10,0],[0,10,0],7);
     cylinder2.setColor(0,0,1);
+    cylinder2.setCaption('cylinder 2');
     
     var cylinder3 = new X.cylinder([0,0,-10],[00,0,10],7);
     cylinder3.setColor(0,0,1);
+    cylinder3.setCaption('cylinder 3');
     
     // .. CSG is sooooo cool!
     var funstuff = cube.intersect(sphere).subtract(cylinder1.union(cylinder2).union(cylinder3));
+    funstuff.setCaption("the three from above bool'ed together!");
     
     // move some stuff around to display it all
     cube.transform().translateY(30);
