@@ -45,21 +45,30 @@
     var r = new X.renderer('r');
     r.init();
 
+    var tracks = new X.object();
+    tracks.load('../data/streamline.trk');
+    //tracks.setOpacity(0.3);
+    
     // load a freesurfer mesh.. 
     // all freesurfer meshes have to have the extension .fsm to be properly recognized by XTK!
     var lh = new X.object();
     lh.load('../data/lh.smoothwm.fsm');
     lh.setCaption('Left hemisphere')
-    lh.setColor(0.5,0.5,0.5);
+    lh.setColor(1.,0.5,0.5);
+    lh.setOpacity(0.3);
 
     var rh = new X.object();
     rh.load('../data/rh.smoothwm.fsm');
     rh.setCaption('Right hemisphere')    
     rh.setColor(0,0.7,0);
+    rh.setOpacity(0.4);
     
     // add the object
+    r.add(tracks);
     r.add(lh);
-    //r.add(rh);
+    r.add(rh);    
+
+
 
     // .. and render it
     r.render();
