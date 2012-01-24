@@ -38,16 +38,18 @@
 
   goog.require('X.renderer');
   goog.require('X.object');
+  goog.require('X.cube');
   
   var run = function() {
     
     // create a new renderer
     var r = new X.renderer('r');
+    //r.config.ORDERING_ENABLED = false;
     r.init();
 
     var tracks = new X.object();
     tracks.load('../data/streamline.trk');
-    //tracks.setOpacity(0.3);
+    tracks.setOpacity(0.3);
     
     // load a freesurfer mesh.. 
     // all freesurfer meshes have to have the extension .fsm to be properly recognized by XTK!
@@ -61,17 +63,31 @@
     rh.load('../data/rh.smoothwm.fsm');
     rh.setCaption('Right hemisphere')    
     rh.setColor(0,0.7,0);
-    rh.setOpacity(0.4);
+    rh.setOpacity(0.3);
+    
+    c = new X.cube([0,0,0],3,3,3);
+    c2 = new X.cube([55,60,41],3,3,3);
     
     // add the object
     r.add(tracks);
-    r.add(lh);
-    r.add(rh);    
+    r.add(c);
+    r.add(c2);
+    //r.add(lh);
+    //r.add(rh);    
 
 
 
     // .. and render it
     r.render();
+    
+    //setInterval(function(){
+    setTimeout(function(){
+      tracks.transform().rotateX(70);
+      tracks.modified();
+      r.render();
+      
+    },10000);
+    
     
   };
 </script>
