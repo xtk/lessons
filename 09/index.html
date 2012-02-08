@@ -58,11 +58,16 @@
       var points = pits.points().all(); // grab the actual coordinates as a flat 1d array
       var numberOfPoints = pits.points().count(); // in this example 411
       
+      // for convenience, a container which holds all spheres
+      var spheres = new X.object();
+      
       // create a new sphere as a template for all other ones
       // this is an expensive operation due to CSG's mesh generation
       var newSphere = new X.sphere([points[0], points[1], points[2]], 0.7);
       newSphere.setMagicMode(true); // it's magic..
-      r.add(newSphere);      
+      
+      // .. add the newSphere to our container
+      spheres.children().push(newSphere);
       
       // loop through the points and copy the created sphere to a new X.object
       for (var i=1; i<numberOfPoints; i++) {
@@ -70,17 +75,34 @@
         // copy the tempate sphere over to avoid generating new ones
         var copySphere = new X.object(newSphere);
         // .. and move it to the correct position
-        copySphere.transform().translateX(points[i]);
-        copySphere.transform().translateY(points[i+1]);
-        copySphere.transform().translateZ(points[i+2]);
-        r.add(copySphere);
+        copySphere.transform().translateX(points[i]-points[0]);
+        copySphere.transform().translateY(points[i+1]-points[1]);
+        copySphere.transform().translateZ(points[i+2]-points[2]);
+        
+        // .. add the copySphere to our container
+        spheres.children().push(copySphere);
         
       }
+      
+      // add the sphere container to the renderer
+      r.add(spheres);
+
+      // animate!
+      setInterval(function() {
+        
+        // rotate the camera in X-direction (which triggers re-rendering)
+        r.camera().rotate(new goog.math.Vec2(1,0));
+        
+      },15);    
+      
       
     };
     
     // .. and render it
     r.render();    
+    
+
+    
     
   };
 </script>
