@@ -30,70 +30,90 @@
 <head>
 <title>XTK LESSON 08</title>
 
-<script type="text/javascript" src="../../X/lib/closure-library/closure/goog/base.js"></script>
-<script type="text/javascript" src="../../X/xtk-deps.js"></script>
+<script type="text/javascript" src="http://goXTK.com/xtk_nightly.js"></script>
 
 <script type="text/javascript">
-
-  goog.require('X.renderer');
-  goog.require('X.object');
-  goog.require('X.cube');
-  
   var run = function() {
-    
+
     // create a new renderer
     var r = new X.renderer('r');
     //r.config.ORDERING_ENABLED = false;
     r.init();
-
+    
     var tracks = new X.object();
     tracks.load('../data/streamline.trk');
-    tracks.setOpacity(0.3);
+    //tracks.setOpacity(0.3);
     
     // load a freesurfer mesh.. 
     // all freesurfer meshes have to have the extension .fsm to be properly recognized by XTK!
     var lh = new X.object();
     lh.load('../data/lh.smoothwm.fsm');
     lh.setCaption('Left hemisphere')
-    lh.setColor(1.,0.5,0.5);
+    lh.setColor(1., 0.5, 0.5);
     lh.setOpacity(0.3);
-
+    
     var rh = new X.object();
     rh.load('../data/rh.smoothwm.fsm');
-    rh.setCaption('Right hemisphere')    
-    rh.setColor(0,0.7,0);
+    rh.setCaption('Right hemisphere')
+    rh.setColor(0, 0.7, 0);
     rh.setOpacity(0.3);
-    
-    c = new X.cube([0,0,0],3,3,3);
-    c2 = new X.cube([55,60,41],3,3,3);
     
     // add the object
     r.add(tracks);
-    r.add(c);
-    r.add(c2);
-    //r.add(lh);
-    //r.add(rh);    
+    r.add(lh);
+    r.add(rh);
+    
+    r.onShowtime = function() {
 
+      // transform the tracks
+      var tracks_transform = new X.matrix(
+          [[-2.00000, 0.00000, 0.00000, 110.00000],
+           [0.00000, 0.00000, 2.00000, -71.00000],
+           [0.00000, -2.00000, 0.00000, 110.00000],
+           [0.00000, 0.00000, 0.00000, 1.00000]]); 
+      
+      tracks.transform().setMatrix(tracks_transform);
+      
 
+      
+      // transform the surfaces
+      var brain_transform = new X.matrix([[9.992089867591858e-01, 2.652833424508572e-02, 2.959738858044147e-02, -1.404523849487305e+00], 
+                          [-2.943054959177971e-02, -6.642243359237909e-03, 9.995449185371399e-01, -9.628264427185059e+00],
+                          [-2.671264298260212e-02, 9.996254444122314e-01, 5.856084171682596e-03, -2.631434440612793e+00],
+                          [0, 0, 0, 1]]); 
+      
+      rh.transform().setMatrix(brain_transform);
+      lh.transform().setMatrix(brain_transform);
 
+      var c = tracks.points().centroid();
+      var centroid = new goog.math.Vec3(c[0],c[1],c[2]);
+      var tc = tracks_transform.multiplyByVector(centroid);
+      
+      var c2 = lh.points().centroid();
+      var centroid2 = new goog.math.Vec3(c2[0],c2[1],c2[2]);
+      var tc2 = brain_transform.multiplyByVector(centroid2);
+      
+      console.log(tc+"",tc2+"");
+      
+      console.log(tc.z-tc2.z);
+      console.log(r._center+"");
+      tracks.transform().translateX(20.2);
+      tracks.transform().translateY(10);
+      tracks.transform().translateZ(10);
+                  
+      
+      
+    };
+    
     // .. and render it
     r.render();
     
-    //setInterval(function(){
-    setTimeout(function(){
-      tracks.transform().rotateX(70);
-      tracks.modified();
-      r.render();
-      
-    },10000);
-    
-    
   };
 </script>
-
 <body onload="run()">
-  
-  <!-- the container for the renderer -->
-  <div id="r" style="background-color: #000000; width: 100%; height: 100%;"></div>
-    
+
+	<!-- the container for the renderer -->
+	<div id="r"
+		style="background-color: #000000; width: 100%; height: 100%;"></div>
+
 </body>
