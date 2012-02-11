@@ -49,13 +49,13 @@
     // load a freesurfer mesh.. 
     // all freesurfer meshes have to have the extension ".fsm" to be properly recognized by XTK!
     var lh = new X.object();
-    lh.load('../data/lh.smoothwm.fsm');
+    lh.load('../data/rh.smoothwm.fsm');
     lh.setColor(0.7,0.2,0.2);
     lh.setOpacity(0.6);
     
     // ... and another one
     var rh = new X.object();
-    rh.load('../data/rh.smoothwm.fsm');
+    rh.load('../data/lh.smoothwm.fsm');
     rh.setColor(0,0.7,0);
     rh.setOpacity(0.6);
     
