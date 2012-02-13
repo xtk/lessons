@@ -59,12 +59,20 @@
 	   
 	   // .. but add it to all 3 renderers
 	   r1.add(avf);
-	   r2.add(avf);
-	   r3.add(avf);
+	   
+	   r1.onShowtime = function() {
+	   
+	     // once renderer 1 is ready to display a.k.a. when the vtk file is fully loaded,
+	     // display it also in renderer 2 and 3
+		   r2.add(avf);
+		   r3.add(avf);
+		   
+	     r2.render();
+	     r3.render();	   
+	   
+	   }
 	   
 	   r1.render();
-	   r2.render();
-	   r3.render();
 	
 	};
 </script>
