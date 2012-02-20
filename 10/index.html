@@ -1,0 +1,87 @@
+<!-- 
+/*
+ * 
+ *                  xxxxxxx      xxxxxxx
+ *                   x:::::x    x:::::x 
+ *                    x:::::x  x:::::x  
+ *                     x:::::xx:::::x   
+ *                      x::::::::::x    
+ *                       x::::::::x     
+ *                       x::::::::x     
+ *                      x::::::::::x    
+ *                     x:::::xx:::::x   
+ *                    x:::::x  x:::::x  
+ *                   x:::::x    x:::::x 
+ *              THE xxxxxxx      xxxxxxx TOOLKIT
+ *                    
+ *                  http://www.goXTK.com
+ *                   
+ * Copyright (c) 2012 The X Toolkit Developers <dev@goXTK.com>
+ *                   
+ *    The X Toolkit (XTK) is licensed under the MIT License:
+ *      http://www.opensource.org/licenses/mit-license.php
+ *
+ * LESSON 10 - Slice it!
+ */
+-->
+
+<html>
+<head>
+<title>XTK LESSON 10</title>
+
+<script type="text/javascript" src="../../X/lib/closure-library/closure/goog/base.js"></script>
+<script type="text/javascript" src="../../X/xtk-deps.js"></script>
+
+<script type="text/javascript" src="dat.gui.min.js"></script>
+
+<script type="text/javascript">
+
+goog.require('X.renderer');
+goog.require('X.slice');
+goog.require('X.volume');
+
+  var run = function() {
+    
+    var r = new X.renderer('r');
+    r.init();
+    
+    var volume = new X.volume([0,0,0],30);
+    
+    r.add(volume);
+    
+    r.camera().setPosition(40,40,100);
+    r.render();
+    
+    //
+    // The GUI panel
+    //
+    var gui = new dat.GUI();
+    var volumegui = gui.addFolder('Volume');
+    var sliceXController = volumegui.add(volume, '_indexX', 0, volume._dimensions[0]);
+    var sliceYController = volumegui.add(volume, '_indexY', 0, volume._dimensions[1]);
+    var sliceZController = volumegui.add(volume, '_indexZ', 0, volume._dimensions[2]);
+    volumegui.open();
+    
+    sliceXController.onChange(function(value) {
+      volume.modified();
+      r.render();
+    });
+    sliceYController.onChange(function(value) {
+      volume.modified();
+      r.render();
+    });          
+    sliceZController.onChange(function(value) {
+      volume.modified();
+      r.render();
+    });              
+    
+    
+  };
+</script>
+
+<body onload="run()" style="margin:0px;">
+  
+  <!-- the container for the renderer -->
+  <div id="r" style="background-color: #000000; width: 100%; height: 100%;"></div>
+    
+</body>
