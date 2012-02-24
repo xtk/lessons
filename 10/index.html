@@ -53,28 +53,31 @@ goog.require('X.volume');
     r.camera().setPosition(40,40,100);
     r.render();
     
-    //
-    // The GUI panel
-    //
-    var gui = new dat.GUI();
-    var volumegui = gui.addFolder('Volume');
-    var sliceXController = volumegui.add(volume, '_indexX', 0, volume._dimensions[0]);
-    var sliceYController = volumegui.add(volume, '_indexY', 0, volume._dimensions[1]);
-    var sliceZController = volumegui.add(volume, '_indexZ', 0, volume._dimensions[2]);
-    volumegui.open();
-    
-    sliceXController.onChange(function(value) {
-      volume.modified();
-      r.render();
-    });
-    sliceYController.onChange(function(value) {
-      volume.modified();
-      r.render();
-    });          
-    sliceZController.onChange(function(value) {
-      volume.modified();
-      r.render();
-    });              
+    r.onShowtime = function() {
+	    //
+	    // The GUI panel
+	    //
+	    var gui = new dat.GUI();
+	    var volumegui = gui.addFolder('Volume');
+	    var sliceXController = volumegui.add(volume, '_indexX', 0, volume._dimensions[0]-1);
+	    var sliceYController = volumegui.add(volume, '_indexY', 0, volume._dimensions[1]-1);
+	    var sliceZController = volumegui.add(volume, '_indexZ', 0, volume._dimensions[2]-1);
+	    volumegui.open();
+	    
+	    sliceXController.onChange(function(value) {
+	      volume.modified();
+	      r.render();
+	    });
+	    sliceYController.onChange(function(value) {
+	      volume.modified();
+	      r.render();
+	    });          
+	    sliceZController.onChange(function(value) {
+	      volume.modified();
+	      r.render();
+	    });              
+	    
+    };
     
     
   };
