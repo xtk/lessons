@@ -29,39 +29,39 @@
 <head>
 <title>XTK LESSON 10</title>
 
-<script type="text/javascript" src="../../X/lib/closure-library/closure/goog/base.js"></script>
-<script type="text/javascript" src="../../X/xtk-deps.js"></script>
+<script type="text/javascript" src="http://get.goXTK.com/xtk_edge.js"></script>
 
 <script type="text/javascript" src="dat.gui.min.js"></script>
 
 <script type="text/javascript">
-
-goog.require('X.renderer');
-goog.require('X.slice');
-goog.require('X.volume');
 
   var run = function() {
     
     var r = new X.renderer('r');
     r.init();
     
-    var volume = new X.volume([0,0,0],60);
-    volume.load('../data/daniel.nrrd');
+    // load a .NRRD file to the X.volume
+    // this works with gzip/gz/raw encoded NRRD files
+    var volume = new X.volume();
+    volume.load('../data/avf.nrrd');
     
     r.add(volume);
     
-    r.camera().setPosition(40,40,100);
+    r.camera().setPosition(120,80,160);
     r.render();
     
     r.onShowtime = function() {
-	    //
+      
+      //
 	    // The GUI panel
 	    //
+	    // (we need to create this during onShowtime(..) since we do not know the volume
+	    // dimensions before the loading was completed)
 	    var gui = new dat.GUI();
 	    var volumegui = gui.addFolder('Volume');
-	    var sliceXController = volumegui.add(volume, '_indexX', 0, volume._dimensions[0]-1);
-	    var sliceYController = volumegui.add(volume, '_indexY', 0, volume._dimensions[1]-1);
-	    var sliceZController = volumegui.add(volume, '_indexZ', 0, volume._dimensions[2]-1);
+	    var sliceXController = volumegui.add(volume, '_indexX', 0, volume.dimensions()[0]-1);
+	    var sliceYController = volumegui.add(volume, '_indexY', 0, volume.dimensions()[1]-1);
+	    var sliceZController = volumegui.add(volume, '_indexZ', 0, volume.dimensions()[2]-1);
 	    volumegui.open();
 	    
 	    sliceXController.onChange(function(value) {
