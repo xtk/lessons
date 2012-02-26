@@ -1,0 +1,91 @@
+<!-- 
+/*
+ * 
+ *                  xxxxxxx      xxxxxxx
+ *                   x:::::x    x:::::x 
+ *                    x:::::x  x:::::x  
+ *                     x:::::xx:::::x   
+ *                      x::::::::::x    
+ *                       x::::::::x     
+ *                       x::::::::x     
+ *                      x::::::::::x    
+ *                     x:::::xx:::::x   
+ *                    x:::::x  x:::::x  
+ *                   x:::::x    x:::::x 
+ *              THE xxxxxxx      xxxxxxx TOOLKIT
+ *                    
+ *                  http://www.goXTK.com
+ *                   
+ * Copyright (c) 2012 The X Toolkit Developers <dev@goXTK.com>
+ *                   
+ *    The X Toolkit (XTK) is licensed under the MIT License:
+ *      http://www.opensource.org/licenses/mit-license.php
+ *
+ * LESSON 10 - Slice it!
+ */
+-->
+
+<html>
+<head>
+<title>XTK LESSON 10</title>
+
+<script type="text/javascript" src="http://get.goXTK.com/xtk_edge.js"></script>
+
+<script type="text/javascript" src="dat.gui.min.js"></script>
+
+<script type="text/javascript">
+
+  var run = function() {
+    
+    var r = new X.renderer('r');
+    r.init();
+    
+    // load a .NRRD file to the X.volume
+    // this works with gzip/gz/raw encoded NRRD files
+    var volume = new X.volume();
+    volume.load('../data/avf.nrrd');
+    
+    r.add(volume);
+    
+    r.camera().setPosition(120,80,160);
+    r.render();
+    
+    r.onShowtime = function() {
+      
+      //
+	    // The GUI panel
+	    //
+	    // (we need to create this during onShowtime(..) since we do not know the volume
+	    // dimensions before the loading was completed)
+	    var gui = new dat.GUI();
+	    var volumegui = gui.addFolder('Volume');
+	    var sliceXController = volumegui.add(volume, '_indexX', 0, volume.dimensions()[0]-1);
+	    var sliceYController = volumegui.add(volume, '_indexY', 0, volume.dimensions()[1]-1);
+	    var sliceZController = volumegui.add(volume, '_indexZ', 0, volume.dimensions()[2]-1);
+	    volumegui.open();
+	    
+	    sliceXController.onChange(function(value) {
+	      volume.modified();
+	      r.render();
+	    });
+	    sliceYController.onChange(function(value) {
+	      volume.modified();
+	      r.render();
+	    });          
+	    sliceZController.onChange(function(value) {
+	      volume.modified();
+	      r.render();
+	    });              
+	    
+    };
+    
+    
+  };
+</script>
+
+<body onload="run()" style="margin:0px;">
+  
+  <!-- the container for the renderer -->
+  <div id="r" style="background-color: #ffffff; width: 100%; height: 100%;"></div>
+    
+</body>
