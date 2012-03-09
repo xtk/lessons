@@ -30,16 +30,11 @@
 <title>XTK LESSON 10</title>
 
 <!-- <script type="text/javascript" src="http://get.goXTK.com/xtk.js"></script> -->
-<!-- <script type="text/javascript" src="../xtk.js"></script> -->
-<script type="text/javascript" src="../../X/lib/closure-library/closure/goog/base.js"></script>
-<script type="text/javascript" src="../../X/xtk-deps.js"></script>
+<script type="text/javascript" src="../xtk.js"></script>
 
 <script type="text/javascript" src="dat.gui.min.js"></script>
 
 <script type="text/javascript">
-
-  goog.require('X.renderer');
-  goog.require('X.volume');
 
   var run = function() {
     
@@ -49,17 +44,9 @@
     // load a .NRRD file to the X.volume
     // this works with gzip/gz/raw encoded NRRD files
     var volume = new X.volume();
-    volume.load('../data/daniel.nrrd');
-    //volume['_volumeRendering'] = true;
+    volume.load('../data/avf.nrrd');
     
-    var whitematter = new X.object();
-    whitematter.load('../data/daniel_white_matter.vtk');
-    whitematter.transform().flipX();
-    whitematter.transform().rotateX(90);
-    whitematter.transform().rotateY(180);
-    whitematter.setColor(0.98, 0.98, 0.82);
-    
-    r.add(whitematter);    
+    //r.add(model);
     r.add(volume);
     
     r.camera().setPosition(120,80,160);
@@ -72,16 +59,46 @@
 	    //
 	    // (we need to create this during onShowtime(..) since we do not know the volume
 	    // dimensions before the loading was completed)
+	    
+	    // a container to perform some actions
+        var loader = {
+          Load:function() {
+
+            // also add a segmentation
+            var model = new X.object();
+            model.load('../data/avf.vtk');
+            
+            r.onShowtime = function() {
+              
+              
+              
+            };
+            
+            r.add(model);
+            r.render();
+            
+            
+          }
+        };
+	    
 	    var gui = new dat.GUI();
 	    var volumegui = gui.addFolder('Volume');
+	    // ,, switch between slicing and volume rendering
 	    var vrController = volumegui.add(volume, '_volumeRendering');
+	    // .. configure the volume rendering opacity
 	    var opacityController = volumegui.add(volume, '_opacity', 0,1);
+	    // .. we can threshold
 	    var lowerThresholdController = volumegui.add(volume, '_lowerThreshold', volume.scalarRange()[0], volume.scalarRange()[1]);
 	    var upperThresholdController = volumegui.add(volume, '_upperThreshold', volume.scalarRange()[0], volume.scalarRange()[1]);
 	    var sliceXController = volumegui.add(volume, '_indexX', 0, volume.dimensions()[0]-1);
 	    var sliceYController = volumegui.add(volume, '_indexY', 0, volume.dimensions()[1]-1);
 	    var sliceZController = volumegui.add(volume, '_indexZ', 0, volume.dimensions()[2]-1);
 	    volumegui.open();
+	    var modelgui = gui.addFolder('Model');
+	    var addModelController = modelgui.add(loader,'Load');
+	    modelgui.open();
+	    
+	    addModelController.onChange(func)
 	    
 	    vrController.onChange(function(value) {
 	      
