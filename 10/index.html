@@ -30,11 +30,14 @@
 <title>XTK LESSON 10</title>
 
 <!-- <script type="text/javascript" src="http://get.goXTK.com/xtk.js"></script> -->
-<script type="text/javascript" src="../xtk.js"></script>
-
+<script type="text/javascript" src="../../X/lib/closure-library/closure/goog/base.js"></script>
+<script type="text/javascript" src="../../X/xtk-deps.js"></script>
 <script type="text/javascript" src="dat.gui.min.js"></script>
 
 <script type="text/javascript">
+
+  goog.require('X.renderer');
+  goog.require('X.volume');
 
   var run = function() {
     
@@ -66,7 +69,7 @@
 
             // also add a segmentation
             var model = new X.object();
-            model.load('../data/avf.vtk');
+            model.load('../data/avf-label.vtk');
             
             r.onShowtime = function() {
               
@@ -97,8 +100,6 @@
 	    var modelgui = gui.addFolder('Model');
 	    var addModelController = modelgui.add(loader,'Load');
 	    modelgui.open();
-	    
-	    addModelController.onChange(func)
 	    
 	    vrController.onChange(function(value) {
 	      
