@@ -29,12 +29,13 @@
 <head>
 <title>XTK LESSON 00</title>
 
-<script type="text/javascript" src="http://get.goXTK.com/xtk.js"></script>
+<script type="text/javascript" src="http://get.goXTK.com/xtk_edge.js"></script>
 
 <script type="text/javascript">
   var run = function() {
     
     var r = new X.renderer('r');
+    r.config.ORDERING_ENABLED = false;
     r.init();
     
     var cube = new X.cube([0,0,0],10,10,10);

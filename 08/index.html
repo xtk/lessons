@@ -23,6 +23,8 @@
  *
  * LESSON 08 - Surf free..
  *
+ * Data obtained from Children's Hospital Boston.
+ *
  */
 -->
 
@@ -31,8 +33,8 @@
 <title>XTK LESSON 08</title>
 
 
-<script type="text/javascript" src="http://get.goXTK.com/xtk.js"></script>
-<script type="text/javascript" src="dat.gui.min.js"></script>
+<script type="text/javascript" src="http://get.goXTK.com/xtk_edge.js"></script>
+<script type="text/javascript" src="http://get.goXTK.com/xtk_xdat.gui.js"></script>
 
 <script type="text/javascript">
 
@@ -82,7 +84,7 @@
       var brain_transform = new X.matrix([[9.992089867591858e-01, 2.652833424508572e-02, 2.959738858044147e-02, -1.404523849487305e+00], 
                           [-2.943054959177971e-02, -6.642243359237909e-03, 9.995449185371399e-01, -9.628264427185059e+00],
                           [-2.671264298260212e-02, 9.996254444122314e-01, 5.856084171682596e-03, -2.631434440612793e+00],
-                          [0, 0, 0, 1]]); 
+                          [0, 0, 0, 1]]);       
       
       rh.transform().setMatrix(brain_transform);
       lh.transform().setMatrix(brain_transform);
