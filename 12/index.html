@@ -72,6 +72,15 @@
     curvatureTypes = ['C (mm&#x207b;&sup2;)','k&#x2081; (mm&#x207b;&sup1;)','H (mm&#x207b;&sup1;)'];
     curvatureFiles = ['lh.smoothwm.C.crv','lh.smoothwm.K1.crv','lh.smoothwm.H.crv'];
     
+    // we need this Loader as a container for dat.gui
+    var Loader = function() {
+              
+      // default type
+      this.Type = 'C (mm&#x207b;&sup2;)'
+      
+    }
+    var _loader = new Loader();    
+    
     r.onShowtime = function() {
       
         if (gui) {
@@ -82,15 +91,6 @@
           gui = null;
           
         }
-      
-      // we need this Loader as a container for dat.gui
-      var Loader = function() {
-                
-        // default type
-        this.Type = 'C (mm&#x207b;&sup2;)'
-        
-      }
-      var _loader = new Loader();
       
       //
       // create the GUI panel
