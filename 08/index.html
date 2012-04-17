@@ -51,13 +51,13 @@
     // load a freesurfer mesh.. 
     // all freesurfer meshes have to have the extension ".fsm" to be properly recognized by XTK!
     var lh = new X.object();
-    lh.load('../data/rh.smoothwm.fsm');
+    lh.load('../data/lh.smoothwm.fsm');
     lh.setColor(0.7,0.2,0.2);
     lh.setOpacity(0.6);
     
     // ... and another one
     var rh = new X.object();
-    rh.load('../data/lh.smoothwm.fsm');
+    rh.load('../data/rh.smoothwm.fsm');
     rh.setColor(0,0.7,0);
     rh.setOpacity(0.6);
     
@@ -78,13 +78,23 @@
            [0.00000, -2.00000, 0.00000, 110.00000],
            [0.00000, 0.00000, 0.00000, 1.00000]]); 
             
+      // we need to swap the rows to convert from left-handed to right-handed here
+      tracks_transform.swapRows(1,2);
+    
       tracks.transform().setMatrix(tracks_transform);
+      
+      console.log(tracks_transform+"");
       
       // transform the surfaces
       var brain_transform = new X.matrix([[9.992089867591858e-01, 2.652833424508572e-02, 2.959738858044147e-02, -1.404523849487305e+00], 
                           [-2.943054959177971e-02, -6.642243359237909e-03, 9.995449185371399e-01, -9.628264427185059e+00],
                           [-2.671264298260212e-02, 9.996254444122314e-01, 5.856084171682596e-03, -2.631434440612793e+00],
                           [0, 0, 0, 1]]);       
+      
+      // we need to swap the rows to convert from left-handed to right-handed here
+      brain_transform.swapRows(1,2);
+      
+      console.log(brain_transform+"");
       
       rh.transform().setMatrix(brain_transform);
       lh.transform().setMatrix(brain_transform);
