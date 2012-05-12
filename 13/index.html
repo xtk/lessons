@@ -46,7 +46,7 @@
 
     _webGLFriendly = true;
     try {
-      var threeD = new X.renderer3D('3d');
+      threeD = new X.renderer3D('3d');
       threeD.init();
     } catch (Exception) {
       
@@ -62,7 +62,7 @@
     var sliceZ = new X.renderer2D('sliceZ', 'Z');
     sliceZ.init();
     
-    var volume = new X.volume();
+    volume = new X.volume();
     volume.load('vol.nrrd');
     volume.labelMap().load('seg.nrrd');
     volume.labelMap().setColorTable('genericanatomy.txt'); // the 3D Slicer generic anatomy color table
@@ -71,7 +71,7 @@
     sliceX.add(volume);
     sliceX.render();
     
-    sliceX.interactor.onMouseWheel = function() {
+    sliceX.onScroll = function() {
 
       if (_webGLFriendly) {
         volume.modified();
@@ -79,7 +79,7 @@
       }
       
     }
-    sliceY.interactor.onMouseWheel = function() {
+    sliceY.onScroll = function() {
 
       if (_webGLFriendly) {
         volume.modified();
@@ -87,7 +87,7 @@
       }
       
     }
-    sliceZ.interactor.onMouseWheel = function() {
+    sliceZ.onScroll = function() {
 
       if (_webGLFriendly) {
         volume.modified();
