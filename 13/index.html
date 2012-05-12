@@ -68,8 +68,8 @@
     volume.labelMap().setColorTable('genericanatomy.txt'); // the 3D Slicer generic anatomy color table
         
     
-    threeD.add(volume);
-    threeD.render();
+    sliceX.add(volume);
+    sliceX.render();
     
     sliceX.interactor.onMouseWheel = function() {
 
@@ -97,20 +97,20 @@
     }
 
 
-    threeD.onShowtime = function() {
+    sliceX.onShowtime = function() {
 
       // clear the showtime function
-      threeD.onShowtime = function() {
+      sliceX.onShowtime = function() {
 
       }
 
-  
-      sliceX.add(volume);
-      sliceX.render();      
+        
       sliceY.add(volume);
       sliceY.render();
       sliceZ.add(volume);
       sliceZ.render();
+      threeD.add(volume);
+      threeD.render();      
       
 
       //
