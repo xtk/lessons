@@ -36,26 +36,32 @@
 <head>
 <title>XTK LESSON 12</title>
 
-<script type="text/javascript" src="http://get.goxtk.com/xtk.js"></script>
+<script type="text/javascript" src="../xtk.js"></script>
+<!-- <script type="text/javascript" src="../../X/lib/closure-library/closure/goog/base.js"></script> -->
+<!-- <script type="text/javascript" src="../../X/xtk-deps.js"></script> -->
 <script type="text/javascript" src="http://get.goxtk.com/xtk_xdat.gui.js"></script>
 
 <script type="text/javascript">
+// goog.require('X.renderer3D');
+// goog.require('X.object');
+
   var run = function() {
     
-    var r = new X.renderer('r');
+    var r = new X.renderer3D('r');
     r.init();
     
     model = new X.object();
-    model.setColor(0.5,0.5,0.5);
+    model.color = [0.5,0.5,0.5];
     // load a mesh
-    model.load('lh.smoothwm.fsm');
+    model.file = 'lh.smoothwm.fsm';
     // load curvature values from a .crv file
     // it would also be possible to create an X.scalars object and
     // configure an array using X.scalars.setArray(arr) to be independent from a file format
-    model.setScalars('lh.smoothwm.C.crv');
-    
+    model.scalars.file = 'lh.smoothwm.C.crv';
+    model.scalars.minColor = [0,0,1];
+    model.scalars.maxColor = [1,1,1];
     // we want to map the scalars linear between blue and white
-    model.scalars().setColorRange([0,0,1],[1,1,1]);
+    //model.scalars.setColorRange([0,0,1],[1,1,1]);
     
     r.add(model);
     
@@ -82,7 +88,7 @@
     var _loader = new Loader();    
     
     r.onShowtime = function() {
-      
+
         if (gui) {
           
           // if we already have a gui, destroy it
@@ -97,15 +103,15 @@
       //
       gui = new dat.GUI();
       var modelgui = gui.addFolder('Model');
-      var modelColorController = modelgui.addColor(model,'_color');
+      var modelColorController = modelgui.addColor(model,'color');
       modelgui.open();
       
       var curvgui = gui.addFolder('Curvature');
       var typeController = curvgui.add(_loader,'Type',curvatureTypes);
-      var minColorController = curvgui.addColor(model.scalars(), '_minColor');
-      var maxColorController = curvgui.addColor(model.scalars(), '_maxColor');
-      var minThresholdController = curvgui.add(model.scalars(), '_minThreshold', model.scalars().min(), model.scalars().max());
-      var maxThresholdController = curvgui.add(model.scalars(), '_maxThreshold', model.scalars().min(), model.scalars().max());
+      var minColorController = curvgui.addColor(model.scalars, 'minColor');
+      var maxColorController = curvgui.addColor(model.scalars, 'maxColor');
+      var minThresholdController = curvgui.add(model.scalars, 'lowerThreshold', model.scalars.min, model.scalars.max);
+      var maxThresholdController = curvgui.add(model.scalars, 'upperThreshold', model.scalars.min, model.scalars.max);
       curvgui.open();
       
       modelColorController.onChange(function(value) {
@@ -121,13 +127,15 @@
         
         // we need to buffer the (maybe changed) colors
         // else wise we would start with the default red<->green mapping
-        var oldMinColor = model.scalars().colorRange()[0];
-        var oldMaxColor = model.scalars().colorRange()[1];                    
+        var oldMinColor = model.scalars.minColor;
+        var oldMaxColor = model.scalars.maxColor;                    
         
-        model.setScalars(curvatureFiles[_index]);
+        model.scalars.file = curvatureFiles[_index];
         model.modified();
 
-        model.scalars().setColorRange(oldMinColor,oldMaxColor);
+        model.scalars.minColor = oldMinColor;
+        model.scalars.maxColor = oldMaxColor;
+        //setColorRange(oldMinColor,oldMaxColor);
                   
         // this render call will trigger the onShowtime function again to re-create the GUI
         r.render();        

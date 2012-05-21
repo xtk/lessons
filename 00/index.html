@@ -29,18 +29,34 @@
 <head>
 <title>XTK LESSON 00</title>
 
-<script type="text/javascript" src="http://get.goXTK.com/xtk.js"></script>
+<!-- <script type="text/javascript" src="http://get.goXTK.com/xtk.js"></script> -->
+<script type="text/javascript" src="../../X/lib/closure-library/closure/goog/base.js"></script>
+<script type="text/javascript" src="../../X/xtk-deps.js"></script>
+
+<!-- <script type="text/javascript" src="../xtk.js"></script> -->
 
 <script type="text/javascript">
+goog.require('X.renderer3D');
+goog.require('X.cube');
+goog.require('X.cylinder');
+goog.require('X.sphere');
+
   var run = function() {
     
-    var r = new X.renderer('r');
-    r.config.ORDERING_ENABLED = false;
+    var r = new X.renderer3D('r');
     r.init();
     
-    var cube = new X.cube([0,0,0],10,10,10);
-    
+    cube = new X.cube([0,0,0],10,10,10);
+    cube.color = [1,0,0];
     r.add(cube);
+    
+    sphere = new X.sphere([-20,0,0],30);
+    sphere.color = [0,1,0];
+    r.add(sphere);
+    
+    sphereCube = cube.subtract(sphere).union(new X.cylinder([0,0,-10],[00,0,10],7));
+    sphereCube.transform.translateY(50);
+    r.add(sphereCube);
     
     r.render();
     

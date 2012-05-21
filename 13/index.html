@@ -31,16 +31,16 @@
 <head>
 <title>SLICE DANCE</title>
 
-<!-- <script type="text/javascript" src="xtk.js"></script> -->
-<script type="text/javascript" src="../../X/lib/closure-library/closure/goog/base.js"></script>
-<script type="text/javascript" src="../../X/xtk-deps.js"></script>
+<script type="text/javascript" src="../xtk.js"></script>
+<!-- <script type="text/javascript" src="../../X/lib/closure-library/closure/goog/base.js"></script> -->
+<!-- <script type="text/javascript" src="../../X/xtk-deps.js"></script> -->
 <script type="text/javascript"
 	src="http://get.goXTK.com/xtk_xdat.gui.js"></script>
 
 <script type="text/javascript">
-    goog.require('X.renderer3D');
-    goog.require('X.renderer2D');
-    goog.require('X.volume');
+//   goog.require('X.renderer3D');
+//   goog.require('X.renderer2D');
+//   goog.require('X.volume');
   
   var run = function() {
 
@@ -51,7 +51,7 @@
     } catch (Exception) {
       
       // no webgl on this machine
-      _webGLFriendly = false; 
+      _webGLFriendly = false;
       
     }
     
@@ -63,10 +63,10 @@
     sliceZ.init();
     
     volume = new X.volume();
-    volume.load('vol.nrrd');
-    volume.labelMap().load('seg.nrrd');
-    volume.labelMap().setColorTable('genericanatomy.txt'); // the 3D Slicer generic anatomy color table
-        
+    volume.file = 'vol.nrrd';
+    volume.labelmap.file = 'seg.nrrd';
+    volume.labelmap.colortable.file = 'genericanatomy.txt'; // the 3D Slicer generic anatomy color table
+    volume.caption = 'dfsdfd';
     
     sliceX.add(volume);
     sliceX.render();
@@ -104,15 +104,14 @@
 
       }
 
-        
+
       sliceY.add(volume);
       sliceY.render();
       sliceZ.add(volume);
       sliceZ.render();
       threeD.add(volume);
-      threeD.render();      
+      threeD.render();
       
-
       //
       // The GUI panel
       //
@@ -124,49 +123,52 @@
       var gui = new dat.GUI();
       var volumegui = gui.addFolder('Volume');
       // ,, switch between slicing and volume rendering
-      var vrController = volumegui.add(volume, '_volumeRendering');
+      var vrController = volumegui.add(volume, 'volumeRendering');
       // .. configure the volume rendering opacity
-      var opacityController = volumegui.add(volume, '_opacity', 0,1);      
+      var opacityController = volumegui.add(volume, 'opacity', 0, 1);
       // .. we can threshold
-      var lowerThresholdController = volumegui.add(volume, '_lowerThreshold',
-          volume.scalarRange()[0], volume.scalarRange()[1]);
-      var upperThresholdController = volumegui.add(volume, '_upperThreshold',
-          volume.scalarRange()[0], volume.scalarRange()[1]);
-      var sliceXController = volumegui.add(volume, '_indexX', 0,
-          volume.dimensions()[0] - 1).listen();
-      var sliceYController = volumegui.add(volume, '_indexY', 0,
-          volume.dimensions()[1] - 1).listen();
-      var sliceZController = volumegui.add(volume, '_indexZ', 0,
-          volume.dimensions()[2] - 1).listen();
+      var lowerThresholdController = volumegui.add(volume, 'lowerThreshold',
+          volume.min, volume.max);
+      var upperThresholdController = volumegui.add(volume, 'upperThreshold',
+          volume.min, volume.max);
+      var sliceXController = volumegui.add(volume, 'indexX', 0,
+          volume.dimensions[0] - 1).listen();
+      var sliceYController = volumegui.add(volume, 'indexY', 0,
+          volume.dimensions[1] - 1).listen();
+      var sliceZController = volumegui.add(volume, 'indexZ', 0,
+          volume.dimensions[2] - 1).listen();
       volumegui.open();
       
       var labelmapgui = gui.addFolder('Label Map');
-      var labelMapVisibleController = labelmapgui.add(volume.labelMap(),'_visible');
-      var labelMapOpacityController = labelmapgui.add(volume.labelMap(),'_opacity',0,1);
-      labelmapgui.open();      
-
+      var labelMapVisibleController = labelmapgui.add(volume.labelmap,
+          'visible');
+      var labelMapOpacityController = labelmapgui.add(volume.labelmap,
+          'opacity', 0, 1);
+      labelmapgui.open();
+      
 
       // volumegui callbacks
       vrController.onChange(function(value) {
-        
+
         // this setting makes the volume rendering look good
-        volume.setOpacity(0.15);
+        volume.opacity = 0.15;
         
         // Iterate over the gui controllers to grab updated values
-        for (var i in volumegui.__controllers) {
+        for ( var i in volumegui.__controllers) {
           volumegui.__controllers[i].updateDisplay();
         }
         
         volume.modified();
         if (_webGLFriendly) {
           threeD.render();
-        }        
+        }
       });
-      opacityController.onChange(function(value){
+      opacityController.onChange(function(value) {
+
         volume.modified();
         if (_webGLFriendly) {
           threeD.render();
-        }        
+        }
       });
       
       lowerThresholdController.onChange(function(value) {
@@ -174,7 +176,7 @@
         volume.modified();
         if (_webGLFriendly) {
           threeD.render();
-        }        
+        }
         sliceX.render();
         sliceY.render();
         sliceZ.render();
@@ -184,7 +186,7 @@
         volume.modified();
         if (_webGLFriendly) {
           threeD.render();
-        }        
+        }
         sliceX.render();
         sliceY.render();
         sliceZ.render();
@@ -194,7 +196,7 @@
         volume.modified();
         if (_webGLFriendly) {
           threeD.render();
-        }        
+        }
         sliceX.render();
         sliceY.render();
         sliceZ.render();
@@ -204,7 +206,7 @@
         volume.modified();
         if (_webGLFriendly) {
           threeD.render();
-        }        
+        }
         sliceX.render();
         sliceY.render();
         sliceZ.render();
@@ -214,7 +216,7 @@
         volume.modified();
         if (_webGLFriendly) {
           threeD.render();
-        }        
+        }
         sliceX.render();
         sliceY.render();
         sliceZ.render();
@@ -222,23 +224,25 @@
       
       // labelmapgui callbacks
       labelMapVisibleController.onChange(function(value) {
-        volume.labelMap().modified();
+
+        volume.modified();
         if (_webGLFriendly) {
           threeD.render();
-        }        
+        }
         sliceX.render();
         sliceY.render();
         sliceZ.render();
       });
       labelMapOpacityController.onChange(function(value) {
-        volume.labelMap().modified();
+
+        volume.modified();
         if (_webGLFriendly) {
           threeD.render();
-        }        
+        }
         sliceX.render();
         sliceY.render();
         sliceZ.render();
-      });      
+      });
       
 
 
@@ -248,16 +252,16 @@
         for (i = 0; i < 3; i++) {
           
           var _currentO = _slices[i];
-          var _currentIndex = eval('volume._index' + _currentO);
+          var _currentIndex = eval('volume.index' + _currentO);
           
 
           if (_currentIndex < volume.dimensions()[_slices.indexOf(_currentO)]) {
             
-            eval('volume._index' + _currentO + '++;');
+            eval('volume.index' + _currentO + '++;');
             
           } else {
             
-            eval('volume._index' + _currentO + '=0;')
+            eval('volume.index' + _currentO + '=0;')
 
           }
           
@@ -267,7 +271,7 @@
         
         if (_webGLFriendly) {
           threeD.render();
-        }        
+        }
         sliceX.render();
         sliceY.render();
         sliceZ.render();
