@@ -29,15 +29,15 @@
 <head>
 <title>XTK LESSON 02</title>
 
-<!-- <script type="text/javascript" src="../../X/lib/closure-library/closure/goog/base.js"></script> -->
-<!-- <script type="text/javascript" src="../../X/xtk-deps.js"></script> -->
-<script type="text/javascript" src="../xtk.js"></script>
+<script type="text/javascript" src="../../X/lib/closure-library/closure/goog/base.js"></script>
+<script type="text/javascript" src="../../X/xtk-deps.js"></script>
+<!-- <script type="text/javascript" src="../xtk.js"></script> -->
 
 <script type="text/javascript">
-// goog.require('X.renderer3D');
-// goog.require('X.sphere');
-// goog.require('X.cube');
-// goog.require('X.cylinder');
+goog.require('X.renderer3D');
+goog.require('X.sphere');
+goog.require('X.cube');
+goog.require('X.cylinder');
 
 
 
@@ -50,32 +50,35 @@ var run = function() {
     r.init();
     
     // create some CSG primitives.. this is by the way an official example of CSG
-    var cube = new X.cube([0,0,0],10,10,10);
+    var cube = new X.cube();
     cube.color = [1,0,0];
     cube.caption = 'a cube';
     
-    var sphere = new X.sphere([0,0,0],13,13,13);
+    var sphere = new X.sphere();
+    sphere.radius = 13
     sphere.color = [0,1,0];
     sphere.caption = 'a sphere';
     
-    var cylinder1 = new X.cylinder([-10,0,0],[10,0,0],7);
+    var cylinder1 = new X.cylinder();
+    cylinder1.start = [-10,0,0];
+    cylinder1.end = [10,0,0];
+    cylinder1.radius = 7;
     cylinder1.color = [0,0,1];
     cylinder1.caption = 'cylinder 1';
     
-    var cylinder2 = new X.cylinder([0,-10,0],[0,10,0],7);
+    var cylinder2 = new X.cylinder();
+    cylinder2.start = [0,10,0];
+    cylinder2.end = [0,-10,0];
+    cylinder2.radius = 7;
     cylinder2.color = [0,0,1];
     cylinder2.caption = 'cylinder 2';
     
-    var cylinder3 = new X.cylinder([0,0,-10],[00,0,10],7);
+    var cylinder3 = new X.cylinder();
+    cylinder3.start = [0,0,-10];
+    cylinder3.end = [0,0,10];
+    cylinder3.radius = 7;
     cylinder3.color = [0,0,1];
     cylinder3.caption = 'cylinder 3';
-    
-    // .. CSG is sooooo cool!
-    var funstuff =cube.intersect(sphere).subtract(cylinder1.union(cylinder2).union(cylinder3)); 
-      //cube.intersect(sphere).subtract(cylinder1);
-    //var c1 = cylinder1.union(cylinder2);
-    //funstuff.subtract(c1.union(cylinder3));
-    funstuff.caption = "the three from above bool'ed together!";
     
     // move some stuff around to display it all
     cube.transform.translateY(30);
@@ -94,6 +97,12 @@ var run = function() {
     r.add(cylinder1);
     r.add(cylinder2);
     r.add(cylinder3);
+    
+
+    // .. CSG is sooooo cool!
+    var funstuff = cube.intersect(sphere).subtract(cylinder1.union(cylinder2).union(cylinder3)); 
+    funstuff.caption = "the three from above bool'ed together!";    
+    
     r.add(funstuff);
     
     // .. and action!

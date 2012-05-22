@@ -30,24 +30,29 @@
 <title>XTK LESSON 01</title>
 
 <script type="text/javascript" src="../xtk.js"></script>
+<!-- <script type="text/javascript" src="../../X/lib/closure-library/closure/goog/base.js"></script> -->
+<!-- <script type="text/javascript" src="../../X/xtk-deps.js"></script> -->
 
 <script type="text/javascript">
+// goog.require('X.renderer3D');
+// goog.require('X.cube');
+
   var run = function() {
     
-    var r = new X.renderer('r');
+    var r = new X.renderer3D('r');
     r.init();
     
-    var cube = new X.cube([0,0,0],10,10,10);
-    cube.setTexture('../data/xtk.png');
+    var cube = new X.cube(); // create a default cube
+    cube.texture.file = '../data/xtk.png'; // and configure a texture
     
-    r.add(cube);
+    r.add(cube); // .. add the cube
     
     setInterval(function() {
       
-      cube.transform().rotateX(1);
-      r.render();
+      cube.transform.rotateX(1); // rotate 1 degree in X-direction
+      r.render(); // .. and render
       
-    }, 15);
+    }, 16.7); // every 16.7 ms to get ~60 fps
     
   };
 </script>
