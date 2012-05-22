@@ -33,18 +33,25 @@
 <head>
 <title>XTK LESSON 04</title>
 
-<script type="text/javascript" src="http://get.goXTK.com/xtk.js"></script>
+<!-- <script type="text/javascript" src="http://get.goXTK.com/xtk.js"></script> -->
+<script type="text/javascript" src="../../X/lib/closure-library/closure/goog/base.js"></script>
+<script type="text/javascript" src="../../X/xtk-deps.js"></script>
 
 <script type="text/javascript">
+
+goog.require('X.renderer3D');
+goog.require('X.object');
+
   var run = function() {
     
-    var r = new X.renderer('r');
+    var r = new X.renderer3D();
+    r.container = 'r';
     r.init();
     
     var porsche = new X.object();
-    porsche.load('../data/porsche.stl');
-    porsche.setMagicMode(true);
-    porsche.setCaption('The magic Porsche!');
+    porsche.file = '../data/porsche.stl';
+    porsche.magicmode = true;
+    porsche.caption = 'The magic Porsche!';
     
     r.add(porsche);
     

@@ -35,33 +35,41 @@
 <head>
 <title>XTK LESSON 05</title>
 
-<script type="text/javascript" src="http://get.goXTK.com/xtk.js"></script>
+<script type="text/javascript" src="../xtk.js"></script>
+
+<!-- <script type="text/javascript" src="http://get.goXTK.com/xtk.js"></script> -->
+<!-- <script type="text/javascript" src="../../X/lib/closure-library/closure/goog/base.js"></script> -->
+<!-- <script type="text/javascript" src="../../X/xtk-deps.js"></script> -->
 
 <script type="text/javascript">
+
+// goog.require('X.renderer3D');
+// goog.require('X.object');
 
   var run = function() {
     
     // create a new renderer
-    var r = new X.renderer('r');
+    var r = new X.renderer3D();
+    r.container = 'r';
     r.init();
 
     // load a .vtk file
     var skull = new X.object();
-    skull.load('../data/skull.vtk');
+    skull.file = '../data/skull.vtk';
     // .. make it transparent
-    skull.setOpacity(0.7);
+    skull.opacity = 0.7;
 
     // add the object
     r.add(skull);
 
     // re-position the camera to face the skull
-    r.camera().setPosition(0,400,0);
+    r.camera.setPosition(0,400,0);
     
     // animate..
     setInterval(function() {
       
 	    // rotate the skull around the Z axis, since we moved the camera
-	    skull.transform().rotateZ(1);
+	    skull.transform.rotateZ(1);
 	    
 	    // we could also rotate the camera instead which is better in case
 	    // we have a lot of objects and want to rotate them all
@@ -70,7 +78,7 @@
 	    // .. and render it
 	    r.render();
 	    
-    },15);
+    },16.7);
     
   };
 </script>
