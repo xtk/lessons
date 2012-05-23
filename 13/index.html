@@ -31,22 +31,23 @@
 <head>
 <title>SLICE DANCE</title>
 
-<script type="text/javascript" src="../xtk.js"></script>
-<!-- <script type="text/javascript" src="../../X/lib/closure-library/closure/goog/base.js"></script> -->
-<!-- <script type="text/javascript" src="../../X/xtk-deps.js"></script> -->
+<!-- <script type="text/javascript" src="../xtk.js"></script> -->
+<script type="text/javascript" src="../../X/lib/closure-library/closure/goog/base.js"></script>
+<script type="text/javascript" src="../../X/xtk-deps.js"></script>
 <script type="text/javascript"
 	src="http://get.goXTK.com/xtk_xdat.gui.js"></script>
 
 <script type="text/javascript">
-//   goog.require('X.renderer3D');
-//   goog.require('X.renderer2D');
-//   goog.require('X.volume');
+  goog.require('X.renderer3D');
+  goog.require('X.renderer2D');
+  goog.require('X.volume');
   
   var run = function() {
 
     _webGLFriendly = true;
     try {
-      threeD = new X.renderer3D('3d');
+      threeD = new X.renderer3D();
+      threeD.container = '3d';
       threeD.init();
     } catch (Exception) {
       
@@ -55,11 +56,14 @@
       
     }
     
-    sliceX = new X.renderer2D('sliceX', 'X');
+    sliceX = new X.renderer2D('X');
+    sliceX.container = 'sliceX';
     sliceX.init();
-    var sliceY = new X.renderer2D('sliceY', 'Y');
+    var sliceY = new X.renderer2D('Y');
+    sliceY.container = 'sliceY';
     sliceY.init();
-    var sliceZ = new X.renderer2D('sliceZ', 'Z');
+    var sliceZ = new X.renderer2D('Z');
+    sliceZ.container = 'sliceZ';
     sliceZ.init();
     
     volume = new X.volume();
@@ -243,43 +247,7 @@
         sliceY.render();
         sliceZ.render();
       });
-      
-
-
-      var _slices = ['X', 'Y', 'Z'];
-      var loop = function() {
-
-        for (i = 0; i < 3; i++) {
-          
-          var _currentO = _slices[i];
-          var _currentIndex = eval('volume.index' + _currentO);
-          
-
-          if (_currentIndex < volume.dimensions()[_slices.indexOf(_currentO)]) {
-            
-            eval('volume.index' + _currentO + '++;');
-            
-          } else {
-            
-            eval('volume.index' + _currentO + '=0;')
-
-          }
-          
-        }
-        
-        volume.modified();
-        
-        if (_webGLFriendly) {
-          threeD.render();
-        }
-        sliceX.render();
-        sliceY.render();
-        sliceZ.render();
-        
-      };
-      
-      // NOW DANCE!      
-      //setInterval(loop, 1);
+     
       
     };
     

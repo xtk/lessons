@@ -29,15 +29,15 @@
 <head>
 <title>XTK LESSON 02</title>
 
-<script type="text/javascript" src="../../X/lib/closure-library/closure/goog/base.js"></script>
-<script type="text/javascript" src="../../X/xtk-deps.js"></script>
-<!-- <script type="text/javascript" src="../xtk.js"></script> -->
+<!-- <script type="text/javascript" src="../../X/lib/closure-library/closure/goog/base.js"></script> -->
+<!-- <script type="text/javascript" src="../../X/xtk-deps.js"></script> -->
+<script type="text/javascript" src="../xtk.js"></script>
 
 <script type="text/javascript">
-goog.require('X.renderer3D');
-goog.require('X.sphere');
-goog.require('X.cube');
-goog.require('X.cylinder');
+// goog.require('X.renderer3D');
+// goog.require('X.sphere');
+// goog.require('X.cube');
+// goog.require('X.cylinder');
 
 
 
@@ -46,7 +46,8 @@ var run = function() {
 
     console.time('saa');
   
-    var r = new X.renderer3D('r');
+    var r = new X.renderer3D();
+    r.container = 'r';
     r.init();
     
     // create some CSG primitives.. this is by the way an official example of CSG
