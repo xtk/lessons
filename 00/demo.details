@@ -1,7 +1,7 @@
 ---
  name: XTK Lesson 00
  description: Hello cube! 
- author(s):
+ authors:
    - XTK 
  resources:
    - http://get.goXTK.com/xtk_edge.js
