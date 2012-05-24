@@ -1,0 +1,34 @@
+/*
+ * 
+ *                  xxxxxxx      xxxxxxx
+ *                   x:::::x    x:::::x 
+ *                    x:::::x  x:::::x  
+ *                     x:::::xx:::::x   
+ *                      x::::::::::x    
+ *                       x::::::::x     
+ *                       x::::::::x     
+ *                      x::::::::::x    
+ *                     x:::::xx:::::x   
+ *                    x:::::x  x:::::x  
+ *                   x:::::x    x:::::x 
+ *              THE xxxxxxx      xxxxxxx TOOLKIT
+ *                    
+ *                  http://www.goXTK.com
+ *                   
+ * Copyright (c) 2012 The X Toolkit Developers <dev@goXTK.com>
+ *                   
+ *    The X Toolkit (XTK) is licensed under the MIT License:
+ *      http://www.opensource.org/licenses/mit-license.php
+ *
+ * LESSON 00 - Hello cube!
+ */
+ 
+---
+ name: XTK Lesson 00
+ description: Hello cube!
+ authors:
+   - The X Toolkit Developers 
+ resources:
+   - http://get.goXTK.com/xtk_edge.js
+ normalize_css: no
+ 
