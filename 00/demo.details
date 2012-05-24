@@ -1,6 +1,8 @@
 ---
  name: XTK Lesson 00
  description: Hello cube! 
+ author(s):
+   - XTK 
  resources:
    - http://get.goXTK.com/xtk_edge.js
  normalize_css: no

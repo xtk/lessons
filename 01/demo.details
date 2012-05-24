@@ -1,6 +1,8 @@
 ---
  name: XTK Lesson 01
- description: Skin the cube and rotate it! 
+ description: Skin the cube and rotate it!
+ author(s):
+   - XTK 
  resources:
    - http://get.goXTK.com/xtk_edge.js
  normalize_css: no
