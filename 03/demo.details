@@ -1,0 +1,9 @@
+---
+ name: XTK Lesson 03
+ description: We need more cubes!
+ authors:
+   - XTK 
+ resources:
+   - http://get.goXTK.com/xtk_edge.js
+ normalize_css: no
+...
