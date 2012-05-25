@@ -21,20 +21,63 @@
  *    The X Toolkit (XTK) is licensed under the MIT License:
  *      http://www.opensource.org/licenses/mit-license.php
  *
- * LESSON 07 - One renderer is not enough!
+ * LESSON 07 - One is not enough!
+ *
+ * The rendered vessel is an arteriovenous fistula in an arm (a bypass created by joining
+ * an artery and vein) acquired from a MR scanner. The data was provided by Orobix S.R.L.
+ *
+ *    http://www.orobix.com  
+ *
  */
 -->
 
 <html>
 <head>
 <title>XTK LESSON 07</title>
-<script type="text/javascript" src="http://get.goXTK.com/xtk_edge.js"></script>
-<script type="text/javascript" src="demo.js"></script>
-<link rel="stylesheet" type="text/css" href="demo.css">
-</head>
 
-<body>
-<div id='jsfiddle' style='position:absolute;bottom:10px;left:10px;'><a href='http://jsfiddle.net/gh/get/library/pure/xtk/lessons/tree/master/07/#run' target=_blank><img src='http://xtk.github.com/fiddlelogo_white.png' border=0></a></div>
+<script type="text/javascript" src="http://get.goXTK.com/xtk.js"></script>
+
+<script type="text/javascript">
+	var run = function() {
+	    
+	   var r1 = new X.renderer('r1');
+	   r1.init();
+	
+	   var r2 = new X.renderer('r2');
+	   r2.init();
+	   // .. change the view of this renderer
+	   r2.camera().setPosition(100,0,0);
+	   
+	   var r3 = new X.renderer('r3');
+	   r3.init();      
+	   // .. and change it again
+	   r3.camera().setPosition(0,100,0);
+	   
+	   // we load the object only once..
+	   var avf = new X.object();
+	   avf.load('../data/avf.vtk');
+	   
+	   // .. but add it to all 3 renderers
+	   r1.add(avf);
+	   
+	   r1.onShowtime = function() {
+	   
+	     // once renderer 1 is ready to display a.k.a. when the vtk file is fully loaded,
+	     // display it also in renderer 2 and 3
+		   r2.add(avf);
+		   r3.add(avf);
+		   
+	     r2.render();
+	     r3.render();	   
+	   
+	   }
+	   
+	   r1.render();
+	
+	};
+</script>
+
+<body onload="run()" style="margin:0px;">
   
   <!-- three container for the renderers -->
   <div id='r1' style='background-color:#000000; float: left; width: 300px; height: 300px; margin:10px;'></div>
@@ -42,4 +85,3 @@
   <div id='r3' style='background-color:#000000; float: left; width: 300px; height: 300px; margin:10px;'></div>
     
 </body>
-</html>
