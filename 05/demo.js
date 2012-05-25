@@ -32,6 +32,6 @@ window.onload = function() {
     // .. and render it
     r.render();
     
-  }, 15);
+  }, 16.7); // best value if requestAnimationFrame is not used
   
 };
