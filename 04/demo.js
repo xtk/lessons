@@ -8,7 +8,7 @@ window.onload = function() {
   var porsche = new X.mesh();
   // .. and associate the .stl to it
   porsche.file = 'http://lessons.goXTK.com/data/porsche.stl';
-  // activate the magic mode which results in a color full rendering since the
+  // activate the magic mode which results in a colorful rendering since the
   // point colors are based on the point position
   porsche.magicmode = true;
   // set a caption which appears on mouseover
