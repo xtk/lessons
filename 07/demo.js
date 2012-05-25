@@ -22,7 +22,7 @@ window.onload = function() {
 
   // create a new X.mesh and attach a .VTK file
   var mesh = new X.mesh();
-  mesh.file = '../data/avf.vtk';
+  mesh.file = 'http://lessons.goXTK.com/data/avf.vtk';
   
   // .. but add it to all 3 renderers
   r1.add(mesh);
