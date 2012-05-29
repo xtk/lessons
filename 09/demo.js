@@ -1,16 +1,10 @@
-goog.require('X.renderer');
-goog.require('X.renderer3D');
-goog.require('X.object');
-goog.require('X.mesh');
 window.onload = function() {
-
-  
 
   // create and initialize a 3D renderer
   var r = new X.renderer3D();
   r.init();
-  ren = r
-  // 
+  
+  // create a mesh and associate it to the VTK Point Data
   var p = new X.mesh();
   p.file = 'http://lessons.goXTK.com/data/pits.vtk';
   
@@ -22,31 +16,35 @@ window.onload = function() {
   // rendering happens
   r.onShowtime = function() {
 
-    p.visible = false; // hide the points
+    p.visible = false; // hide the mesh since we just want to use the
+    // coordinates
     
-    var numberOfPoints = 10;// p.points.count; // in this example 411
+    var numberOfPoints = p.points.count; // in this example 411
     
     // for convenience, a container which holds all spheres
     spheres = new X.object();
     
+    // grab the first coordinate triplet
     var firstPoint = p.points.get(0);
-    console.log(firstPoint);
+    
     // create a new sphere as a template for all other ones
     // this is an expensive operation due to CSG's mesh generation
     var newSphere = new X.sphere();
     newSphere.center = [firstPoint[0], firstPoint[1], firstPoint[2]];
     newSphere.radius = 0.7;
     newSphere.magicmode = true; // it's magic..
+    newSphere.modified(); // since we don't directly add the sphere, we have to
+    // call the CSG creator manually
     
     // .. add the newSphere to our container
     spheres.children.push(newSphere);
-    console.log(newSphere.points);
+    
     // loop through the points and copy the created sphere to a new X.object
     for ( var i = 1; i < numberOfPoints; i++) {
       
       var point = p.points.get(i);
       
-      // copy the tempate sphere over to avoid generating new ones
+      // copy the template sphere over to avoid generating new ones
       var copySphere = new X.object(newSphere);
       // .. and move it to the correct position
       copySphere.transform.translateX(point[0] - firstPoint[0]);
@@ -54,8 +52,8 @@ window.onload = function() {
       copySphere.transform.translateZ(point[2] - firstPoint[2]);
       
       // .. add the copySphere to our container
-      // spheres.children.push(copySphere);
-      console.log(copySphere.points);
+      spheres.children.push(copySphere);
+      
     }
     
     // add the sphere container to the renderer
@@ -65,7 +63,7 @@ window.onload = function() {
     setInterval(function() {
 
       // rotate the camera in X-direction (which triggers re-rendering)
-      // r.camera.rotate([1, 0]);
+      r.camera.rotate([1, 0]);
       
     }, 15);
     
@@ -75,6 +73,4 @@ window.onload = function() {
   // .. and render it
   r.render();
   
-
-
 };
