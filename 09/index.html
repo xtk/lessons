@@ -21,95 +21,19 @@
  *    The X Toolkit (XTK) is licensed under the MIT License:
  *      http://www.opensource.org/licenses/mit-license.php
  *
- * LESSON 09 - Points to Spheres
- *
- * Data kindly provided by Satrajit Gosh and Arno Klein (http://www.mindboggle.info)
- * THANKS!! 
- *
+ * LESSON 09 - Points to Spheres!
  */
 -->
 
 <html>
 <head>
 <title>XTK LESSON 09</title>
+<script type="text/javascript" src="http://get.goXTK.com/xtk_edge.js"></script>
+<script type="text/javascript" src="demo.js"></script>
+<link rel="stylesheet" type="text/css" href="demo.css">
+</head>
 
-<script type="text/javascript" src="http://get.goXTK.com/xtk.js"></script>
-
-<script type="text/javascript">
-
-  var run = function() {
-    
-    // create a new renderer
-    var r = new X.renderer('r');
-    r.init();
-
-    // vtk points
-    var pits = new X.object();
-    pits.load('../data/pits.vtk');
-    
-    // add the object
-    r.add(pits);
-
-    // the onShowtime function gets called automatically, just before the first rendering happens
-    r.onShowtime = function() {
-      
-      pits.setVisible(false); // hide the points
-
-      var points = pits.points().all(); // grab the actual coordinates as a flat 1d array
-      var numberOfPoints = pits.points().count(); // in this example 411
-      
-      // for convenience, a container which holds all spheres
-      var spheres = new X.object();
-      
-      // create a new sphere as a template for all other ones
-      // this is an expensive operation due to CSG's mesh generation
-      var newSphere = new X.sphere([points[0], points[1], points[2]], 0.7);
-      newSphere.setMagicMode(true); // it's magic..
-      
-      // .. add the newSphere to our container
-      spheres.children().push(newSphere);
-      
-      // loop through the points and copy the created sphere to a new X.object
-      for (var i=1; i<numberOfPoints; i++) {
-        
-        // copy the tempate sphere over to avoid generating new ones
-        var copySphere = new X.object(newSphere);
-        // .. and move it to the correct position
-        copySphere.transform().translateX(points[i]-points[0]);
-        copySphere.transform().translateY(points[i+1]-points[1]);
-        copySphere.transform().translateZ(points[i+2]-points[2]);
-        
-        // .. add the copySphere to our container
-        spheres.children().push(copySphere);
-        
-      }
-      
-      // add the sphere container to the renderer
-      r.add(spheres);
-
-      // animate!
-      setInterval(function() {
-        
-        // rotate the camera in X-direction (which triggers re-rendering)
-        r.camera().rotate([1,0]);
-        
-      },15);    
-      
-      
-    };
-    
-    // .. and render it
-    r.render();    
-    
-
-    
-    
-  };
-</script>
-
-<body onload="run()" style="margin:0px;">
-  
-  <!-- the container for the renderer -->
-  <div id="r" style="background-color: #000000; width: 100%; height: 100%;"></div>
-    
+<body>
+<div id='jsfiddle' style='position:absolute;bottom:10px;left:10px;'><a href='http://jsfiddle.net/gh/get/library/pure/xtk/lessons/tree/master/09/#run' target=_blank><img src='http://xtk.github.com/fiddlelogo.png' border=0></a></div>
 </body>
+</html>
