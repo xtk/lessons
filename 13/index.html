@@ -21,278 +21,30 @@
  *    The X Toolkit (XTK) is licensed under the MIT License:
  *      http://www.opensource.org/licenses/mit-license.php
  *
- *
- * SLICE DANCE!!
- *
+ * LESSON 13 - I want 2D!
  */
 -->
 
 <html>
 <head>
-<title>SLICE DANCE</title>
+<title>XTK LESSON 13</title>
+<script type="text/javascript" src="http://get.goXTK.com/xtk_edge.js"></script>
+<script type="text/javascript" src="http://get.goXTK.com/xtk_xdat.gui.js"></script>
+<script type="text/javascript" src="demo.js"></script>
+<link rel="stylesheet" type="text/css" href="demo.css">
+</head>
 
-<!-- <script type="text/javascript" src="xtk.js"></script> -->
-<script type="text/javascript" src="../../X/lib/closure-library/closure/goog/base.js"></script>
-<script type="text/javascript" src="../../X/xtk-deps.js"></script>
-<script type="text/javascript"
-	src="http://get.goXTK.com/xtk_xdat.gui.js"></script>
+<body>
+<!-- the container for the renderers -->
+<div id="3d"
+  style="background-color: #000; width: 100%; height: 70%; margin-bottom: 2px;"></div>
+<div id="sliceX"
+  style="border-style: solid; border-top: 2px solid yellow; background-color: #000; width: 32%; height: 30%; float: left;"></div>
+<div id="sliceY"
+  style="border-style: solid; border-top: 2px solid red;background-color: #000; width: 32%; height: 30%; float: left;"></div>
+<div id="sliceZ"
+  style="border-style: solid; border-top: 2px solid green; background-color: #000; width: 32%; height: 30%; float: left;"></div>
 
-<script type="text/javascript">
-    goog.require('X.renderer3D');
-    goog.require('X.renderer2D');
-    goog.require('X.volume');
-  
-  var run = function() {
-
-    _webGLFriendly = true;
-    try {
-      threeD = new X.renderer3D('3d');
-      threeD.init();
-    } catch (Exception) {
-      
-      // no webgl on this machine
-      _webGLFriendly = false; 
-      
-    }
-    
-    sliceX = new X.renderer2D('sliceX', 'X');
-    sliceX.init();
-    var sliceY = new X.renderer2D('sliceY', 'Y');
-    sliceY.init();
-    var sliceZ = new X.renderer2D('sliceZ', 'Z');
-    sliceZ.init();
-    
-    volume = new X.volume();
-    volume.load('vol.nrrd');
-    volume.labelMap().load('seg.nrrd');
-    volume.labelMap().setColorTable('genericanatomy.txt'); // the 3D Slicer generic anatomy color table
-        
-    
-    sliceX.add(volume);
-    sliceX.render();
-    
-    sliceX.onScroll = function() {
-
-      if (_webGLFriendly) {
-        volume.modified();
-        threeD.render();
-      }
-      
-    }
-    sliceY.onScroll = function() {
-
-      if (_webGLFriendly) {
-        volume.modified();
-        threeD.render();
-      }
-      
-    }
-    sliceZ.onScroll = function() {
-
-      if (_webGLFriendly) {
-        volume.modified();
-        threeD.render();
-      }
-      
-    }
-
-
-    sliceX.onShowtime = function() {
-
-      // clear the showtime function
-      sliceX.onShowtime = function() {
-
-      }
-
-        
-      sliceY.add(volume);
-      sliceY.render();
-      sliceZ.add(volume);
-      sliceZ.render();
-      threeD.add(volume);
-      threeD.render();      
-      
-
-      //
-      // The GUI panel
-      //
-      // (we need to create this during onShowtime(..) since we do not know the volume
-      // dimensions before the loading was completed)
-      
-      var modelWasLoaded = false;
-      
-      var gui = new dat.GUI();
-      var volumegui = gui.addFolder('Volume');
-      // ,, switch between slicing and volume rendering
-      var vrController = volumegui.add(volume, '_volumeRendering');
-      // .. configure the volume rendering opacity
-      var opacityController = volumegui.add(volume, '_opacity', 0,1);      
-      // .. we can threshold
-      var lowerThresholdController = volumegui.add(volume, '_lowerThreshold',
-          volume.scalarRange()[0], volume.scalarRange()[1]);
-      var upperThresholdController = volumegui.add(volume, '_upperThreshold',
-          volume.scalarRange()[0], volume.scalarRange()[1]);
-      var sliceXController = volumegui.add(volume, '_indexX', 0,
-          volume.dimensions()[0] - 1).listen();
-      var sliceYController = volumegui.add(volume, '_indexY', 0,
-          volume.dimensions()[1] - 1).listen();
-      var sliceZController = volumegui.add(volume, '_indexZ', 0,
-          volume.dimensions()[2] - 1).listen();
-      volumegui.open();
-      
-      var labelmapgui = gui.addFolder('Label Map');
-      var labelMapVisibleController = labelmapgui.add(volume.labelMap(),'_visible');
-      var labelMapOpacityController = labelmapgui.add(volume.labelMap(),'_opacity',0,1);
-      labelmapgui.open();      
-
-
-      // volumegui callbacks
-      vrController.onChange(function(value) {
-        
-        // this setting makes the volume rendering look good
-        volume.setOpacity(0.15);
-        
-        // Iterate over the gui controllers to grab updated values
-        for (var i in volumegui.__controllers) {
-          volumegui.__controllers[i].updateDisplay();
-        }
-        
-        volume.modified();
-        if (_webGLFriendly) {
-          threeD.render();
-        }        
-      });
-      opacityController.onChange(function(value){
-        volume.modified();
-        if (_webGLFriendly) {
-          threeD.render();
-        }        
-      });
-      
-      lowerThresholdController.onChange(function(value) {
-
-        volume.modified();
-        if (_webGLFriendly) {
-          threeD.render();
-        }        
-        sliceX.render();
-        sliceY.render();
-        sliceZ.render();
-      });
-      upperThresholdController.onChange(function(value) {
-
-        volume.modified();
-        if (_webGLFriendly) {
-          threeD.render();
-        }        
-        sliceX.render();
-        sliceY.render();
-        sliceZ.render();
-      });
-      sliceXController.onChange(function(value) {
-
-        volume.modified();
-        if (_webGLFriendly) {
-          threeD.render();
-        }        
-        sliceX.render();
-        sliceY.render();
-        sliceZ.render();
-      });
-      sliceYController.onChange(function(value) {
-
-        volume.modified();
-        if (_webGLFriendly) {
-          threeD.render();
-        }        
-        sliceX.render();
-        sliceY.render();
-        sliceZ.render();
-      });
-      sliceZController.onChange(function(value) {
-
-        volume.modified();
-        if (_webGLFriendly) {
-          threeD.render();
-        }        
-        sliceX.render();
-        sliceY.render();
-        sliceZ.render();
-      });
-      
-      // labelmapgui callbacks
-      labelMapVisibleController.onChange(function(value) {
-        volume.labelMap().modified();
-        if (_webGLFriendly) {
-          threeD.render();
-        }        
-        sliceX.render();
-        sliceY.render();
-        sliceZ.render();
-      });
-      labelMapOpacityController.onChange(function(value) {
-        volume.labelMap().modified();
-        if (_webGLFriendly) {
-          threeD.render();
-        }        
-        sliceX.render();
-        sliceY.render();
-        sliceZ.render();
-      });      
-      
-
-
-      var _slices = ['X', 'Y', 'Z'];
-      var loop = function() {
-
-        for (i = 0; i < 3; i++) {
-          
-          var _currentO = _slices[i];
-          var _currentIndex = eval('volume._index' + _currentO);
-          
-
-          if (_currentIndex < volume.dimensions()[_slices.indexOf(_currentO)]) {
-            
-            eval('volume._index' + _currentO + '++;');
-            
-          } else {
-            
-            eval('volume._index' + _currentO + '=0;')
-
-          }
-          
-        }
-        
-        volume.modified();
-        
-        if (_webGLFriendly) {
-          threeD.render();
-        }        
-        sliceX.render();
-        sliceY.render();
-        sliceZ.render();
-        
-      };
-      
-      // NOW DANCE!      
-      //setInterval(loop, 1);
-      
-    };
-    
-
-
-  };
-</script>
-<body onload="run()" style="margin: 0px; background-color: #000">
-
-	<!-- the container for the renderer -->
-	<div id="3d"
-		style="background-color: #000; width: 100%; height: 69%; margin-bottom: 2px;"></div>
-	<div id="sliceX"
-		style="border-style: solid; border-color: yellow; background-color: #000; width: 32%; height: 30%; float: left;"></div>
-	<div id="sliceY"
-		style="border-style: solid; border-color: red; background-color: #000; width: 32%; height: 30%; float: left;"></div>
-	<div id="sliceZ"
-		style="border-style: solid; border-color: green; background-color: #000; width: 32%; height: 30%; float: left;"></div>
-
+<div id='jsfiddle' style='position:absolute;top:10px;left:10px;'><a href='http://jsfiddle.net/gh/get/library/pure/xtk/lessons/tree/master/13/#run' target=_blank><img src='http://xtk.github.com/fiddlelogo.png' border=0></a></div>
 </body>
+</html>
