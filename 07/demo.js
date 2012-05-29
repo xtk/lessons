@@ -24,7 +24,7 @@ window.onload = function() {
   var mesh = new X.mesh();
   mesh.file = 'http://lessons.goXTK.com/data/avf.vtk';
   
-  // .. but add it to all 3 renderers
+  // .. but add it to only to the first renderer
   r1.add(mesh);
   
   // the onShowtime function gets executed, once the renderer r1 completely
