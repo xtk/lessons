@@ -9,19 +9,13 @@ window.onload = function() {
   // .. and attach the single-file dicom in .NRRD format
   // this works with gzip/gz/raw encoded NRRD files but XTK also supports other
   // formats like MGH/MGZ
-  volume.file = 'http://lessons.goXTK.com/data/avf.nrrd';
+  volume.file = 'http://lessons.goXTK.com/data/vol.nrrd';
+  // we also attach a label map to show segmentations on a slice-by-slice base
+  volume.labelmap.file = 'http://lessons.goXTK.com/data/seg.nrrd';
+  // .. and use a color table to map the label map values to colors
+  volume.labelmap.colortable.file = 'http://lessons.goXTK.com/data/genericanatomy.txt';
   
-  // the segmentation is a X.mesh
-  var mesh = new X.mesh();
-  // .. and is loaded from a .VTK file
-  mesh.file = 'http://lessons.goXTK.com/data/avf.vtk';
-  // we set the color to a lighter red
-  mesh.color = [0.7, 0, 0];
-  // and also set the visibility to false, since we add a 'load-on-demand'
-  // option for it
-  mesh.visible = false;
-  
-  // only add the volume for now, the mesh gets loaded on request
+  // add the volume
   r.add(volume);
   
   // the onShowtime method gets executed after all files were fully loaded and
@@ -33,9 +27,6 @@ window.onload = function() {
     //
     // (we need to create this during onShowtime(..) since we do not know the
     // volume dimensions before the loading was completed)
-    
-    // indicate if the mesh was loaded
-    var meshWasLoaded = false;
     
     var gui = new dat.GUI();
     
@@ -61,14 +52,12 @@ window.onload = function() {
         volume.dimensions[2] - 1);
     volumegui.open();
     
-    // now we configure the gui for interacting with the X.mesh
-    var meshgui = gui.addFolder('Mesh');
-    // the visible controller shows/hides the volume but also loads the file on
-    // demand (only the first time)
-    var meshVisibleController = meshgui.add(mesh, 'visible');
-    // .. the mesh color
-    var meshColorController = meshgui.addColor(mesh, 'color');
-    meshgui.open();
+    // and this configures the gui for interacting with the label map overlay
+    var labelmapgui = gui.addFolder('Label Map');
+    var labelMapVisibleController = labelmapgui.add(volume.labelmap, 'visible');
+    var labelMapOpacityController = labelmapgui.add(volume.labelmap, 'opacity',
+        0, 1);
+    labelmapgui.open();
     
     // volumegui callbacks
     vrController.onChange(function(value) {
@@ -122,35 +111,20 @@ window.onload = function() {
       
     });
     
-    // meshgui callbacks
-    meshVisibleController.onChange(function(value) {
 
-      if (!meshWasLoaded) {
-        
-        // this only gets executed the first time to load the mesh, after we
-        // just toggle the visibility
-        r.add(mesh);
-        
-        // we set the onShowtime function to a void since we don't want to
-        // create the GUI again here
-        r.onShowtime = function() {
+    // labelmapgui callbacks
+    labelMapVisibleController.onChange(function(value) {
 
-        };
-        
-        // set the loaded flag
-        meshWasLoaded = true;
-        
-      }
-      
       r.render();
       
     });
-    meshColorController.onChange(function(value) {
+    labelMapOpacityController.onChange(function(value) {
 
       r.render();
       
     });
     
+
 
   };
   
