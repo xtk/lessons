@@ -1,0 +1,163 @@
+<!-- 
+/*
+ * 
+ *                  xxxxxxx      xxxxxxx
+ *                   x:::::x    x:::::x 
+ *                    x:::::x  x:::::x  
+ *                     x:::::xx:::::x   
+ *                      x::::::::::x    
+ *                       x::::::::x     
+ *                       x::::::::x     
+ *                      x::::::::::x    
+ *                     x:::::xx:::::x   
+ *                    x:::::x  x:::::x  
+ *                   x:::::x    x:::::x 
+ *              THE xxxxxxx      xxxxxxx TOOLKIT
+ *                    
+ *                  http://www.goXTK.com
+ *                   
+ * Copyright (c) 2012 The X Toolkit Developers <dev@goXTK.com>
+ *                   
+ *    The X Toolkit (XTK) is licensed under the MIT License:
+ *      http://www.opensource.org/licenses/mit-license.php
+ *
+ * LESSON 10 - Slice it!
+ *
+ * The rendered vessel is an arteriovenous fistula in an arm (a bypass created by joining
+ * an artery and vein) acquired from a MR scanner. The data was provided by Orobix S.R.L.
+ *
+ *    http://www.orobix.com  
+ *
+ */
+-->
+
+<html>
+<head>
+<title>XTK LESSON 10</title>
+
+<script type="text/javascript" src="http://get.goXTK.com/xtk.js"></script>
+<script type="text/javascript" src="http://get.goXTK.com/xtk_xdat.gui.js"></script>
+
+<script type="text/javascript">
+  var run = function() {
+    
+    var r = new X.renderer('r');
+    r.init();
+    
+    // load a .NRRD file to the X.volume
+    // this works with gzip/gz/raw encoded NRRD files
+    var volume = new X.volume();
+    volume.load('../data/avf.nrrd');
+    
+    // load a .VTK file
+    var model = new X.object();
+    model.load('../data/avf.vtk');
+    model.setColor(0.7,0,0);
+    model.setVisible(false);
+    
+    // only add the volume for now, the model gets loaded on request
+    r.add(volume);
+    
+    r.camera().setPosition(120,80,160);
+    r.render();
+    
+    r.onShowtime = function() {
+      
+      //
+	    // The GUI panel
+	    //
+	    // (we need to create this during onShowtime(..) since we do not know the volume
+	    // dimensions before the loading was completed)
+	    
+	    var modelWasLoaded = false;
+	    
+	    var gui = new dat.GUI();
+	    var volumegui = gui.addFolder('Volume');
+      // ,, switch between slicing and volume rendering
+      var vrController = volumegui.add(volume, '_volumeRendering');
+      // .. configure the volume rendering opacity
+      var opacityController = volumegui.add(volume, '_opacity', 0,1);
+      // .. we can threshold
+      var lowerThresholdController = volumegui.add(volume, '_lowerThreshold', volume.scalarRange()[0], volume.scalarRange()[1]);
+      var upperThresholdController = volumegui.add(volume, '_upperThreshold', volume.scalarRange()[0], volume.scalarRange()[1]);
+	    var sliceXController = volumegui.add(volume, '_indexX', 0, volume.dimensions()[0]-1);
+	    var sliceYController = volumegui.add(volume, '_indexY', 0, volume.dimensions()[1]-1);
+	    var sliceZController = volumegui.add(volume, '_indexZ', 0, volume.dimensions()[2]-1);
+	    volumegui.open();
+	    
+      var modelgui = gui.addFolder('Model');
+      var modelVisibleController = modelgui.add(model,'_visible');
+      var modelColorController = modelgui.addColor(model, '_color');
+      modelgui.open();	    
+	    
+      // volumegui callbacks
+      vrController.onChange(function(value) {
+        
+        document.getElementById('r').style.backgroundColor = value ? '#000000' : '#ffffff';
+        
+        // this setting makes the volume rendering look good
+        volume.setOpacity(0.15);
+        
+        // Iterate over the gui controllers to grab updated values
+        for (var i in volumegui.__controllers) {
+          volumegui.__controllers[i].updateDisplay();
+        }                
+        
+        volume.modified();
+        r.render();
+      });
+      opacityController.onChange(function(value){
+        volume.modified();
+        r.render();
+      });     
+      lowerThresholdController.onChange(function(value){
+        volume.modified();
+        r.render();
+      });
+      upperThresholdController.onChange(function(value){
+        volume.modified();
+        r.render();
+      });     
+      sliceXController.onChange(function(value) {
+        volume.modified();
+        r.render();
+      });
+      sliceYController.onChange(function(value) {
+        volume.modified();
+        r.render();
+      });          
+      sliceZController.onChange(function(value) {
+        volume.modified();
+        r.render();
+      });            	                 
+	    
+      // modelgui callbacks
+      modelVisibleController.onChange(function(value) {
+        
+        if (!modelWasLoaded) {
+          
+          r.add(model);
+          r.onShowtime = function() {};
+          modelWasLoaded = true;
+          
+        }
+        
+        r.render();
+      });
+      modelColorController.onChange(function(value) {
+        r.render();
+      });        
+      
+      
+    };
+    
+    
+  };
+</script>
+
+<body onload="run()" style="margin:0px;">
+  
+  <!-- the container for the renderer -->
+  <div id="r" style="background-color: #ffffff; width: 100%; height: 100%;"></div>
+    
+</body>
