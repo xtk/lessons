@@ -21,144 +21,20 @@
  *    The X Toolkit (XTK) is licensed under the MIT License:
  *      http://www.opensource.org/licenses/mit-license.php
  *
- * LESSON 12 - Curves!
- *
- * This lesson shows how to map different scalar overlays to a mesh.
- * It currently only works on .FSM meshes and can only read curvature values
- * from .CRV files.
- *
- * But it is possible to configure the scalars using an array (see comments below). 
- *
+ * LESSON 12 - Curvature!
  */
 -->
 
 <html>
 <head>
 <title>XTK LESSON 12</title>
+<script type="text/javascript" src="http://get.goXTK.com/xtk_edge.js"></script>
+<script type="text/javascript" src="http://get.goXTK.com/xtk_xdat.gui.js"></script>
+<script type="text/javascript" src="demo.js"></script>
+<link rel="stylesheet" type="text/css" href="demo.css">
+</head>
 
-<script type="text/javascript" src="http://get.goxtk.com/xtk.js"></script>
-<script type="text/javascript" src="http://get.goxtk.com/xtk_xdat.gui.js"></script>
-
-<script type="text/javascript">
-  var run = function() {
-    
-    var r = new X.renderer('r');
-    r.init();
-    
-    model = new X.object();
-    model.setColor(0.5,0.5,0.5);
-    // load a mesh
-    model.load('lh.smoothwm.fsm');
-    // load curvature values from a .crv file
-    // it would also be possible to create an X.scalars object and
-    // configure an array using X.scalars.setArray(arr) to be independent from a file format
-    model.setScalars('lh.smoothwm.C.crv');
-    
-    // we want to map the scalars linear between blue and white
-    model.scalars().setColorRange([0,0,1],[1,1,1]);
-    
-    r.add(model);
-    
-    r.render();
-    
-    
-    
-    
-    //
-    // The GUI
-    //
-    gui = null; // we need to re-load the gui after we change the curvature type
-    // here are the available curvature types and files
-    curvatureTypes = ['C (mm&#x207b;&sup2;)','k&#x2081; (mm&#x207b;&sup1;)','H (mm&#x207b;&sup1;)'];
-    curvatureFiles = ['lh.smoothwm.C.crv','lh.smoothwm.K1.crv','lh.smoothwm.H.crv'];
-    
-    // we need this Loader as a container for dat.gui
-    var Loader = function() {
-              
-      // default type
-      this.Type = 'C (mm&#x207b;&sup2;)'
-      
-    }
-    var _loader = new Loader();    
-    
-    r.onShowtime = function() {
-      
-        if (gui) {
-          
-          // if we already have a gui, destroy it
-          // .. it will be re-created immediately
-          gui.destroy();
-          gui = null;
-          
-        }
-      
-      //
-      // create the GUI panel
-      //
-      gui = new dat.GUI();
-      var modelgui = gui.addFolder('Model');
-      var modelColorController = modelgui.addColor(model,'_color');
-      modelgui.open();
-      
-      var curvgui = gui.addFolder('Curvature');
-      var typeController = curvgui.add(_loader,'Type',curvatureTypes);
-      var minColorController = curvgui.addColor(model.scalars(), '_minColor');
-      var maxColorController = curvgui.addColor(model.scalars(), '_maxColor');
-      var minThresholdController = curvgui.add(model.scalars(), '_minThreshold', model.scalars().min(), model.scalars().max());
-      var maxThresholdController = curvgui.add(model.scalars(), '_maxThreshold', model.scalars().min(), model.scalars().max());
-      curvgui.open();
-      
-      modelColorController.onChange(function(value) {
-        r.render();
-      });
-      
-      //
-      // Change the curvature type callback
-      //
-      typeController.onChange(function(value) {
-        
-        var _index = curvatureTypes.indexOf(value);
-        
-        // we need to buffer the (maybe changed) colors
-        // else wise we would start with the default red<->green mapping
-        var oldMinColor = model.scalars().colorRange()[0];
-        var oldMaxColor = model.scalars().colorRange()[1];                    
-        
-        model.setScalars(curvatureFiles[_index]);
-        model.modified();
-
-        model.scalars().setColorRange(oldMinColor,oldMaxColor);
-                  
-        // this render call will trigger the onShowtime function again to re-create the GUI
-        r.render();        
-        
-      });
-      
-      minColorController.onChange(function(value) {
-        r.render();
-      });              
-
-      maxColorController.onChange(function(value) {
-        r.render();
-      });                    
-      
-      minThresholdController.onChange(function(value) {
-        r.render();
-      });              
-
-      maxThresholdController.onChange(function(value) {
-        r.render();
-      });                    
-      
-    };
-    
-    
-  };
-</script>
-
-<body onload="run()" style="margin:0px;">
-  
-  <!-- the container for the renderer -->
-  <div id="r" style="background-color: #000; width: 100%; height: 100%;"></div>
-    
+<body>
+<div id='jsfiddle' style='position:absolute;bottom:10px;left:10px;'><a href='http://jsfiddle.net/gh/get/library/pure/xtk/lessons/tree/master/12/#run' target=_blank><img src='http://xtk.github.com/fiddlelogo.png' border=0></a></div>
 </body>
+</html>
