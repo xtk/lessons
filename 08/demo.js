@@ -7,12 +7,12 @@ window.onload = function() {
   // create new X.fibers
   var f = new X.fibers();
   // .. and attach a file
-  f.file = 'http://lessons.goXTK.com/data/streamline.trk';
+  f.file = 'http://x.babymri.org/?f=streamline.trk';
   
   // create the left hemisphere mesh
   var lh = new X.mesh();
   // .. attach a Freesurfer .smoothwm mesh
-  lh.file = 'http://lessons.goXTK.com/data/lh.smoothwm';
+  lh.file = 'http://x.babymri.org/?f=lh.smoothwm';
   // change the color to a smooth red
   lh.color = [0.7, 0.2, 0.2];
   // add some transparency
@@ -20,7 +20,7 @@ window.onload = function() {
   
   // ... and for the right hemisphere
   var rh = new X.mesh();
-  rh.file = 'http://lessons.goXTK.com/data/rh.smoothwm';
+  rh.file = 'http://x.babymri.org/?f=rh.smoothwm';
   // a smooth green color for this one
   rh.color = [0, 0.7, 0];
   // add some transparency

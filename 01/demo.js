@@ -7,7 +7,7 @@ window.onload = function() {
   // create a cube
   cube = new X.cube();
   // skin it..
-  cube.texture.file = 'http://lessons.goxtk.com/data/xtk.png';
+  cube.texture.file = 'http://x.babymri.org/?f=xtk.png';
   
   r.add(cube); // add the cube to the renderer
   r.render(); // ..and render it

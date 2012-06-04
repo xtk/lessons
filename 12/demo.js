@@ -9,14 +9,14 @@ window.onload = function() {
   // change the color to grey
   mesh.color = [0.5, 0.5, 0.5];
   // and attach a freesurfer mesh
-  mesh.file = 'http://lessons.goxtk.com/data/lefthemisphere.smoothwm';
+  mesh.file = 'http://x.babymri.org/?f=lefthemisphere.smoothwm';
   
   // load curvature values from a .crv file
   // it would also be possible to create an X.scalars object and
   // configure an array using 'X.scalars.array = arr;' to be independent from a
   // file format
   // in this case we choose the 'C' curvature as the default
-  mesh.scalars.file = 'http://lessons.goxtk.com/data/lh.smoothwm.C.crv';
+  mesh.scalars.file = 'http://x.babymri.org/?f=lh.smoothwm.C.crv';
   // we want to map the scalars linear between blue and white
   mesh.scalars.minColor = [0, 0, 1];
   mesh.scalars.maxColor = [1, 1, 1];
@@ -105,7 +105,7 @@ window.onload = function() {
       var oldMaxColor = mesh.scalars.maxColor;
       
       // now we (re-)load the selected curvature file
-      mesh.scalars.file = 'http://lessons.goxtk.com/data/' +
+      mesh.scalars.file = 'http://x.babymri.org/?f=' +
           curvatureFiles[_index];
       mesh.modified();
       

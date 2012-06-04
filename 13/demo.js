@@ -43,11 +43,11 @@ window.onload = function() {
   // .. and attach the single-file dicom in .NRRD format
   // this works with gzip/gz/raw encoded NRRD files but XTK also supports other
   // formats like MGH/MGZ
-  volume.file = 'http://lessons.goXTK.com/data/vol.nrrd';
+  volume.file = 'http://x.babymri.org/?f=vol.nrrd';
   // we also attach a label map to show segmentations on a slice-by-slice base
-  volume.labelmap.file = 'http://lessons.goXTK.com/data/seg.nrrd';
+  volume.labelmap.file = 'http://x.babymri.org/?f=seg.nrrd';
   // .. and use a color table to map the label map values to colors
-  volume.labelmap.colortable.file = 'http://lessons.goXTK.com/data/genericanatomy.txt';
+  volume.labelmap.colortable.file = 'http://x.babymri.org/?f=genericanatomy.txt';
   
   // add the volume in the main renderer
   // we choose the sliceX here, since this should work also on

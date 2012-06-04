@@ -7,7 +7,7 @@ window.onload = function() {
   // create a new X.mesh
   var skull = new X.mesh();
   // .. and associate the .vtk file to it
-  skull.file = 'http://lessons.goXTK.com/data/skull.vtk';
+  skull.file = 'http://x.babymri.org/?f=skull.vtk';
   // .. make it transparent
   skull.opacity = 0.7;
   
