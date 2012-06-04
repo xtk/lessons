@@ -6,7 +6,7 @@ window.onload = function() {
   
   // create a mesh and associate it to the VTK Point Data
   var p = new X.mesh();
-  p.file = 'http://x.babymri.org/?f=pits.vtk';
+  p.file = 'http://x.babymri.org/?pits.vtk';
   
   // add the points
   r.add(p);

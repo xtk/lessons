@@ -9,12 +9,12 @@ window.onload = function() {
   // .. and attach the single-file dicom in .NRRD format
   // this works with gzip/gz/raw encoded NRRD files but XTK also supports other
   // formats like MGH/MGZ
-  volume.file = 'http://x.babymri.org/?f=avf.nrrd';
+  volume.file = 'http://x.babymri.org/?avf.nrrd';
   
   // the segmentation is a X.mesh
   var mesh = new X.mesh();
   // .. and is loaded from a .VTK file
-  mesh.file = 'http://x.babymri.org/?f=avf.vtk';
+  mesh.file = 'http://x.babymri.org/?avf.vtk';
   // we set the color to a lighter red
   mesh.color = [0.7, 0, 0];
   // and also set the visibility to false, since we add a 'load-on-demand'
