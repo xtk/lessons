@@ -84,15 +84,6 @@ window.onload = function() {
     curvgui.open();
     
     //
-    // the controller callbacks
-    //
-    meshColorController.onChange(function(value) {
-
-      r.render();
-      
-    });
-    
-    //
     // Change the curvature type callback
     //
     typeController.onChange(function(value) {
@@ -105,40 +96,11 @@ window.onload = function() {
       var oldMaxColor = mesh.scalars.maxColor;
       
       // now we (re-)load the selected curvature file
-      mesh.scalars.file = 'http://x.babymri.org/?' +
-          curvatureFiles[_index];
+      mesh.scalars.file = 'http://x.babymri.org/?' + curvatureFiles[_index];
       mesh.modified();
       
       mesh.scalars.minColor = oldMinColor;
       mesh.scalars.maxColor = oldMaxColor;
-      
-      // this render call will trigger the onShowtime function again to
-      // re-create the GUI
-      r.render();
-      
-    });
-    
-    minColorController.onChange(function(value) {
-
-      r.render();
-      
-    });
-    
-    maxColorController.onChange(function(value) {
-
-      r.render();
-      
-    });
-    
-    minThresholdController.onChange(function(value) {
-
-      r.render();
-      
-    });
-    
-    maxThresholdController.onChange(function(value) {
-
-      r.render();
       
     });
     

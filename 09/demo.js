@@ -59,13 +59,13 @@ window.onload = function() {
     // add the sphere container to the renderer
     r.add(spheres);
     
-    // animate!
-    setInterval(function() {
+    // animate! (on each rendering call)
+    r.onRender = function() {
 
-      // rotate the camera in X-direction (which triggers re-rendering)
+      // rotate the camera in X-direction
       r.camera.rotate([1, 0]);
       
-    }, 15);
+    };
     
 
   };
