@@ -68,7 +68,7 @@ window.onload = function() {
     // activate volume rendering
     v.volumeRendering = true;
     v.lowerThreshold = 80;
-    v.windowHigh = 115;
+    v.windowLower = 115;
     v.windowHigh = 360;
     v.minColor = [0, 0.06666666666666667, 1];
     v.maxColor = [0.5843137254901961, 1, 0];
