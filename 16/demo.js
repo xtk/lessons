@@ -4,11 +4,25 @@ window.onload = function() {
   // create a bunch of X.volumes
   // each holds a data set
   _volumes = [];
-  for ( var i = 24; i < 38; i++) {
+  for ( var i = 24; i < 26; i++) {
     
     var _v = new X.volume();
     _v.file = 'http://x.babymri.org/?' + i + '.mgh';
     _volumes.push(_v);
+    
+    // activate volume rendering for each volume
+    _v.lowerThreshold = 80;
+    _v.windowLower = 115;
+    _v.windowHigh = 360;
+    _v.minColor = [0, 0.06666666666666667, 1];
+    _v.maxColor = [0.5843137254901961, 1, 0];
+    _v.opacity = 0.2;
+    _v.volumeRendering = true;
+    //v.modified();
+    
+    // and hide it by default
+    //v.visible = false;
+    _v.Ha = false;    
     
   }
   
@@ -32,18 +46,7 @@ window.onload = function() {
       
       v = _volumes[v];
       
-      // activate volume rendering for each volume
-      v.lowerThreshold = 80;
-      v.windowLower = 115;
-      v.windowHigh = 360;
-      v.minColor = [0, 0.06666666666666667, 1];
-      v.maxColor = [0.5843137254901961, 1, 0];
-      v.opacity = 0.2;
-      v.volumeRendering = true;
-      v.modified();
-      
-      // and hide it by default
-      v.visible = false;
+
       
     }
     
@@ -55,11 +58,12 @@ window.onload = function() {
   
   r.onRender = function() {
 
-    if (count % 10) {
+    if (count % 100) {
       
       if (_currentVolume >= 1) {
         
-        _volumes[_currentVolume - 1].visible = false;
+        //_volumes[_currentVolume - 1].visible = false;
+        _volumes[_currentVolume - 1].Ha = false;
         
       }
       
@@ -69,7 +73,8 @@ window.onload = function() {
         
       }
       
-      _volumes[_currentVolume].visible = true;
+      //_volumes[_currentVolume].visible = true;
+      _volumes[_currentVolume].Ha = true;
       
       _currentVolume++;
       
