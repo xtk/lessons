@@ -45,7 +45,7 @@ window.onload = function() {
   // we create the X.volume container and attach all DICOM files
   var v = new X.volume();
   // map the data url to each of the slices
-  v.file = _dicom.map(function(v) {
+  v.file = _dicom.sort().map(function(v) {
 
     // we also add the 'fake' .DCM extension since else wise
     // XTK would think .org is the extension
@@ -75,5 +75,7 @@ window.onload = function() {
     v.opacity = 0.2;
     
   };
+  
+  volume = v;
   
 };
