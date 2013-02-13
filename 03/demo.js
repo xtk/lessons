@@ -27,11 +27,11 @@ window.onload = function() {
   r.render();
   
   // .. and animate!!
-  setInterval(function() {
+  r.onRender = function() {
 
-    // rotate the camera rin X-direction (which triggers re-rendering)
+    // rotate the camera in X-direction
     r.camera.rotate([1, 0]);
     
-  }, 16.7); // best value if requestAnimationFrame is not used
+  };
   
 };

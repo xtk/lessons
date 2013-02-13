@@ -6,7 +6,7 @@ window.onload = function() {
   
   // create a mesh and associate it to the VTK Point Data
   var p = new X.mesh();
-  p.file = 'http://lessons.goXTK.com/data/pits.vtk';
+  p.file = 'http://x.babymri.org/?pits.vtk';
   
   // add the points
   r.add(p);
@@ -59,13 +59,13 @@ window.onload = function() {
     // add the sphere container to the renderer
     r.add(spheres);
     
-    // animate!
-    setInterval(function() {
+    // animate! (on each rendering call)
+    r.onRender = function() {
 
-      // rotate the camera in X-direction (which triggers re-rendering)
+      // rotate the camera in X-direction
       r.camera.rotate([1, 0]);
       
-    }, 15);
+    };
     
 
   };

@@ -9,12 +9,12 @@ window.onload = function() {
   // .. and attach the single-file dicom in .NRRD format
   // this works with gzip/gz/raw encoded NRRD files but XTK also supports other
   // formats like MGH/MGZ
-  volume.file = 'http://lessons.goXTK.com/data/avf.nrrd';
+  volume.file = 'http://x.babymri.org/?avf.nrrd';
   
   // the segmentation is a X.mesh
   var mesh = new X.mesh();
   // .. and is loaded from a .VTK file
-  mesh.file = 'http://lessons.goXTK.com/data/avf.vtk';
+  mesh.file = 'http://x.babymri.org/?avf.vtk';
   // we set the color to a lighter red
   mesh.color = [0.7, 0, 0];
   // and also set the visibility to false, since we add a 'load-on-demand'
@@ -44,6 +44,9 @@ window.onload = function() {
     // now we can configure controllers which..
     // .. switch between slicing and volume rendering
     var vrController = volumegui.add(volume, 'volumeRendering');
+    // the min and max color which define the linear gradient mapping
+    var minColorController = volumegui.addColor(volume, 'minColor');
+    var maxColorController = volumegui.addColor(volume, 'maxColor');
     // .. configure the volume rendering opacity
     var opacityController = volumegui.add(volume, 'opacity', 0, 1).listen();
     // .. and the threshold in the min..max range
@@ -51,6 +54,10 @@ window.onload = function() {
         volume.min, volume.max);
     var upperThresholdController = volumegui.add(volume, 'upperThreshold',
         volume.min, volume.max);
+    var lowerWindowController = volumegui.add(volume, 'windowLow', volume.min,
+        volume.max);
+    var upperWindowController = volumegui.add(volume, 'windowHigh', volume.min,
+        volume.max);
     // the indexX,Y,Z are the currently displayed slice indices in the range
     // 0..dimensions-1
     var sliceXController = volumegui.add(volume, 'indexX', 0,
@@ -69,58 +76,6 @@ window.onload = function() {
     // .. the mesh color
     var meshColorController = meshgui.addColor(mesh, 'color');
     meshgui.open();
-    
-    // volumegui callbacks
-    vrController.onChange(function(value) {
-
-      // this setting makes the volume rendering look good
-      volume.opacity = 0.15;
-      
-      // we have to fire a modified event to switch between slicing and volume
-      // rendering
-      volume.modified();
-      r.render();
-      
-    });
-    opacityController.onChange(function(value) {
-
-      r.render();
-      
-    });
-    lowerThresholdController.onChange(function(value) {
-
-      r.render();
-      
-    });
-    upperThresholdController.onChange(function(value) {
-
-      r.render();
-      
-    });
-    sliceXController.onChange(function(value) {
-
-      // we have to fire a modified event to show/hide the slices properly
-      volume.modified();
-      
-      r.render();
-      
-    });
-    sliceYController.onChange(function(value) {
-
-      // we have to fire a modified event to show/hide the slices properly
-      volume.modified();
-      
-      r.render();
-      
-    });
-    sliceZController.onChange(function(value) {
-
-      // we have to fire a modified event to show/hide the slices properly
-      volume.modified();
-      
-      r.render();
-      
-    });
     
     // meshgui callbacks
     meshVisibleController.onChange(function(value) {
@@ -141,13 +96,6 @@ window.onload = function() {
         meshWasLoaded = true;
         
       }
-      
-      r.render();
-      
-    });
-    meshColorController.onChange(function(value) {
-
-      r.render();
       
     });
     

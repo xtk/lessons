@@ -9,11 +9,11 @@ window.onload = function() {
   // .. and attach the single-file dicom in .NRRD format
   // this works with gzip/gz/raw encoded NRRD files but XTK also supports other
   // formats like MGH/MGZ
-  volume.file = 'http://lessons.goXTK.com/data/vol.nrrd';
+  volume.file = 'http://x.babymri.org/?vol.nrrd';
   // we also attach a label map to show segmentations on a slice-by-slice base
-  volume.labelmap.file = 'http://lessons.goXTK.com/data/seg.nrrd';
+  volume.labelmap.file = 'http://x.babymri.org/?seg.nrrd';
   // .. and use a color table to map the label map values to colors
-  volume.labelmap.colortable.file = 'http://lessons.goXTK.com/data/genericanatomy.txt';
+  volume.labelmap.colortable.file = 'http://x.babymri.org/?genericanatomy.txt';
   
   // add the volume
   r.add(volume);
@@ -59,73 +59,6 @@ window.onload = function() {
         0, 1);
     labelmapgui.open();
     
-    // volumegui callbacks
-    vrController.onChange(function(value) {
-
-      // this setting makes the volume rendering look good
-      volume.opacity = 0.15;
-      
-      // we have to fire a modified event to switch between slicing and volume
-      // rendering
-      volume.modified();
-      r.render();
-      
-    });
-    opacityController.onChange(function(value) {
-
-      r.render();
-      
-    });
-    lowerThresholdController.onChange(function(value) {
-
-      r.render();
-      
-    });
-    upperThresholdController.onChange(function(value) {
-
-      r.render();
-      
-    });
-    sliceXController.onChange(function(value) {
-
-      // we have to fire a modified event to show/hide the slices properly
-      volume.modified();
-      
-      r.render();
-      
-    });
-    sliceYController.onChange(function(value) {
-
-      // we have to fire a modified event to show/hide the slices properly
-      volume.modified();
-      
-      r.render();
-      
-    });
-    sliceZController.onChange(function(value) {
-
-      // we have to fire a modified event to show/hide the slices properly
-      volume.modified();
-      
-      r.render();
-      
-    });
-    
-
-    // labelmapgui callbacks
-    labelMapVisibleController.onChange(function(value) {
-
-      r.render();
-      
-    });
-    labelMapOpacityController.onChange(function(value) {
-
-      r.render();
-      
-    });
-    
-
-
   };
   
   // adjust the camera position a little bit, just for visualization purposes

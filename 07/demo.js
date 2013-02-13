@@ -22,7 +22,7 @@ window.onload = function() {
 
   // create a new X.mesh and attach a .VTK file
   var mesh = new X.mesh();
-  mesh.file = 'http://lessons.goXTK.com/data/avf.vtk';
+  mesh.file = 'http://x.babymri.org/?avf.vtk';
   
   // .. but add it to only to the first renderer
   r1.add(mesh);

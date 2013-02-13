@@ -7,12 +7,12 @@ window.onload = function() {
   // create new X.fibers
   var f = new X.fibers();
   // .. and attach a file
-  f.file = 'http://lessons.goXTK.com/data/streamline.trk';
+  f.file = 'http://x.babymri.org/?streamline.trk';
   
   // create the left hemisphere mesh
   var lh = new X.mesh();
   // .. attach a Freesurfer .smoothwm mesh
-  lh.file = 'http://lessons.goXTK.com/data/lh.smoothwm';
+  lh.file = 'http://x.babymri.org/?lh.smoothwm';
   // change the color to a smooth red
   lh.color = [0.7, 0.2, 0.2];
   // add some transparency
@@ -20,7 +20,7 @@ window.onload = function() {
   
   // ... and for the right hemisphere
   var rh = new X.mesh();
-  rh.file = 'http://lessons.goXTK.com/data/rh.smoothwm';
+  rh.file = 'http://x.babymri.org/?rh.smoothwm';
   // a smooth green color for this one
   rh.color = [0, 0.7, 0];
   // add some transparency
@@ -113,51 +113,5 @@ window.onload = function() {
   var rhOpacityController = rhgui.add(rh, 'opacity', 0, 1);
   var rhColorController = rhgui.addColor(rh, 'color');
   rhgui.open();
-  
-  //
-  // connect all changes in the GUI to the r.render() function to re-render the
-  // scene
-  //
-  trackVisibleController.onChange(function(value) {
-
-    r.render();
-    
-  });
-  
-  lhVisibleController.onChange(function(value) {
-
-    r.render();
-    
-  });
-  
-  lhOpacityController.onChange(function(value) {
-
-    r.render();
-    
-  });
-  
-  lhColorController.onChange(function(value) {
-
-    r.render();
-    
-  });
-  
-  rhVisibleController.onChange(function(value) {
-
-    r.render();
-    
-  });
-  
-  rhOpacityController.onChange(function(value) {
-
-    r.render();
-    
-  });
-  
-  rhColorController.onChange(function(value) {
-
-    r.render();
-    
-  });
   
 };

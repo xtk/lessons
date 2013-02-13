@@ -7,7 +7,7 @@ window.onload = function() {
   // create a new X.mesh
   var skull = new X.mesh();
   // .. and associate the .vtk file to it
-  skull.file = 'http://lessons.goXTK.com/data/skull.vtk';
+  skull.file = 'http://x.babymri.org/?skull.vtk';
   // .. make it transparent
   skull.opacity = 0.7;
   
@@ -18,7 +18,7 @@ window.onload = function() {
   r.camera.position = [0, 400, 0];
   
   // animate..
-  setInterval(function() {
+  r.onRender = function() {
 
     // rotate the skull around the Z axis
     // since we moved the camera, it is Z not X
@@ -29,9 +29,8 @@ window.onload = function() {
     //
     // r.camera.rotate([1,0]);
     
-    // .. and render it
-    r.render();
-    
-  }, 16.7); // best value if requestAnimationFrame is not used
+  };
+  
+  r.render();
   
 };

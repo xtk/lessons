@@ -1,0 +1,7 @@
+html, body { 
+  background-color:#0082C8;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden !important;  
+}
