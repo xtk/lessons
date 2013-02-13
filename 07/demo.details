@@ -4,6 +4,5 @@
  authors:
    - XTK 
  resources:
-   - http://get.goXTK.com/xtk_edge.js
  normalize_css: no
 ...
