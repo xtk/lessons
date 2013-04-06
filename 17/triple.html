@@ -1,0 +1,99 @@
+
+<html>
+<head>
+<title>XTK LESSON 13</title>
+<script type="text/javascript"
+	src="../../X/lib/google-closure-library/closure/goog/base.js"></script>
+<script type="text/javascript" src="../../X/xtk-deps.js"></script>
+<script type="text/javascript">
+  goog.require('X.renderer2D');
+  goog.require('X.volume');
+
+  window.onload = function() {
+
+    ren2dX = new X.renderer2D();
+    ren2dX.container = 'sliceX';
+    ren2dX.orientation = 'X';
+    ren2dX.init();
+
+    volume = new X.volume();
+    volume.file = 'avf.nii';
+
+    ren2dX.add(volume);
+
+    ren2dX.render();
+
+    ren2dX.interactor.onMouseMove = showIJKX;
+    ren2dX.onScroll = showIJKX;
+    
+    ren2dX.onShowtime = function() {
+      
+      ren2dY = new X.renderer2D();
+      ren2dY.container = 'sliceY';
+      ren2dY.orientation = 'Y';
+      ren2dY.init();
+
+      ren2dY.add(volume);
+
+      ren2dY.render();
+
+      ren2dY.interactor.onMouseMove = showIJKY;
+      ren2dY.onScroll = showIJKY;
+            
+
+      ren2dZ = new X.renderer2D();
+      ren2dZ.container = 'sliceZ';
+      ren2dZ.orientation = 'Z';
+      ren2dZ.init();
+
+      ren2dZ.add(volume);
+
+      ren2dZ.render();
+
+      ren2dZ.interactor.onMouseMove = showIJKZ;
+      ren2dZ.onScroll = showIJKZ;      
+      
+      
+    }
+    
+    function showIJKX() {showIJK(ren2dX, 'X'); }
+    function showIJKY() {showIJK(ren2dY, 'Y'); }
+    function showIJKZ() {showIJK(ren2dZ, 'Z'); }
+    
+    function showIJK(r, which) {
+      
+      var ijk = r.xy2ijk(r.interactor.mousePosition[0],
+          r.interactor.mousePosition[1]);
+      
+      if (!ijk) {document.getElementById('info'+which).innerHTML = 'NA'; return;}
+      
+        document.getElementById('info'+which).innerHTML = ijk;
+
+    }
+    
+  };
+</script>
+<link rel="stylesheet" type="text/css" href="demo.css">
+</head>
+
+<body>
+	<div id="sliceX"
+		style="border-top: 2px solid yellow; background-color: #000; width: 32%; height: 30%; float: left;">
+		<div id='infoX'
+			style='position: relative; top: 10px; left: 10px; color: white;'>none</div>
+	</div>
+	<div id="sliceY"
+		style="border-top: 2px solid red; background-color: #000; width: 32%; height: 30%; float: left;">
+		<div id='infoY'
+			style='position: relative; top: 10px; left: 10px; color: white;'>none</div>
+	</div>
+	<div id="sliceZ"
+		style="border-top: 2px solid green; background-color: #000; width: 32%; height: 30%; float: left;">
+		<div id='infoZ'
+			style='position: relative; top: 10px; left: 10px; color: white;'>none</div>
+	</div>
+
+</body>
+</html>
+
+

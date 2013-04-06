@@ -46,7 +46,7 @@ window.onload = function() {
   // .. and attach the single-file dicom in .NRRD format
   // this works with gzip/gz/raw encoded NRRD files but XTK also supports other
   // formats like MGH/MGZ
-  volume.file = 'http://x.babymri.org/?avf.nii';
+  volume.file = 'avf.nii';
   // we also attach a label map to show segmentations on a slice-by-slice base
 
   // add the volume in the main renderer
@@ -78,6 +78,8 @@ window.onload = function() {
       threeD.render();
     }
 
+    return;
+    
     // now the real GUI
     var gui = new dat.GUI();
 
@@ -111,29 +113,51 @@ window.onload = function() {
 
 
 
-  sliceX.interactor.onMouseMove = function() {
+  sliceX.interactor.onMouseMove = showIJKX;
+  sliceX.onScroll = showIJKX;  
+  sliceY.interactor.onMouseMove = showIJKY;
+  sliceY.onScroll = showIJKY;  
+  sliceZ.interactor.onMouseMove = showIJKZ;
+  sliceZ.onScroll = showIJKZ;  
+  
+  
+  function showIJKX(e) {showIJK(sliceX, 'X',e); }
+  function showIJKY(e) {showIJK(sliceY, 'Y',e); }
+  function showIJKZ(e) {showIJK(sliceZ, 'Z',e); }
+    
+  function showIJK(r, which,e) {
+    
+    var ijk = r.xy2ijk(r.interactor.mousePosition[0],
+        r.interactor.mousePosition[1]);
+    
+    if (!ijk) {document.getElementById('info'+which).innerHTML = 'NA'; return;}
+    
+    if (e.shiftKey) {
+      
+      // propagate to slices
+      if (r==sliceX) {
+        
+        volume.indexY = ijk[1];
+        volume.indexZ = ijk[2];
+        
+      } else if (r==sliceY) {
+        
+        volume.indexX = ijk[0];
+        volume.indexZ = ijk[2];
+        
+      } else if (r==sliceZ) {
+        
+        volume.indexX = ijk[0];
+        volume.indexY = ijk[1];
+        
+      }
+      
+    }
+    
+      document.getElementById('info'+which).innerHTML = ijk;
 
-    var _ijk = sliceX.xy2ijk(sliceX.interactor.mousePosition[0],sliceX.interactor.mousePosition[0]);
+  }
 
-    console.log(_ijk);
-
-  };
-
-  sliceY.interactor.onMouseMove = function() {
-
-    var _ijk = sliceY.xy2ijk(sliceY.interactor.mousePosition[0],sliceY.interactor.mousePosition[0]);
-
-    console.log(_ijk);
-
-  };
-
-  sliceZ.interactor.onMouseMove = function() {
-
-    var _ijk = sliceZ.xy2ijk(sliceZ.interactor.mousePosition[0],sliceZ.interactor.mousePosition[0]);
-
-    console.log(_ijk);
-
-  };
 
 };
 
