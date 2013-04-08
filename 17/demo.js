@@ -46,7 +46,7 @@ window.onload = function() {
   // .. and attach the single-file dicom in .NRRD format
   // this works with gzip/gz/raw encoded NRRD files but XTK also supports other
   // formats like MGH/MGZ
-  volume.file = 'avf.nii';
+  volume.file = 'vol.nii';
   // we also attach a label map to show segmentations on a slice-by-slice base
 
   // add the volume in the main renderer
