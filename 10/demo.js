@@ -2,6 +2,7 @@ window.onload = function() {
 
   // create and initialize a 3D renderer
   var r = new X.renderer3D();
+  r.bgColor = [.62, .62, 1];
   r.init();
   
   // create a X.volume
@@ -61,11 +62,11 @@ window.onload = function() {
     // the indexX,Y,Z are the currently displayed slice indices in the range
     // 0..dimensions-1
     var sliceXController = volumegui.add(volume, 'indexX', 0,
-        volume.dimensions[0] - 1);
+        volume.range[0] - 1);
     var sliceYController = volumegui.add(volume, 'indexY', 0,
-        volume.dimensions[1] - 1);
+        volume.range[1] - 1);
     var sliceZController = volumegui.add(volume, 'indexZ', 0,
-        volume.dimensions[2] - 1);
+        volume.range[2] - 1);
     volumegui.open();
     
     // now we configure the gui for interacting with the X.mesh
