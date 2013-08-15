@@ -1,5 +1,4 @@
 window.onload = function() {
-
   
   // the DICOM files
   //
@@ -40,6 +39,7 @@ window.onload = function() {
 
   // create a new test_renderer
   var r = new X.renderer3D();
+  r.bgColor = [0.2, 0.25, 0.4];
   r.init();
   
   // we create the X.volume container and attach all DICOM files
@@ -55,10 +55,6 @@ window.onload = function() {
   
   // add the volume
   r.add(v);
-  
-  // setup the camera
-  r.camera.position = [-150, -50, 500];
-  r.camera.up = [0, -1, 0];
   
   // .. and render it
   r.render();
