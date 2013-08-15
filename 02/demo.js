@@ -43,15 +43,10 @@ window.onload = function() {
   
   // move some stuff around to display it all
   // we want the original shapes to be in one row
-  cube.transform.translateY(30);
   cube.transform.translateX(-30);
-  sphere.transform.translateY(30);
   cylinder1.transform.translateX(30);
-  cylinder1.transform.translateY(30);
   cylinder2.transform.translateX(30);
-  cylinder2.transform.translateY(30);
   cylinder3.transform.translateX(30);
-  cylinder3.transform.translateY(30);
   
   // add'em all
   r.add(cube);
@@ -67,7 +62,8 @@ window.onload = function() {
   var funstuff = cube.intersect(sphere).subtract(
       cylinder1.union(cylinder2).union(cylinder3));
   funstuff.caption = "the three from above bool'ed together!";
-  
+  funstuff.transform.translateZ(-30);
+ 
   // add the result (funstuff)
   r.add(funstuff);
   
