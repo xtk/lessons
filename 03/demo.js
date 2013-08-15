@@ -6,17 +6,17 @@ window.onload = function() {
   
   // create a bunch of cubes (1000 to be accurate)
   // display them in a grid of 20 rows and 50 columns
-  for ( var y = 0; y < 20; y++) {
+  for ( var z = 0; z < 20; z++) {
     for ( var x = 0; x < 50; x++) {
       
       // a new cube
       var c = new X.cube();
       // set the center position in world space
-      c.center = [x * 3, y * 3, 0];
+      c.center = [x * 3, 0, z * 3];
       // configure the edge length
       c.lengthX = c.lengthY = c.lengthZ = 2;
       // .. and the color based on the
-      c.color = [150 % x, 150 % y, 1];
+      c.color = [150 % x, 1, 150 % z];
       
       // add it
       r.add(c);
