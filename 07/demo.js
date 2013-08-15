@@ -5,6 +5,8 @@ window.onload = function() {
   // .. attach the renderer to a <div> container using its id
   r1.container = 'r1';
   r1.init();
+  r1.camera.position = [0, 0, -100];
+  r1.camera.up = [0, 1, 0];
   
   var r2 = new X.renderer3D();
   // .. attach the renderer to a <div> container using its id
@@ -12,6 +14,7 @@ window.onload = function() {
   r2.init();
   // .. change the view of this renderer
   r2.camera.position = [100, 0, 0];
+  r2.camera.up = [0, 1, 0];
   
   var r3 = new X.renderer3D();
   r3.container = 'r3';
