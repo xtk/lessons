@@ -1,9 +1,9 @@
 window.onload = function() {
 
   // create and initialize a 3D renderer
-  var r = new X.renderer3D();
-  r.bgColor = [.62, .62, 1];
-  r.init();
+  re = new X.renderer3D();
+  re.bgColor = [.62, .62, 1];
+  re.init();
   
   // create a X.volume
   var volume = new X.volume();
@@ -17,17 +17,18 @@ window.onload = function() {
   // .. and is loaded from a .VTK file
   mesh.file = 'http://x.babymri.org/?avf.vtk';
   // we set the color to a lighter red
-  mesh.color = [0.7, 0, 0];
+  mesh.color = [0.7, 0.25, 0.25];
+  mesh.opacity = 0.7;
   // and also set the visibility to false, since we add a 'load-on-demand'
   // option for it
   mesh.visible = false;
   
   // only add the volume for now, the mesh gets loaded on request
-  r.add(volume);
+  re.add(volume);
   
   // the onShowtime method gets executed after all files were fully loaded and
   // just before the first rendering attempt
-  r.onShowtime = function() {
+  re.onShowtime = function() {
 
     //
     // The GUI panel
@@ -85,12 +86,11 @@ window.onload = function() {
         
         // this only gets executed the first time to load the mesh, after we
         // just toggle the visibility
-        r.add(mesh);
+        re.add(mesh);
         
         // we set the onShowtime function to a void since we don't want to
         // create the GUI again here
-        r.onShowtime = function() {
-
+        re.onShowtime = function() {
         };
         
         // set the loaded flag
@@ -104,10 +104,10 @@ window.onload = function() {
   };
   
   // adjust the camera position a little bit, just for visualization purposes
-  r.camera.position = [120, 80, 160];
+//  re.camera.position = [120, 80, 160];
   
   // showtime! this triggers the loading of the volume and executes
   // r.onShowtime() once done
-  r.render();
+  re.render();
   
 };
