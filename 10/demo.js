@@ -1,9 +1,9 @@
 window.onload = function() {
 
   // create and initialize a 3D renderer
-  re = new X.renderer3D();
-  re.bgColor = [.62, .62, 1];
-  re.init();
+  var r = new X.renderer3D();
+  r.bgColor = [.62, .62, 1];
+  r.init();
   
   // create a X.volume
   var volume = new X.volume();
@@ -24,11 +24,11 @@ window.onload = function() {
   mesh.visible = false;
   
   // only add the volume for now, the mesh gets loaded on request
-  re.add(volume);
+  r.add(volume);
   
   // the onShowtime method gets executed after all files were fully loaded and
   // just before the first rendering attempt
-  re.onShowtime = function() {
+  r.onShowtime = function() {
 
     //
     // The GUI panel
@@ -86,11 +86,11 @@ window.onload = function() {
         
         // this only gets executed the first time to load the mesh, after we
         // just toggle the visibility
-        re.add(mesh);
+        r.add(mesh);
         
         // we set the onShowtime function to a void since we don't want to
         // create the GUI again here
-        re.onShowtime = function() {
+        r.onShowtime = function() {
         };
         
         // set the loaded flag
@@ -104,10 +104,10 @@ window.onload = function() {
   };
   
   // adjust the camera position a little bit, just for visualization purposes
-//  re.camera.position = [120, 80, 160];
+  r.camera.position = [120, 80, 160];
   
   // showtime! this triggers the loading of the volume and executes
   // r.onShowtime() once done
-  re.render();
+  r.render();
   
 };
