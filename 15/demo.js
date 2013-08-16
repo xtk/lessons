@@ -41,6 +41,7 @@ window.onload = function() {
   var r = new X.renderer3D();
   r.bgColor = [0.2, 0.25, 0.4];
   r.init();
+  r.camera.position = [0, 300, 0];
   
   // we create the X.volume container and attach all DICOM files
   var v = new X.volume();
