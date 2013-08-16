@@ -37,33 +37,7 @@ window.onload = function() {
   // attempt
   r.onShowtime = function() {
 
-    // the following matrices were created by Dan Ginsburg
-    // see http://surfer.nmr.mgh.harvard.edu/fswiki/FreeSurferTrackVisTransforms
-    
-    // transform the tracks
-    var tracks_transform = new Float32Array([ -2, 0, 0, 0, 0, 0, -2, 0, 0, 2,
-        0, 0, 110, -71, 110, 1 ]);
-    
-    // we need to swap the rows to convert from left-handed to right-handed here
-    X.matrix.swapRows(tracks_transform, 1, 2);
-    
-    // apply the transformation to the fibers
-    f.transform.matrix = tracks_transform;
-    
-    // transform the surfaces
-    var brain_transform = new Float32Array([9.992089867591858e-01,-2.943054959177971e-02,-2.671264298260212e-02,0,
-                                            2.652833424508572e-02,-6.642243359237909e-03,9.996254444122314e-01,0,
-                                            2.959738858044147e-02,9.995449185371399e-01,5.856084171682596e-03,0,
-                                            -1.404523849487305e+00,-9.628264427185059e+00,-2.631434440612793e+00,1]); 
-
-    // we need to swap the rows to convert from left-handed to right-handed here
-    X.matrix.swapRows(brain_transform, 1, 2);
-    
-    // apply the transformation to the right and left hemispheres
-    rh.transform.matrix = brain_transform;
-    lh.transform.matrix = brain_transform;
-    
-    // we reset the bounding box and set the world center to 0,0,0
+    // we reset the bounding box so track and mesh are in the same space
     r.resetBoundingBox();
     
   };
