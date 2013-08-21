@@ -1,163 +1,91 @@
-goog.require('X.renderer3D');
-goog.require('X.renderer2D');
-goog.require('X.volume');
 window.onload = function() {
 
-  //
-  // try to create the 3D renderer
-  //
-  _webGLFriendly = true;
-  try {
-    // try to create and initialize a 3D renderer
-    threeD = new X.renderer3D();
-    threeD.container = '3d';
-    threeD.init();
-  } catch (Exception) {
-
-    // no webgl on this machine
-    _webGLFriendly = false;
-
-  }
-
-  //
-  // create the 2D renderers
-  // .. for the X orientation
-  sliceX = new X.renderer2D();
-  sliceX.container = 'sliceX';
-  sliceX.orientation = 'X';
-  sliceX.init();
-  // .. for Y
-  var sliceY = new X.renderer2D();
-  sliceY.container = 'sliceY';
-  sliceY.orientation = 'Y';
-  sliceY.init();
-  // .. and for Z
-  var sliceZ = new X.renderer2D();
-  sliceZ.container = 'sliceZ';
-  sliceZ.orientation = 'Z';
-  sliceZ.init();
-
-
-  //
-  // THE VOLUME DATA
-  //
+  // create and initialize a 3D renderer
+  var r = new X.renderer3D();
+  r.bgColor = [.1, .1, .1];
+  r.init();
+  
   // create a X.volume
-  volume = new X.volume();
-  // .. and attach the single-file dicom in .NRRD format
-  // this works with gzip/gz/raw encoded NRRD files but XTK also supports other
-  // formats like MGH/MGZ
-  volume.file = 'vol.nii';
-  // we also attach a label map to show segmentations on a slice-by-slice base
+  var volume = new X.volume();
+  // .. and attach a volume
+  volume.file = 'http://x.babymri.org/?lesson_17.nii';
 
-  // add the volume in the main renderer
-  // we choose the sliceX here, since this should work also on
-  // non-webGL-friendly devices like Safari on iOS
-  sliceX.add(volume);
-
-  // start the loading/rendering
-  sliceX.render();
-
-
-  //
-  // THE GUI
-  //
+  // only add the volume for now, the mesh gets loaded on request
+  r.add(volume);
+  
   // the onShowtime method gets executed after all files were fully loaded and
   // just before the first rendering attempt
-  sliceX.onShowtime = function() {
+  r.onShowtime = function() {
 
-    //
-    // add the volume to the other 3 renderers
-    //
-    sliceY.add(volume);
-    sliceY.render();
-    sliceZ.add(volume);
-    sliceZ.render();
-
-    if (_webGLFriendly) {
-      threeD.add(volume);
-      threeD.render();
-    }
-
-    return;
+     // Hide Y and Z slices
+    volume.children[1]['visible'] = false;
+    volume.children[2]['visible'] = false;
     
-    // now the real GUI
+    // set X slice color
+    volume.xColor = [.1, .1, 1];
+    // set callback to change X slice normal
+    setInterval(function(){var time = new Date().getTime() * 0.002; volume.xNormX = Math.cos(time);volume.xNormY = Math.cos(time/2);volume.xNormZ = Math.cos(time/3);volume.sliceInfoChanged(0);},50);
+
+    // CREATE Bounding Box
+    var res = [volume.bbox[0],volume.bbox[2],volume.bbox[4]];
+    var res2 = [volume.bbox[1],volume.bbox[3],volume.bbox[5]];
+
+    box = new X.object();
+
+    box.points = new X.triplets(72);
+    box.normals = new X.triplets(72);
+    box.type = 'LINES';
+    box.points.add(res2[0], res[1], res2[2]);
+    box.points.add(res[0], res[1], res2[2]);
+    box.points.add(res2[0], res2[1], res2[2]);
+    box.points.add(res[0], res2[1], res2[2]);
+    box.points.add(res2[0], res[1], res[2]);
+    box.points.add(res[0], res[1], res[2]);
+    box.points.add(res2[0], res2[1], res[2]);
+    box.points.add(res[0], res2[1], res[2]);
+    box.points.add(res2[0], res[1], res2[2]);
+    box.points.add(res2[0], res[1], res[2]);
+    box.points.add(res[0], res[1], res2[2]);
+    box.points.add(res[0], res[1], res[2]);
+    box.points.add(res2[0], res2[1], res2[2]);
+    box.points.add(res2[0], res2[1], res[2]);
+    box.points.add(res[0], res2[1], res2[2]);
+    box.points.add(res[0], res2[1], res[2]);
+    box.points.add(res2[0], res2[1], res2[2]);
+    box.points.add(res2[0], res[1], res2[2]);
+    box.points.add(res[0], res2[1], res2[2]);
+    box.points.add(res[0], res[1], res2[2]);
+    box.points.add(res[0], res2[1], res[2]);
+    box.points.add(res[0], res[1], res[2]);
+    box.points.add(res2[0], res2[1], res[2]);
+    box.points.add(res2[0], res[1], res[2]);
+    for ( var i = 0; i < 24; ++i) {
+      box.normals.add(0, 0, 0);
+    }
+    r.add(box);
+
+
+    //
+    // The GUI panel
+    //
+    // (we need to create this during onShowtime(..) since we do not know the
+    // volume dimensions before the loading was completed)
+    
     var gui = new dat.GUI();
-
+    
     // the following configures the gui for interacting with the X.volume
-    var volumegui = gui.addFolder('Volume');
-    // now we can configure controllers which..
-    // .. switch between slicing and volume rendering
-    var vrController = volumegui.add(volume, 'volumeRendering');
-    // .. configure the volume rendering opacity
-    var opacityController = volumegui.add(volume, 'opacity', 0, 1);
-    // .. and the threshold in the min..max range
-    var lowerThresholdController = volumegui.add(volume, 'lowerThreshold',
-        volume.min, volume.max);
-    var upperThresholdController = volumegui.add(volume, 'upperThreshold',
-        volume.min, volume.max);
-    var lowerWindowController = volumegui.add(volume, 'windowLow', volume.min,
-        volume.max);
-    var upperWindowController = volumegui.add(volume, 'windowHigh', volume.min,
-        volume.max);
-    // the indexX,Y,Z are the currently displayed slice indices in the range
-    // 0..dimensions-1
-    var sliceXController = volumegui.add(volume, 'indexX', 0,
-        volume.dimensions[0] - 1);
-    var sliceYController = volumegui.add(volume, 'indexY', 0,
-        volume.dimensions[1] - 1);
-    var sliceZController = volumegui.add(volume, 'indexZ', 0,
-        volume.dimensions[2] - 1);
-    volumegui.open();
-
+    var slicegui = gui.addFolder('Slice X Information');
+    var sliceXNXController = slicegui.add(volume, 'xNormX', -1,1).listen();
+    var sliceXNYController = slicegui.add(volume, 'xNormY', -1,1).listen();
+    var sliceXNZController = slicegui.add(volume, 'xNormZ', -1,1).listen();
+    var sliceXNCController = slicegui.addColor(volume, 'xColor').listen();
+    slicegui.open();
+  
   };
-
-
-
-  sliceX.interactor.onMouseMove = showIJKX;
-  sliceX.onScroll = showIJKX;  
-  sliceY.interactor.onMouseMove = showIJKY;
-  sliceY.onScroll = showIJKY;  
-  sliceZ.interactor.onMouseMove = showIJKZ;
-  sliceZ.onScroll = showIJKZ;  
   
+  // adjust the camera position a little bit, just for visualization purposes
+  r.camera.position = [270, 250, 330];
   
-  function showIJKX(e) {showIJK(sliceX, 'X',e); }
-  function showIJKY(e) {showIJK(sliceY, 'Y',e); }
-  function showIJKZ(e) {showIJK(sliceZ, 'Z',e); }
-    
-  function showIJK(r, which,e) {
-    
-    var ijk = r.xy2ijk(r.interactor.mousePosition[0],
-        r.interactor.mousePosition[1]);
-    
-    if (!ijk) {document.getElementById('info'+which).innerHTML = 'NA'; return;}
-    
-    if (e.shiftKey) {
-      
-      // propagate to slices
-      if (r==sliceX) {
-        
-        volume.indexY = ijk[1];
-        volume.indexZ = ijk[2];
-        
-      } else if (r==sliceY) {
-        
-        volume.indexX = ijk[0];
-        volume.indexZ = ijk[2];
-        
-      } else if (r==sliceZ) {
-        
-        volume.indexX = ijk[0];
-        volume.indexY = ijk[1];
-        
-      }
-      
-    }
-    
-      document.getElementById('info'+which).innerHTML = ijk;
-
-  }
-
+  r.render();
 
 };
-

@@ -5,3 +5,57 @@ html, body {
   height: 100%;
   overflow: hidden !important;  
 }
+
+@keyframes onair {
+  0% {text-shadow:0 0 10px #fff, 0 0 20px #00d2ff;}
+  50% {text-shadow:none;}
+  100% {text-shadow:0 0 10px #fff, 0 0 20px #00d2ff;}
+}
+
+@-webkit-keyframes onair {
+  0% {text-shadow:0 0 10px #fff, 0 0 20px #00d2ff;}
+  50% {text-shadow:none;}
+  100% {text-shadow:0 0 10px #fff, 0 0 20px #00d2ff;}
+}
+
+.onair{
+font-family:"Arial";
+color:#fff;
+/*
+http://cssdemos.tupence.co.uk/text-shadow.htm
+*/
+/*Use shadows to slowly build up the glow. The first shadow should be the colour of the text. Subsequent shadows are the colour you want the glow to be, all with no x or y offset and with increasing amounts of blur (the number of shadows you use depends on how big you want the glow to be).*/
+-webkit-animation: onair 2.0s linear infinite;
+-moz-animation: onair 2.0s linear infinite;
+-ms-animation: onair 2.0s linear infinite;
+-o-animation: onair 2.0s linear infinite;
+animation: onair 2.0s linear infinite;
+}
+
+/*@keyframes circle {
+  0% {box-shadow:0 0 10px #f00, 0 0 20px #fff;}
+  50% {box-shadow:none;}
+  100% {box-shadow:0 0 10px #f00, 0 0 20px #fff;}
+}
+
+@-webkit-keyframes circle {
+  0% {box-shadow:0 0 10px #f00, 0 0 20px #fff;}
+  50% {box-shadow:none;}
+  100% {box-shadow:0 0 10px #f00, 0 0 20px #fff;}
+}
+*/
+.circle {
+margin-bottom:-8px;
+display: inline-block;
+white-space: nowrap;
+background: #F00;
+border-radius: 50%;
+height: 34px;
+width: 34px;
+
+/*-webkit-animation: circle 2.0s linear infinite;
+-moz-animation: circle 2.0s linear infinite;
+-ms-animation: circle 2.0s linear infinite;
+-o-animation: circle 2.0s linear infinite;
+animation: circle 2.0s linear infinite;*/
+}
