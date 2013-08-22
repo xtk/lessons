@@ -8,7 +8,7 @@ window.onload = function() {
   // create a X.volume
   var volume = new X.volume();
   // .. and attach a volume
-  volume.file = 'http://x.babymri.org/?lesson_17.nii';
+  volume.file = 'http://x.babymri.org/?lesson17.nii.gz';
 
   // only add the volume for now, the mesh gets loaded on request
   r.add(volume);
