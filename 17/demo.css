@@ -19,8 +19,6 @@ html, body {
 }
 
 .onair{
-font-family:"Arial";
-color:#fff;
 /*
 http://cssdemos.tupence.co.uk/text-shadow.htm
 */
@@ -59,3 +57,36 @@ width: 34px;
 -o-animation: circle 2.0s linear infinite;
 animation: circle 2.0s linear infinite;*/
 }
+
+body {
+font-family:"Arial";
+color:#fff;
+}
+
+details {
+margin-bottom: -1px;
+padding: 1px;
+color: grey;
+border:1px solid;
+border-radius:2px;
+}
+summary {
+border-bottom:1px solid;
+margin-bottom:-2px;
+}
+.content {
+ color: white;
+ padding-top: 3px;
+ padding-left: 3px;
+}
+/*
+details:focus {*/
+/*-webkit-details-marker { display:none; }﻿
+  */  /*outline: -webkit-focus-ring-color auto 5px;*/
+/*    outline: none;*/
+/*}*/
+:focus {
+   outline: none;
+}
+/*details summary::-webkit-details-marker { display:none; }
+*/
