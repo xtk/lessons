@@ -24,7 +24,7 @@ window.onload = function() {
     // set X slice color
     volume.xColor = [.1, .1, 1];
     // set callback to change X slice normal
-    setInterval(function(){var time = new Date().getTime() * 0.002; volume.xNormX = Math.cos(time);volume.xNormY = Math.cos(time/2);volume.xNormZ = Math.cos(time/3);volume.xColor = [Math.abs(volume.xNormX), Math.abs(volume.xNormY), Math.abs(volume.xNormZ)];volume.sliceInfoChanged(0);},50);
+    setInterval(function(){var time = new Date().getTime() * 0.002; volume.xNormX = Math.cos(time);volume.xNormY = Math.cos(time/2);volume.xNormZ = Math.cos(time/3);volume.xColor = [Math.abs(volume.xNormX), Math.abs(volume.xNormY), Math.abs(volume.xNormZ)];volume.sliceInfoChanged(0);},100);
 
     // CREATE Bounding Box
     var res = [volume.bbox[0],volume.bbox[2],volume.bbox[4]];
