@@ -1,10 +1,3 @@
-goog.require('X.slice');
-goog.require('X.renderer3D');
-goog.require('X.fibers');
-goog.require('X.mesh');
-goog.require('X.renderer2D');
-goog.require('goog.vec.Mat4');
-
 window.onload = function() {
 
   // create and initialize a 3D renderer
