@@ -90,3 +90,34 @@ details:focus {*/
 }
 /*details summary::-webkit-details-marker { display:none; }
 */
+
+@keyframes loading {
+  0% {opacity: 0;}
+  50% {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+@-webkit-keyframes loading {
+  0% {opacity: 0;}
+  50% {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+.loading {
+        opacity: 0;
+        width: 190px;
+        height: 200px;
+        position: absolute;
+        top:0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+
+-webkit-animation: loading 3.0s linear;
+-moz-animation: loading 3.0s linear;
+-ms-animation: loading 3.0s linear;
+-o-animation: loading 3.0s linear;
+animation: loading 3.0s linear;
+}
+
