@@ -23,6 +23,7 @@ window.onload = function() {
     
     // set X slice color
     volume.xColor = [.1, .1, 1];
+
     // set callback to change X slice normal
     var intervalID = setInterval(function(){var time = new Date().getTime() * 0.002; volume.xNormX = Math.cos(time);volume.xNormY = Math.cos(time/2);volume.xNormZ = Math.cos(time/3);volume.xColor = [Math.abs(volume.xNormX), Math.abs(volume.xNormY), Math.abs(volume.xNormZ)];volume.sliceInfoChanged(0);},100);
 
@@ -76,14 +77,21 @@ window.onload = function() {
     var gui = new dat.GUI();
     
     // the following configures the gui for interacting with the X.volume
-    var slicegui = gui.addFolder('Slice X Information');
+    slicegui = gui.addFolder('Slice X Information');
+
+    // set xNorms to 1.0 to avoid sliceGUI bug
+    volume.xNormX = 1.0;
+    volume.xNormY = 1.0;
+    volume.xNormZ = 1.0;
+
+    // create the UI controller
     var sliceIController = slicegui.add(this, 'demoMode');
     var sliceXNXController = slicegui.add(volume, 'xNormX', -1,1).listen();
     var sliceXNYController = slicegui.add(volume, 'xNormY', -1,1).listen();
     var sliceXNZController = slicegui.add(volume, 'xNormZ', -1,1).listen();
     var sliceXNCController = slicegui.addColor(volume, 'xColor').listen();
     slicegui.open();
-  
+ 
     // slice callbacks
     sliceXNXController.onChange(function(value){
       volume.sliceInfoChanged(0);
