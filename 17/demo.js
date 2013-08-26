@@ -24,7 +24,7 @@ window.onload = function() {
     // set X slice color
     volume.xColor = [.1, .1, 1];
     // set callback to change X slice normal
-    setInterval(function(){var time = new Date().getTime() * 0.002; volume.xNormX = Math.cos(time);volume.xNormY = Math.cos(time/2);volume.xNormZ = Math.cos(time/3);volume.xColor = [Math.abs(volume.xNormX), Math.abs(volume.xNormY), Math.abs(volume.xNormZ)];volume.sliceInfoChanged(0);},100);
+    var intervalID = setInterval(function(){var time = new Date().getTime() * 0.002; volume.xNormX = Math.cos(time);volume.xNormY = Math.cos(time/2);volume.xNormZ = Math.cos(time/3);volume.xColor = [Math.abs(volume.xNormX), Math.abs(volume.xNormY), Math.abs(volume.xNormZ)];volume.sliceInfoChanged(0);},100);
 
     // CREATE Bounding Box
     var res = [volume.bbox[0],volume.bbox[2],volume.bbox[4]];
@@ -71,16 +71,50 @@ window.onload = function() {
     // (we need to create this during onShowtime(..) since we do not know the
     // volume dimensions before the loading was completed)
     
+    this.demoMode = true;
+
     var gui = new dat.GUI();
     
     // the following configures the gui for interacting with the X.volume
     var slicegui = gui.addFolder('Slice X Information');
+    var sliceIController = slicegui.add(this, 'demoMode');
     var sliceXNXController = slicegui.add(volume, 'xNormX', -1,1).listen();
     var sliceXNYController = slicegui.add(volume, 'xNormY', -1,1).listen();
     var sliceXNZController = slicegui.add(volume, 'xNormZ', -1,1).listen();
     var sliceXNCController = slicegui.addColor(volume, 'xColor').listen();
     slicegui.open();
   
+    // slice callbacks
+    sliceXNXController.onChange(function(value){
+      volume.sliceInfoChanged(0);
+    });
+
+    sliceXNYController.onChange(function(value){
+      volume.sliceInfoChanged(0);
+    });
+
+    sliceXNZController.onChange(function(value){
+      volume.sliceInfoChanged(0);
+    });
+
+    sliceXNCController.onChange(function(value){
+      volume.sliceInfoChanged(0);
+    });
+
+    sliceIController.onChange(function(value) {
+
+      if (!this.demoMode) {
+        // set callback to change X slice normal
+        clearInterval(intervalID);
+
+        // set the loaded flag
+        this.demoMode = true;
+      }
+      else{
+        intervalID = setInterval(function(){var time = new Date().getTime() * 0.002; volume.xNormX = Math.cos(time);volume.xNormY = Math.cos(time/2);volume.xNormZ = Math.cos(time/3);volume.xColor = [Math.abs(volume.xNormX), Math.abs(volume.xNormY), Math.abs(volume.xNormZ)];volume.sliceInfoChanged(0);},100); 
+        this.demoMode = false;
+      }
+    });
   };
   
   // adjust the camera position a little bit, just for visualization purposes
