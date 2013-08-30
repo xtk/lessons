@@ -13,9 +13,13 @@ window.onload = function() {
   // only add the volume for now, the mesh gets loaded on request
   r.add(volume);
   
+
   // the onShowtime method gets executed after all files were fully loaded and
   // just before the first rendering attempt
   r.onShowtime = function() {
+
+     var loadingDiv = document.getElementById('loading');
+     loadingDiv.style.display = 'none';
 
      // Hide Y and Z slices
     volume.children[1]['visible'] = false;
