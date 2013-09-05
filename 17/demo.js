@@ -26,6 +26,7 @@ window.onload = function() {
     volume.children[2]['visible'] = false;
     
     // Global vars
+    r.sceneOrientation = 0;
     r.coloring = true;
     r.color = [1, 1, 1];
     volume.xColor = r.color;
@@ -45,6 +46,65 @@ window.onload = function() {
           volume.children[2]['visible'] = false;
         });
       };
+    };
+
+    r.removeSceneFolder = function(){
+      if(typeof scenegui != 'undefined'){
+        if (typeof sceneOrientationController != 'undefined' && sceneOrientationController!=null){
+          scenegui.remove(sceneOrientationController);
+          sceneOrientationController = null;
+        }
+      };
+    };
+
+    r.addSceneFolder = function(){
+      if(typeof scenegui != 'undefined'){
+        sceneOrientationController = scenegui.add(r, 'sceneOrientation', { 'Manual':0, 'Sagittal':1, 'Coronal':2, 'Axial':3 } ).name('View');
+        scenegui.open();
+      };
+
+      // Callbacks
+      sceneOrientationController.onChange(function(value){
+        if(value == 1){
+          // move camera
+          r.camera.position = [400, 0, 0];
+
+          // update normals
+          volume.xNormX = 1; 
+          volume.xNormY = 0; 
+          volume.xNormZ = 0; 
+
+        }
+        else if(value == 2){
+          // move camera
+          r.camera.position = [0, 400, 0];
+
+          // update normals
+          volume.xNormX = 0; 
+          volume.xNormY = 1; 
+          volume.xNormZ = 0; 
+        }
+        else if(value == 3){
+          // move camera
+          r.camera.position = [0, 0, 400];
+
+          // update normals
+          volume.xNormX = 0; 
+          volume.xNormY = 0; 
+          volume.xNormZ = 1; 
+        }
+
+        // update color
+        r.color = [Math.abs(volume.xNormX), Math.abs(volume.xNormY), Math.abs(volume.xNormZ)];
+        if(r.coloring){
+          volume.xColor = r.color;
+          volume.maxColor = volume.xColor;
+        }
+
+        // update slice and gui
+        volume.sliceInfoChanged(0);
+        r.rebuildNavWidget();
+      });
     };
 
     // set callback to change X slice normal
@@ -120,7 +180,7 @@ window.onload = function() {
     volume.xNormZ = 1.0;
 
 
-    var gui = new dat.GUI();
+    gui = new dat.GUI();
     // create the UI controller
     modegui = gui.addFolder('General');
     var sliceMode = modegui.add(this, 'mode', { 'Demo':0, 'Navigation':1, 'Manual':2 } ).name('Interaction Mode');
@@ -128,15 +188,17 @@ window.onload = function() {
     var coloringMode = modegui.add(this, 'coloring').name('Slice Coloring');
     modegui.open();
 
-    slicegui = gui.addFolder('Slice Information');
+    slicegui = gui.addFolder('Slice Orientation');
     var sliceXNXController = slicegui.add(volume, 'xNormX', -1,1).name('Normal X Dir.').listen();
     var sliceXNYController = slicegui.add(volume, 'xNormY', -1,1).name('Normal Y Dir.').listen();
     var sliceXNZController = slicegui.add(volume, 'xNormZ', -1,1).name('Normal Z Dir.').listen();
     var sliceXNCController = slicegui.addColor(r, 'color').name('Color').listen();
     slicegui.open();
 
-    navgui = gui.addFolder('Slice Navigation');
+    navgui = gui.addFolder('Slice Selection');
     r.rebuildNavWidget();
+
+    scenegui = gui.addFolder('Scene Orientation');
 
     // callbacks
     sliceMode.onChange(function(value) {
@@ -146,6 +208,14 @@ window.onload = function() {
         if (typeof updateViewNavigation != 'undefined'){
           r.interactor.removeEventListener(  X.event.events.ROTATE, updateViewNavigation);
         }
+
+        // cleanup manual
+        if (typeof updateScene != 'undefined'){
+          r.interactor.removeEventListener(  X.event.events.ROTATE, updateScene);
+        }
+
+        // cleanup both
+        r.removeSceneFolder();
 
         // setup demo
         var _this = this;
@@ -166,6 +236,12 @@ window.onload = function() {
         // cleanup demo
         clearInterval(demoIntervalID);
 
+        // cleanup manual
+        if (typeof updateScene != 'undefined'){
+          r.interactor.removeEventListener(  X.event.events.ROTATE, updateScene);
+        }
+        r.removeSceneFolder();
+
         // setup navigation
         updateViewNavigation = function(){
           var _x = r.camera.view[2];
@@ -183,14 +259,18 @@ window.onload = function() {
             volume.maxColor = volume.xColor;
           }
           volume.sliceInfoChanged(0);
-
-          //rebuild Slice navigation
           r.rebuildNavWidget();
+          //rebuild Slice navigation
+          if(r.sceneOrientation != 0){
+          r.sceneOrientation = 0;
+                  r.removeSceneFolder();
+                          r.addSceneFolder();
+                        }
         }
 
 
         r.interactor.addEventListener(  X.event.events.ROTATE, updateViewNavigation);
-
+        r.addSceneFolder();
         updateViewNavigation();
       }
       else if (value == 2){
@@ -201,6 +281,20 @@ window.onload = function() {
         if (typeof updateViewNavigation != 'undefined'){
           r.interactor.removeEventListener(  X.event.events.ROTATE, updateViewNavigation);
         }
+        r.removeSceneFolder();
+
+        updateScene = function(){
+          //rebuild Slice navigation
+          if(r.sceneOrientation != 0){
+            r.sceneOrientation = 0;
+            r.removeSceneFolder();
+            r.addSceneFolder();
+          }
+        }
+
+        // setup manual
+        r.addSceneFolder();
+        r.interactor.addEventListener(  X.event.events.ROTATE, updateScene);
       }
     });
 
@@ -252,8 +346,9 @@ window.onload = function() {
     });
 
     sliceXNCController.onChange(function(value){
-      if(this.coloring){
-        volume.xColor = this.color;
+      if(r.coloring){
+        volume.xColor = r.color;
+        volume.maxColor = volume.xColor;
         volume.sliceInfoChanged(0);
       }
     });
