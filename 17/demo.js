@@ -59,7 +59,7 @@ window.onload = function() {
 
     r.addSceneFolder = function(){
       if(typeof scenegui != 'undefined'){
-        sceneOrientationController = scenegui.add(r, 'sceneOrientation', { 'Manual':0, 'Sagittal':1, 'Coronal':2, 'Axial':3 } ).name('View');
+        sceneOrientationController = scenegui.add(r, 'sceneOrientation', { 'Free':0, 'Sagittal':1, 'Coronal':2, 'Axial':3 } ).name('View');
         scenegui.open();
       };
 
@@ -67,7 +67,8 @@ window.onload = function() {
       sceneOrientationController.onChange(function(value){
         if(value == 1){
           // move camera
-          r.camera.position = [400, 0, 0];
+          r.camera.position = [-400, 0, 0];
+          r.camera.up = [0, 0, 1];
 
           // update normals
           volume.xNormX = 1; 
@@ -78,6 +79,7 @@ window.onload = function() {
         else if(value == 2){
           // move camera
           r.camera.position = [0, 400, 0];
+          r.camera.up = [0, 0, 1];
 
           // update normals
           volume.xNormX = 0; 
@@ -86,7 +88,8 @@ window.onload = function() {
         }
         else if(value == 3){
           // move camera
-          r.camera.position = [0, 0, 400];
+          r.camera.position = [0, 0, -400];
+          r.camera.up = [0, 1, 0];
 
           // update normals
           volume.xNormX = 0; 
@@ -95,7 +98,7 @@ window.onload = function() {
         }
 
         // update color
-        r.color = [Math.abs(volume.xNormX), Math.abs(volume.xNormY), Math.abs(volume.xNormZ)];
+        r.color = [Math.abs(volume.xNormZ), Math.abs(volume.xNormY), Math.abs(volume.xNormX)];
         if(r.coloring){
           volume.xColor = r.color;
           volume.maxColor = volume.xColor;
@@ -113,7 +116,7 @@ window.onload = function() {
       volume.xNormX = Math.cos(time);
       volume.xNormY = Math.cos(time/2);
       volume.xNormZ = Math.cos(time/3);
-      r.color = [Math.abs(volume.xNormX), Math.abs(volume.xNormY), Math.abs(volume.xNormZ)];
+      r.color = [Math.abs(volume.xNormZ), Math.abs(volume.xNormY), Math.abs(volume.xNormX)];
       if(r.coloring){
         volume.xColor = r.color;
         volume.maxColor = volume.xColor;
@@ -183,7 +186,7 @@ window.onload = function() {
     gui = new dat.GUI();
     // create the UI controller
     modegui = gui.addFolder('General');
-    var sliceMode = modegui.add(this, 'mode', { 'Demo':0, 'Navigation':1, 'Manual':2 } ).name('Interaction Mode');
+    var sliceMode = modegui.add(this, 'mode', { 'Demo':0, 'Rotate Cam':1, 'Rotate Box':2 } ).name('Interaction Mode');
     var bboxMode = modegui.add(this, 'bbox').name('Show BBox');
     var coloringMode = modegui.add(this, 'coloring').name('Slice Coloring');
     modegui.open();
@@ -224,7 +227,7 @@ window.onload = function() {
           volume.xNormX = Math.cos(time);
           volume.xNormY = Math.cos(time/2);
           volume.xNormZ = Math.cos(time/3);
-          r.color = [Math.abs(volume.xNormX), Math.abs(volume.xNormY), Math.abs(volume.xNormZ)];
+          r.color = [Math.abs(volume.xNormZ), Math.abs(volume.xNormY), Math.abs(volume.xNormX)];
           if(r.coloring){
             volume.xColor = r.color;
             volume.maxColor = volume.xColor;
@@ -253,7 +256,7 @@ window.onload = function() {
           volume.xNormX = _x/length;
           volume.xNormY = _y/length;
           volume.xNormZ = _z/length;
-          r.color = [Math.abs(volume.xNormX), Math.abs(volume.xNormY), Math.abs(volume.xNormZ)];
+          r.color = [Math.abs(volume.xNormZ), Math.abs(volume.xNormY), Math.abs(volume.xNormX)];
           if(r.coloring){
             volume.xColor = r.color;
             volume.maxColor = volume.xColor;
@@ -262,10 +265,10 @@ window.onload = function() {
           r.rebuildNavWidget();
           //rebuild Slice navigation
           if(r.sceneOrientation != 0){
-          r.sceneOrientation = 0;
-                  r.removeSceneFolder();
-                          r.addSceneFolder();
-                        }
+            r.sceneOrientation = 0;
+            r.removeSceneFolder();
+            r.addSceneFolder();
+          }
         }
 
 
@@ -316,7 +319,7 @@ window.onload = function() {
 
     // slice callbacks
     sliceXNXController.onChange(function(value){
-      r.color = [Math.abs(volume.xNormX), Math.abs(volume.xNormY), Math.abs(volume.xNormZ)];
+      r.color = [Math.abs(volume.xNormZ), Math.abs(volume.xNormY), Math.abs(volume.xNormX)];
       if(r.coloring){
         volume.xColor = r.color;
         volume.maxColor = volume.xColor;
@@ -326,7 +329,7 @@ window.onload = function() {
     });
 
     sliceXNYController.onChange(function(value){
-      r.color = [Math.abs(volume.xNormX), Math.abs(volume.xNormY), Math.abs(volume.xNormZ)];
+      r.color = [Math.abs(volume.xNormZ), Math.abs(volume.xNormY), Math.abs(volume.xNormX)];
       if(r.coloring){
         volume.xColor = r.color;
         volume.maxColor = volume.xColor;
@@ -336,7 +339,7 @@ window.onload = function() {
     });
 
     sliceXNZController.onChange(function(value){
-      r.color = [Math.abs(volume.xNormX), Math.abs(volume.xNormY), Math.abs(volume.xNormZ)];
+      r.color = [Math.abs(volume.xNormZ), Math.abs(volume.xNormY), Math.abs(volume.xNormX)];
       if(r.coloring){
         volume.xColor = r.color;
         volume.maxColor = volume.xColor;
