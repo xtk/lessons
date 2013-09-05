@@ -26,10 +26,26 @@ window.onload = function() {
     volume.children[2]['visible'] = false;
     
     // Global vars
-    this.coloring = true;
-    this.color = [.1, .1, 1];
-    volume.xColor = this.color;
+    r.coloring = true;
+    r.color = [1, 1, 1];
+    volume.xColor = r.color;
 
+    r.rebuildNavWidget = function(){
+      if(typeof navgui != 'undefined'){
+        if (typeof sliceXController != 'undefined'){
+          navgui.remove(sliceXController);
+        }
+        sliceXController = navgui.add(volume, 'indexX', 0,volume.range[0] - 1).name('Slice Index').listen();
+        navgui.open();
+
+        // Callbacks
+        sliceXController.onChange(function(value){
+          // Hide Y and Z slices
+          volume.children[1]['visible'] = false;
+          volume.children[2]['visible'] = false;
+        });
+      };
+    };
 
     // set callback to change X slice normal
     var demoIntervalID = setInterval(function(){
@@ -42,13 +58,15 @@ window.onload = function() {
         volume.xColor = r.color;
         volume.maxColor = volume.xColor;
       }
-      volume.sliceInfoChanged(0);},100);
+      volume.sliceInfoChanged(0);
+      r.rebuildNavWidget();},100);
 
     // CREATE Bounding Box
     var res = [volume.bbox[0],volume.bbox[2],volume.bbox[4]];
     var res2 = [volume.bbox[1],volume.bbox[3],volume.bbox[5]];
 
     box = new X.object();
+    // box.color = [0, 157, 233];
 
     box.points = new X.triplets(72);
     box.normals = new X.triplets(72);
@@ -93,7 +111,7 @@ window.onload = function() {
     // (we need to create this during onShowtime(..) since we do not know the
     // volume dimensions before the loading was completed)
     
-    this.mode = 'demo';
+    this.mode = 0;
     this.bbox = true;
     
     // set xNorms to 1.0 to avoid sliceGUI bug
@@ -105,7 +123,7 @@ window.onload = function() {
     var gui = new dat.GUI();
     // create the UI controller
     modegui = gui.addFolder('General');
-    var sliceMode = modegui.add(this, 'mode', [ 'demo', 'navigation', 'manual' ] ).name('Interaction Mode');
+    var sliceMode = modegui.add(this, 'mode', { 'Demo':0, 'Navigation':1, 'Manual':2 } ).name('Interaction Mode');
     var bboxMode = modegui.add(this, 'bbox').name('Show BBox');
     var coloringMode = modegui.add(this, 'coloring').name('Slice Coloring');
     modegui.open();
@@ -114,17 +132,16 @@ window.onload = function() {
     var sliceXNXController = slicegui.add(volume, 'xNormX', -1,1).name('Normal X Dir.').listen();
     var sliceXNYController = slicegui.add(volume, 'xNormY', -1,1).name('Normal Y Dir.').listen();
     var sliceXNZController = slicegui.add(volume, 'xNormZ', -1,1).name('Normal Z Dir.').listen();
-    var sliceXNCController = slicegui.addColor(this, 'color').name('Color').listen();
+    var sliceXNCController = slicegui.addColor(r, 'color').name('Color').listen();
     slicegui.open();
 
     navgui = gui.addFolder('Slice Navigation');
-    var sliceXController = navgui.add(volume, 'indexX', 0,1000).name('Slice Index').listen();
-    navgui.open();
+    r.rebuildNavWidget();
 
     // callbacks
     sliceMode.onChange(function(value) {
 
-      if (value == 'demo') {
+      if (value == 0) {
         // cleanup navigation
         if (typeof updateViewNavigation != 'undefined'){
           r.interactor.removeEventListener(  X.event.events.ROTATE, updateViewNavigation);
@@ -142,9 +159,10 @@ window.onload = function() {
             volume.xColor = r.color;
             volume.maxColor = volume.xColor;
           }
-          volume.sliceInfoChanged(0);},100); 
+          volume.sliceInfoChanged(0);
+          r.rebuildNavWidget();},100); 
       }
-      else if (value == 'navigation'){
+      else if (value == 1){
         // cleanup demo
         clearInterval(demoIntervalID);
 
@@ -164,7 +182,10 @@ window.onload = function() {
             volume.xColor = r.color;
             volume.maxColor = volume.xColor;
           }
-           volume.sliceInfoChanged(0);
+          volume.sliceInfoChanged(0);
+
+          //rebuild Slice navigation
+          r.rebuildNavWidget();
         }
 
 
@@ -172,7 +193,7 @@ window.onload = function() {
 
         updateViewNavigation();
       }
-      else if (value == 'manual'){
+      else if (value == 2){
         // cleanup demo
         clearInterval(demoIntervalID);
 
@@ -207,6 +228,7 @@ window.onload = function() {
         volume.maxColor = volume.xColor;
       }
       volume.sliceInfoChanged(0);
+      r.rebuildNavWidget();
     });
 
     sliceXNYController.onChange(function(value){
@@ -216,6 +238,7 @@ window.onload = function() {
         volume.maxColor = volume.xColor;
       }
       volume.sliceInfoChanged(0);
+      r.rebuildNavWidget();
     });
 
     sliceXNZController.onChange(function(value){
@@ -225,6 +248,7 @@ window.onload = function() {
         volume.maxColor = volume.xColor;
       }
       volume.sliceInfoChanged(0);
+      r.rebuildNavWidget();
     });
 
     sliceXNCController.onChange(function(value){
@@ -232,12 +256,6 @@ window.onload = function() {
         volume.xColor = this.color;
         volume.sliceInfoChanged(0);
       }
-    });
-
-    sliceXController.onChange(function(value){
-           // Hide Y and Z slices
-    volume.children[1]['visible'] = false;
-    volume.children[2]['visible'] = false;
     });
   };
   
