@@ -32,7 +32,6 @@ window.onload = function() {
 
 
     // set callback to change X slice normal
-    var _this = this;
     var demoIntervalID = setInterval(function(){
       var time = new Date().getTime() * 0.002;
       volume.xNormX = Math.cos(time);
@@ -106,20 +105,20 @@ window.onload = function() {
     var gui = new dat.GUI();
     // create the UI controller
     modegui = gui.addFolder('General');
-    var sliceMode = modegui.add(this, 'mode', [ 'demo', 'navigation', 'manual' ] );
-    var bboxMode = modegui.add(this, 'bbox');
-    var coloringMode = modegui.add(this, 'coloring');
+    var sliceMode = modegui.add(this, 'mode', [ 'demo', 'navigation', 'manual' ] ).name('Interaction Mode');
+    var bboxMode = modegui.add(this, 'bbox').name('Show BBox');
+    var coloringMode = modegui.add(this, 'coloring').name('Slice Coloring');
     modegui.open();
 
     slicegui = gui.addFolder('Slice Information');
-    var sliceXNXController = slicegui.add(volume, 'xNormX', -1,1).listen();
-    var sliceXNYController = slicegui.add(volume, 'xNormY', -1,1).listen();
-    var sliceXNZController = slicegui.add(volume, 'xNormZ', -1,1).listen();
-    var sliceXNCController = slicegui.addColor(this, 'color').listen();
+    var sliceXNXController = slicegui.add(volume, 'xNormX', -1,1).name('Normal X Dir.').listen();
+    var sliceXNYController = slicegui.add(volume, 'xNormY', -1,1).name('Normal Y Dir.').listen();
+    var sliceXNZController = slicegui.add(volume, 'xNormZ', -1,1).name('Normal Z Dir.').listen();
+    var sliceXNCController = slicegui.addColor(this, 'color').name('Color').listen();
     slicegui.open();
 
     navgui = gui.addFolder('Slice Navigation');
-    var sliceXController = navgui.add(volume, 'indexX', 0,1000);
+    var sliceXController = navgui.add(volume, 'indexX', 0,1000).name('Slice Index').listen();
     navgui.open();
 
     // callbacks
