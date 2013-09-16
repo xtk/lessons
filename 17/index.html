@@ -61,16 +61,72 @@
 </head>
 
 <body>
-<div id='loading'> <h1 class='onair'>Loading brain MRI...</h1> </div>
+<div id='loading'>
+    <h1 class='onair'>Loading data</h1> 
+    <div class="loader-bg boxair"></div>
+</div>
 
 <div style='position:absolute;top:10px;left:10px;'>
 <h1 class="onair">[ <div class='circle'></div> LIVE RE-SLICING ]</h1>
 
-<details>
+<details open>
   <summary>About</summary>
   <div class='content'>
-    <b>#</b>Brain MRI (256x256x176)</br>
-    <b>#</b>Live re-slicing!
+    Overview
+    <p>We present a new, intuitive, interactive and efficient way to explore medical imaging data. A typical T1-weighted brain MRI is loaded in this demo. The displayed slices are computed in real-time with pure JavaScript.
+    </p>
+
+    Is it useful?
+    <p>
+    Yes.<br>
+    Often times, medical professionals want to look at the data in arbitrary directions. Established software do not allow user to explore the data in a friendly manner.
+    </p>
+
+    The image
+    <p>
+    <b>Modality:</b> <a href="http://en.wikipedia.org/wiki/Magnetic_resonance_imaging#T1-weighted_MRI" target="_blank">T1-weighted MRI</a><br>
+    <b>Anatomy:</b> Brain<br>
+    <b>Size:</b> 256 x 256 x 176 pixels <br>
+    <b>Pixel:</b> 32 bits
+</p>
+  </div>
+</details>
+
+<details>
+  <summary>UI Help</summary>
+  <div class='content'>
+  You can (and should!:)) interact with all the elements in the UI<br><br>
+    General panel
+    <p>
+    <span class='subp'>Interaction mode:</span><br>
+    <b>Demo:</b> Reslice data randomly<br>
+    <b>Cam:</b> Reslice data in camera direction<br>
+    <b>Box:</b> Reslice data based on slice orientation normals directions<br>
+    <span class='subp'>Show BBox:</span>Show/Hide the data bounding box<br>
+    <span class='subp'>Slice Coloring:</span>Turn on/off slice coloring based on slice normal direction<br>
+    </p>
+
+    Slice Orientation
+    <p>
+    <span class='subp'>Normal X Dir:</span> X component of the slice normal<br>
+    <span class='subp'>Normal Y Dir:</span> Y component of the slice normal<br>
+    <span class='subp'>Normal Z Dir:</span> Z component of the slice normal<br>
+    <span class='subp'>Color:</span> Color based on the slice normal RBG(NormZ,NormY,NormX)
+    </p>
+
+    Slice Selection
+    <p>
+    <span class='subp'>Slice index:</span> Slice location among existing slices in slice normal direction
+    </p>
+
+    Scene Orientation
+    <p>
+    <span class='subp'>View</span><br>
+    <b>Free:</b> User defines camera location<br>
+    <b>Sagittal:</b> Look at the data <a href="http://en.wikipedia.org/wiki/Sagittal_plane" target="_blank">sagittally</a><br>
+    <b>Coronal:</b> Look at the data <a href="http://en.wikipedia.org/wiki/Coronal_plane" target="_blank">coronally</a><br>
+    <b>Axial:</b> Look at the data <a href="http://en.wikipedia.org/wiki/Axial_plane" target="_blank">axially</a><br>
+    </p>
   </div>
 </details>
 

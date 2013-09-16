@@ -24,10 +24,10 @@ http://cssdemos.tupence.co.uk/text-shadow.htm
 */
 /*Use shadows to slowly build up the glow. The first shadow should be the colour of the text. Subsequent shadows are the colour you want the glow to be, all with no x or y offset and with increasing amounts of blur (the number of shadows you use depends on how big you want the glow to be).*/
 -webkit-animation: onair 2.0s linear infinite;
--moz-animation: onair 2.0s linear infinite;
+/*-moz-animation: onair 2.0s linear infinite;
 -ms-animation: onair 2.0s linear infinite;
 -o-animation: onair 2.0s linear infinite;
-animation: onair 2.0s linear infinite;
+animation: onair 2.0s linear infinite;*/
 }
 
 /*@keyframes circle {
@@ -64,6 +64,8 @@ color:#fff;
 }
 
 details {
+  background-color:rgba(0,0,0,0.8);
+  max-width: 350px;
 margin-bottom: -1px;
 padding: 1px;
 color: grey;
@@ -74,10 +76,17 @@ summary {
 border-bottom:1px solid;
 margin-bottom:-2px;
 }
+
+p {
+  color: #808080;
+  margin-top:5px;
+  text-align:justify;
+}
 .content {
  color: white;
  padding-top: 3px;
  padding-left: 3px;
+padding-right: 2px;
 }
 
 :focus {
@@ -92,8 +101,49 @@ margin-bottom:-2px;
   position: fixed;
   margin: auto;
   z-index:999;
+/*  border-radius: 50%;
+border-style:solid;
+border-width:5px;
+border-color: yellow;*/
 }
 
 a {
   color: #009DE9;
+}
+
+.xtk-progress-bar {
+  display: none !important;
+}
+
+.loader-bg
+{
+  position: absolute;
+top: 0;
+left: 0px;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 5px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+}
+
+@keyframes boxair {
+  0% {box-shadow:0 0 10px #fff, 0 0 20px #00d2ff;}
+  50% {box-shadow:none;}
+  100% {box-shadow:0 0 10px #fff, 0 0 20px #00d2ff;}
+}
+
+@-webkit-keyframes boxair {
+  0% {box-shadow:0 0 10px #fff, 0 0 20px #00d2ff;}
+  50% {box-shadow:none;}
+  100% {box-shadow:0 0 10px #fff, 0 0 20px #00d2ff;}
+}
+
+.boxair{
+-webkit-animation: boxair 2s linear infinite;
+}
+
+.subp {
+  color:#00527A;
+  font-weight:bold;
 }

@@ -1,3 +1,6 @@
+// listen for 
+// xtk-progress-bar status
+
 xslicegui = function(targetRenderer, targetVolume, bbox){
   this.renderer = targetRenderer;
   this.renderer.interactor.xsliceguiref = this;
@@ -179,7 +182,7 @@ xslicegui.prototype.updateSceneView = function(){
     _this.volume.xNormX = _x/length;
     _this.volume.xNormY = _y/length;
     _this.volume.xNormZ = _z/length;
-    _this.renderer.color = [Math.abs(_this.volume.xNormZ), Math.abs(_this.volume.xNormY), Math.abs(_this.volume.xNormX)];
+    _this.color = [Math.abs(_this.volume.xNormZ), Math.abs(_this.volume.xNormY), Math.abs(_this.volume.xNormX)];
 
     if(_this.coloring){
       _this.volume.xColor = [Math.abs(_this.volume.xNormZ), Math.abs(_this.volume.xNormY), Math.abs(_this.volume.xNormX)];
@@ -270,13 +273,10 @@ window.onload = function() {
   // only add the volume for now, the mesh gets loaded on request
   r.add(volume);
 
+  // attach event!
   // the onShowtime method gets executed after all files were fully loaded and
   // just before the first rendering attempt
   r.onShowtime = function() {
-
-    var loadingDiv = document.getElementById('loading');
-    loadingDiv.style.display = 'none';
-
      // Hide Y and Z slices
     volume.children[1]['visible'] = false;
     volume.children[2]['visible'] = false;
@@ -327,6 +327,13 @@ window.onload = function() {
     gui = new xslicegui(r, volume, box);
     gui.create();
   };
+
+  // hide waiting screen after first render!
+  r.onRender = function(){
+
+    var loadingDiv = document.getElementById('loading');
+    loadingDiv.style.display = 'none';
+  }
   
   // adjust the camera position a little bit, just for visualization purposes
   r.camera.position = [270, 250, 330];
