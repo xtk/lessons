@@ -1,5 +1,57 @@
-// listen for 
-// xtk-progress-bar status
+sizeContent = function() {
+  var totalSummariesHeight = document.body.clientHeight;
+  
+  // on air
+  //http://stackoverflow.com/questions/10787782/full-height-of-a-html-element-div-including-border-padding-and-margin
+  var livereslice = document.getElementById("livereslice");
+  totalSummariesHeight -= parseInt(document.defaultView.getComputedStyle(livereslice, '').getPropertyValue('height'));
+  totalSummariesHeight -= parseInt(document.defaultView.getComputedStyle(livereslice, '').getPropertyValue('margin-top')) + parseInt(document.defaultView.getComputedStyle(livereslice, '').getPropertyValue('margin-bottom'));
+  totalSummariesHeight -= livereslice.offsetTop;
+
+  // summaries
+  // get elements by tag name
+  var summaries = document.getElementsByTagName("summary");
+  for(var i = 0; i < summaries.length; i++){
+   //do something to each div like
+   totalSummariesHeight -= summaries[i].offsetHeight;
+  }
+
+  // jsfiddle
+  var jsfiddle = document.getElementById("jsfiddle");
+  totalSummariesHeight -= jsfiddle.offsetHeight;
+  totalSummariesHeight -= 10;
+
+  //new content max height
+  var maxHeight = document.body.clientHeight - totalSummariesHeight
+  var contents = document.getElementsByClassName("content");
+  for(var i = 0; i < contents.length; i++){
+   //do something to each div like
+   contents[i].style.maxHeight = totalSummariesHeight+"px";
+  }
+}
+
+//http://stackoverflow.com/questions/16751345/html5-automatically-close-all-the-other-details-tags-after-opening-a-specifi
+indexContent = function(elm){
+  var nodes = elm.parentNode.childNodes, node;
+  var i = 0, count = i;
+  while( (node=nodes.item(i++)) && node!=elm )
+    if( node.nodeType==1 ) count++;
+  return count;
+}
+
+closeContent = function(index) {
+  var len = document.getElementsByTagName("details").length;
+  for(var i=0; i<len; i++){
+    if(i != index){
+      document.getElementsByTagName("details")[i].removeAttribute("open");
+    }
+  }
+}
+
+
+window.onresize = function(event) {
+  sizeContent();
+}
 
 xslicegui = function(targetRenderer, targetVolume, bbox){
   this.renderer = targetRenderer;
@@ -259,6 +311,8 @@ xslicegui.prototype.reslice = function(){
 }
 
 window.onload = function() {
+  // size contents
+  sizeContent();
 
   // create and initialize a 3D renderer
   var r = new X.renderer3D();

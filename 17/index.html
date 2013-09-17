@@ -30,8 +30,10 @@
 <title>XTK LESSON 17</title>
 <script type="text/javascript" src="http://get.goXTK.com/xtk_edge.js"></script>
 <script type="text/javascript" src="http://get.goXTK.com/xtk_xdat.gui.js"></script>
+<script type="text/javascript" src="details-shim/details-shim.js"></script>
 <script type="text/javascript" src="demo.js"></script>
 <link rel="stylesheet" type="text/css" href="demo.css">
+<link rel="stylesheet" type="text/css" href="details-shim/details-shim.css">
 
 <!-- Google Analytics -->
 
@@ -62,14 +64,15 @@
 
 <body>
 <div id='loading'>
-    <h1 class='onair'>Loading data</h1> 
+    <h1 class='onair'>Loading data...</h1> 
     <div class="loader-bg boxair"></div>
 </div>
 
 <div style='position:absolute;top:10px;left:10px;'>
-<h1 class="onair">[ <div class='circle'></div> LIVE RE-SLICING ]</h1>
+<h1 id="livereslice" class="onair">[ <div class='circle'></div> LIVE RE-SLICING ]</h1>
 
-<details open>
+<span id="details">
+<details open onclick="closeContent(indexContent(this));">
   <summary>About</summary>
   <div class='content'>
     Overview
@@ -82,18 +85,26 @@
     Often times, medical professionals want to look at the data in arbitrary directions. Established software do not allow user to explore the data in a friendly manner.
     </p>
 
+    The technology
+    <p>
+    <b>HTML5</b><br>
+    <b>WebGL</b><br>
+    <b>CSS3</b>
+    </p>
+
     The image
     <p>
     <b>Modality:</b> <a href="http://en.wikipedia.org/wiki/Magnetic_resonance_imaging#T1-weighted_MRI" target="_blank">T1-weighted MRI</a><br>
     <b>Anatomy:</b> Brain<br>
     <b>Size:</b> 256 x 256 x 176 pixels <br>
     <b>Pixel:</b> 32 bits
-</p>
+    </p>
+    
   </div>
 </details>
 
-<details>
-  <summary>UI Help</summary>
+<details onclick="closeContent(indexContent(this));">
+  <summary >UI Help</summary>
   <div class='content'>
   You can (and should!:)) interact with all the elements in the UI<br><br>
     General panel
@@ -130,11 +141,13 @@
   </div>
 </details>
 
-<details>
+<details onclick="closeContent(indexContent(this));">
   <summary>Credits</summary>
   <div class='content'>Nicolas Rannou<br/>Daniel Haehn</br>Rudolph Pienaar</br>Ellen Grant</br><a href="http://childrenshospital.org/cfapps/research/data_admin/Site3068/mainpageS3068P0.html" target="_blank">FNNDSC</a></br><a href="http://www.childrenshospital.org/" target="_blank">Boston Children's Hospital</a>
   </div>
 </details>
+
+</span>
 
 </div>
 

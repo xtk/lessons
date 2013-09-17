@@ -1,96 +1,159 @@
-html, body { 
-  background-color:#000;
+html,body {
+  background-color: #000;
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: hidden !important;  
+  overflow: hidden !important;
 }
 
-@keyframes onair {
-  0% {text-shadow:0 0 10px #fff, 0 0 20px #00d2ff;}
-  50% {text-shadow:none;}
-  100% {text-shadow:0 0 10px #fff, 0 0 20px #00d2ff;}
+@keyframes "onair" {
+ 0% {
+    text-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+ }
+ 50% {
+    text-shadow: none;
+ }
+ 100% {
+    text-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+ }
+
 }
 
-@-webkit-keyframes onair {
-  0% {text-shadow:0 0 10px #fff, 0 0 20px #00d2ff;}
-  50% {text-shadow:none;}
-  100% {text-shadow:0 0 10px #fff, 0 0 20px #00d2ff;}
+@-moz-keyframes onair {
+ 0% {
+   text-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+ }
+ 50% {
+   text-shadow: none;
+ }
+ 100% {
+   text-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+ }
+
 }
 
-.onair{
-/*
-http://cssdemos.tupence.co.uk/text-shadow.htm
-*/
+@-webkit-keyframes "onair" {
+ 0% {
+   text-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+ }
+ 50% {
+   text-shadow: none;
+ }
+ 100% {
+   text-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+ }
+
+}
+
+@-ms-keyframes "onair" {
+ 0% {
+   text-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+ }
+ 50% {
+   text-shadow: none;
+ }
+ 100% {
+   text-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+ }
+
+}
+
+@-o-keyframes "onair" {
+ 0% {
+   text-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+ }
+ 50% {
+   text-shadow: none;
+ }
+ 100% {
+   text-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+ }
+
+}
+
+.onair {
+  /*
+  http://cssdemos.tupence.co.uk/text-shadow.htm
+   */
 /*Use shadows to slowly build up the glow. The first shadow should be the colour of the text. Subsequent shadows are the colour you want the glow to be, all with no x or y offset and with increasing amounts of blur (the number of shadows you use depends on how big you want the glow to be).*/
+
 -webkit-animation: onair 2.0s linear infinite;
-/*-moz-animation: onair 2.0s linear infinite;
--ms-animation: onair 2.0s linear infinite;
--o-animation: onair 2.0s linear infinite;
-animation: onair 2.0s linear infinite;*/
+  -moz-animation: onair 2.0s linear infinite;
+  -ms-animation: onair 2.0s linear infinite;
+  -o-animation: onair 2.0s linear infinite;
+  animation: onair 2.0s linear infinite; /*
+  
+  
+  */
 }
 
-/*@keyframes circle {
-  0% {box-shadow:0 0 10px #f00, 0 0 20px #fff;}
-  50% {box-shadow:none;}
-  100% {box-shadow:0 0 10px #f00, 0 0 20px #fff;}
-}
-
-@-webkit-keyframes circle {
-  0% {box-shadow:0 0 10px #f00, 0 0 20px #fff;}
-  50% {box-shadow:none;}
-  100% {box-shadow:0 0 10px #f00, 0 0 20px #fff;}
-}
-*/
 .circle {
-margin-bottom:-8px;
-display: inline-block;
-white-space: nowrap;
-background: #F00;
-border-radius: 50%;
-height: 34px;
-width: 34px;
-
-/*-webkit-animation: circle 2.0s linear infinite;
--moz-animation: circle 2.0s linear infinite;
--ms-animation: circle 2.0s linear infinite;
--o-animation: circle 2.0s linear infinite;
-animation: circle 2.0s linear infinite;*/
+  margin-bottom: -8px;
+  display: inline-block;
+  white-space: nowrap;
+  background: #F00;
+  border-radius: 50%;
+  height: 34px;
+  width: 34px;
 }
 
 body {
-font-family:"Arial";
-color:#fff;
+  font-family: "Arial";
+  color: #fff;
 }
 
 details {
-  background-color:rgba(0,0,0,0.8);
+  background-color: rgba(0,0,0,0.8);
   max-width: 350px;
-margin-bottom: -1px;
-padding: 1px;
-color: grey;
-border:1px solid;
-border-radius:2px;
+  margin-bottom: -1px;
+  padding: 1px;
+  color: grey;
+  border: 1px solid;
+  border-radius: 2px;
 }
+
 summary {
-border-bottom:1px solid;
-margin-bottom:-2px;
+  border-bottom: 1px solid;
+  margin-bottom: -2px;
+  margin-left: -1px;
+  margin-right: -1px;
+  padding-left: 1px;
 }
 
 p {
   color: #808080;
-  margin-top:5px;
-  text-align:justify;
+  margin-top: 5px;
+  text-align: justify;
 }
+
 .content {
- color: white;
- padding-top: 3px;
- padding-left: 3px;
-padding-right: 2px;
+  color: white;
+  margin-top: 2px;
+  margin-bottom: -1px;
+  padding-left: 3px;
+  padding-right: 2px;
+
+  -ms-overflow-y: auto;
+  overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-corner {
+  height: 0;
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: #676767;
 }
 
 :focus {
-   outline: none;
+  outline: none;
 }
 
 #loading {
@@ -100,11 +163,7 @@ padding-right: 2px;
   top: 40%;
   position: fixed;
   margin: auto;
-  z-index:999;
-/*  border-radius: 50%;
-border-style:solid;
-border-width:5px;
-border-color: yellow;*/
+  z-index: 999;
 }
 
 a {
@@ -115,35 +174,101 @@ a {
   display: none !important;
 }
 
-.loader-bg
-{
+.loader-bg {
   position: absolute;
-top: 0;
-left: 0px;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 5px solid rgba(255, 255, 255, 0.1);
-    box-sizing: border-box;
+  top: 0;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-@keyframes boxair {
-  0% {box-shadow:0 0 10px #fff, 0 0 20px #00d2ff;}
-  50% {box-shadow:none;}
-  100% {box-shadow:0 0 10px #fff, 0 0 20px #00d2ff;}
+@keyframes "boxair" {
+ 0% {
+    -webkit-box-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+    box-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+ }
+ 50% {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+ }
+ 100% {
+    -webkit-box-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+    box-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+ }
+
 }
 
-@-webkit-keyframes boxair {
-  0% {box-shadow:0 0 10px #fff, 0 0 20px #00d2ff;}
-  50% {box-shadow:none;}
-  100% {box-shadow:0 0 10px #fff, 0 0 20px #00d2ff;}
+@-moz-keyframes boxair {
+ 0% {
+   box-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+ }
+ 50% {
+   box-shadow: none;
+ }
+ 100% {
+   box-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+ }
+
 }
 
-.boxair{
--webkit-animation: boxair 2s linear infinite;
+@-webkit-keyframes "boxair" {
+ 0% {
+   -webkit-box-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+   box-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+ }
+ 50% {
+   -webkit-box-shadow: none;
+   box-shadow: none;
+ }
+ 100% {
+   -webkit-box-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+   box-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+ }
+
+}
+
+@-ms-keyframes "boxair" {
+ 0% {
+   box-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+ }
+ 50% {
+   box-shadow: none;
+ }
+ 100% {
+   box-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+ }
+
+}
+
+@-o-keyframes "boxair" {
+ 0% {
+   box-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+ }
+ 50% {
+   box-shadow: none;
+ }
+ 100% {
+   box-shadow: 0 0 10px #fff, 0 0 20px #00d2ff;
+ }
+
+}
+
+.boxair {
+  -webkit-animation: boxair 2s linear infinite;
+  -moz-animation: boxair 2s linear infinite;
+  -ms-animation: boxair 2s linear infinite;
+  -o-animation: boxair 2s linear infinite;
+  animation: boxair 2s linear infinite;
 }
 
 .subp {
-  color:#00527A;
-  font-weight:bold;
+  color: #00527A;
+  font-weight: bold;
 }
