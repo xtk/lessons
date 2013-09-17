@@ -109,7 +109,6 @@ details {
   padding: 1px;
   color: grey;
   border: 1px solid;
-  border-radius: 2px;
 }
 
 summary {
@@ -117,7 +116,7 @@ summary {
   margin-bottom: -2px;
   margin-left: -1px;
   margin-right: -1px;
-  padding-left: 1px;
+  padding-left: 2px;
 }
 
 p {
