@@ -13,7 +13,7 @@ sizeContent = function() {
   var summaries = document.getElementsByTagName("summary");
   for(var i = 0; i < summaries.length; i++){
    //do something to each div like
-   totalSummariesHeight -= summaries[i].offsetHeight;
+   totalSummariesHeight -= 2+summaries[i].offsetHeight;
   }
 
   // jsfiddle

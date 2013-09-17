@@ -131,7 +131,7 @@ p {
   margin-bottom: -1px;
   padding-left: 3px;
   padding-right: 2px;
-
+  padding-top: 10px;
   -ms-overflow-y: auto;
   overflow-y: auto;
 }

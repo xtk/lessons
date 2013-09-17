@@ -1,0 +1,94 @@
+<div id='loading'>
+    <h1 class='onair'>Loading data...</h1> 
+    <div class="loader-bg boxair"></div>
+</div>
+
+<div style='position:absolute;top:10px;left:10px;'>
+<h1 id="livereslice" class="onair">[ <div class='circle'></div> LIVE RE-SLICING ]</h1>
+
+<span id="details">
+<details open onclick="closeContent(indexContent(this));">
+  <summary>About</summary>
+  <div class='content'>
+    Overview
+    <p>
+		In this demo, a typical <a href="http://en.wikipedia.org/wiki/Magnetic_resonance_imaging#T1-weighted_MRI" target="_blank">T1-weighted</a> brain MRI is loaded in the main browser window. Once rendered, the volume is arbitrarily resliced along randomly generated planes.
+	</p>
+	<p>
+		The original data was collected along a single scan direction, in this case the <a href="http://en.wikipedia.org/wiki/Sagittal_plane" target="_blank">sagittal</a> direction (which means slices parallel to a line dividing the head into left and right halves). All these slices together can be stacked like plates into a volume. Most medical viewing software would show MRI data along the acquired direction, and then also interpolated along two other orthogonal directions: <a href="http://en.wikipedia.org/wiki/Axial_plane" target="_blank">axial</a> (top to bottom) and <a href="http://en.wikipedia.org/wiki/Coronal_plane" target="_blank">coronal</a> (front to back). 
+	</p>
+	<p>
+		Here, we present complete arbitrary reslicing along any plane direction. Each time a new plane is selected, a new slice projection along that plane is generated live. The absolute size of the normal vector's (x, y, z) values are used to define the [RGB] color for that slice. This demo shows the computational power and speed of javascript and WebGL, while also presented a new and intuitive interface to interacting with volumetric medical data. Indeed, most stand-alone client software does not offer this arbitrary reslice functionality.
+	</p>
+
+    Technology
+    <p>
+    <b>Javascript</b><br>
+    <b>WebGL</b><br>
+    <b>HTML5</b><br>
+    <b>CSS3</b>
+    </p>
+
+    Image
+    <p>
+    <b>Modality:</b> <a href="http://en.wikipedia.org/wiki/Magnetic_resonance_imaging#T1-weighted_MRI" target="_blank">T1-weighted MRI</a><br>
+    <b>Anatomy:</b> Brain<br>
+    <b>Size:</b> 256 x 256 x 176 pixels <br>
+    <b>Color Depth:</b> 32 bits <br>
+    <b>Image size:</b> 11.95 MB
+    </p>
+
+  </div>
+</details>
+
+<details onclick="closeContent(indexContent(this));">
+  <summary >UI Help</summary>
+  <div class='content'>
+    General panel
+    <p>
+    <span class='subp'>Interaction mode:</span><br>
+    <b>Demo:</b> Reslice data randomly<br>
+    <b>Cam:</b> As the box is rotated, show the mid-volumetric slice normal to the camera<br>
+    <b>Box:</b> Keep slice fixed, but rotate the bounding box<br>
+    <span class='subp'>Show BBox:</span>Show/Hide the data bounding box<br>
+    <span class='subp'>Slice Coloring:</span>Turn on/off slice coloring based on slice normal direction. When off, show only shades of gray.<br>
+    </p>
+
+    Slice Orientation
+	<p>
+		Normals range between -1.0 and 1.0.
+	</p>
+    <p>
+    <span class='subp'>Normal X Dir:</span> X component of the slice normal<br>
+    <span class='subp'>Normal Y Dir:</span> Y component of the slice normal<br>
+    <span class='subp'>Normal Z Dir:</span> Z component of the slice normal<br>
+    <span class='subp'>Color:</span> Color based on the slice normal:<br> [R, G, B] = [NormZ, NormY, NormX]
+    </p>
+
+    Slice Selection
+    <p>
+    <span class='subp'>Slice index:</span> Slice index along the given normal direction
+    </p>
+
+    Scene Orientation
+    <p>
+    <span class='subp'>View</span><br>
+    <b>Free:</b> User defines camera location<br>
+    <b>Sagittal:</b> Orientate <a href="http://en.wikipedia.org/wiki/Sagittal_plane" target="_blank">sagittally</a><br>
+    <b>Coronal:</b> Orientate <a href="http://en.wikipedia.org/wiki/Coronal_plane" target="_blank">coronally</a><br>
+    <b>Axial:</b> Orientate <a href="http://en.wikipedia.org/wiki/Axial_plane" target="_blank">axially</a><br>
+    </p>
+  </div>
+</details>
+
+<details onclick="closeContent(indexContent(this));">
+  <summary>Credits</summary>
+  <div class='content'>Nicolas Rannou<br/>Daniel Haehn</br>Rudolph Pienaar</br>Ellen Grant</br><a href="http://childrenshospital.org/cfapps/research/data_admin/Site3068/mainpageS3068P0.html" target="_blank">FNNDSC</a></br><a href="http://www.childrenshospital.org/" target="_blank">Boston Children's Hospital</a>
+  </div>
+</details>
+
+</span>
+
+</div>
+
+<div id='jsfiddle' style='position:absolute;bottom:10px;left:10px;'><a href='http://jsfiddle.net/gh/get/toolkit/edge/xtk/lessons/tree/master/17/#run' target=_blank><img src='http://xtk.github.com/fiddlelogo.png' border=0></a></div>
