@@ -28,8 +28,15 @@
 <html>
 <head>
 <title>XTK LESSON 17</title>
+
 <script type="text/javascript" src="http://get.goXTK.com/xtk_edge.js"></script>
 <script type="text/javascript" src="http://get.goXTK.com/xtk_xdat.gui.js"></script>
+
+<!-- shim to support details summary in firefox and IE-->
+<!-- http://tyleruebele.com/weblog/details-shim -->
+<script type="text/javascript" src="./details-shim/details-shim.min.js"></script>
+<link rel="stylesheet" type="text/css" href="./details-shim/details-shim.min.css">
+
 <script type="text/javascript" src="demo.js"></script>
 <link rel="stylesheet" type="text/css" href="demo.css">
 
@@ -70,7 +77,7 @@
 <h1 id="livereslice" class="onair">[ <div class='circle'></div> LIVE RE-SLICING ]</h1>
 
 <span id="details">
-<details open onclick="closeContent(indexContent(this));">
+<details open="open" onclick="closeContent(indexContent(this));">
   <summary>About</summary>
   <div class='content'>
     Overview
