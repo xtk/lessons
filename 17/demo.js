@@ -69,6 +69,10 @@ xslicegui = function(targetRenderer, targetVolume, bbox){
   // animation 
   this.demoIntervalID = -1;
 
+  // leap motion (lm)
+  this.lmIntervalID = -1;
+  this.lmController = null;
+
   // gui stuffs
   this.gui = null;
   // mode panel
@@ -224,7 +228,7 @@ xslicegui.prototype.updateSceneView = function(){
   }
 
   // get mode
-  if(_this.sliceMode.getValue() == 1){
+  if(_this.sliceMode.getValue() == 1 || _this.sliceMode.getValue() == 4){
     var _x = _this.renderer.camera.view[2];
     var _y = _this.renderer.camera.view[6];
     var _z = _this.renderer.camera.view[10];
@@ -253,7 +257,7 @@ xslicegui.prototype.updateSceneView = function(){
 xslicegui.prototype.setupmodegui = function(){
   // UI
   this.modegui = this.gui.addFolder('General');
-  this.sliceMode = this.modegui.add(this, 'mode', { 'Demo':0, 'Rotate Cam':1, 'Rotate Box':2 } ).name('Interaction Mode');
+  this.sliceMode = this.modegui.add(this, 'mode', { 'Demo':0, 'Rotate Cam':1, 'Rotate Box':2, 'LeapM Palm':3, 'LeapM Point':4} ).name('Interaction Mode');
   this.bboxMode = this.modegui.add(this, 'bbox').name('Show BBox');
   this.coloringMode = this.modegui.add(this, 'coloring').name('Slice Coloring');
   this.modegui.open();
@@ -262,6 +266,11 @@ xslicegui.prototype.setupmodegui = function(){
   var _this = this;
   this.sliceMode.onChange(function(value) {
     if (value == 0) {
+      // cleanup lm interval
+      clearInterval(_this.lmIntervalID);
+      if(_this.lmController != null){
+        _this.lmController.disconnect();
+       }
       // setup demo
       var _this2 = _this;
       _this.demoIntervalID = setInterval(function(){
@@ -272,12 +281,104 @@ xslicegui.prototype.setupmodegui = function(){
     else if (value == 1){
       // cleanup demo
       clearInterval(_this.demoIntervalID);
+      // cleanup lm interval
+      clearInterval(_this.lmIntervalID);
+      if(_this.lmController != null){
+        _this.lmController.disconnect();
+       }
 
       _this.updateSceneView();
     }
     else if (value == 2){
       // cleanup demo
       clearInterval(_this.demoIntervalID);
+      // cleanup lm interval
+      clearInterval(_this.lmIntervalID);
+      if(_this.lmController != null){
+        _this.lmController.disconnect();
+       }
+    }
+    else if(value == 3){
+      // cleanup demo
+      clearInterval(_this.demoIntervalID);
+      // cleanup lm controller
+      clearInterval(_this.lmIntervalID);
+      if(_this.lmController != null){
+        _this.lmController.disconnect();
+       }
+
+      var controllerOptions = {enableGestures: true};
+      _this.lmController = new Leap.Controller(controllerOptions);
+
+      _this.lmController.on('connect', function(){
+        _this.lmIntervalID = setInterval(function(){
+          var frame = _this.lmController.frame();
+          var handString = "";
+          if (frame.hands.length > 0) {
+            var hand = frame.hands[0];
+            _this.volume.xNormX = -hand.palmNormal[0];
+            _this.volume.xNormY = hand.palmNormal[2];
+            _this.volume.xNormZ = hand.palmNormal[1];
+            _this.color = [Math.abs(_this.volume.xNormZ), Math.abs(_this.volume.xNormY), Math.abs(_this.volume.xNormX)];
+            if(_this.coloring){
+              _this.volume.xColor = [Math.abs(_this.volume.xNormZ), Math.abs(_this.volume.xNormY), Math.abs(_this.volume.xNormX)];
+              _this.volume.maxColor = [Math.abs(_this.volume.xNormZ), Math.abs(_this.volume.xNormY), Math.abs(_this.volume.xNormX)];
+             }
+           _this.volume.sliceInfoChanged(0);
+           _this.sliceXController.__max = _this.volume.range[0] - 1; 
+           _this.renderer.camera.position = [-500*_this.volume.xNormX, -500*_this.volume.xNormY, -500*_this.volume.xNormZ]; 
+         }
+       }, 15);
+     });
+
+    _this.lmController.connect();
+    // disconnect then
+    }else if(value == 4){
+      // cleanup demo
+      clearInterval(_this.demoIntervalID);
+      // cleanup lm interval
+      clearInterval(_this.lmIntervalID);
+      if(_this.lmController != null){
+        _this.lmController.disconnect();
+       }
+
+      var controllerOptions = {enableGestures: true};
+      var speedfactor = 15;
+      var heightMax = 400;
+      _this.lmController = new Leap.Controller(controllerOptions);
+
+      _this.lmController.on('connect', function(){
+        _this.lmIntervalID = setInterval(function(){
+          var frame = _this.lmController.frame();
+          if (frame.pointables.length > 0) {
+            var finger = frame.pointables[0];
+
+            //4 fingers scroll
+            if(frame.pointables.length == 4){
+              scroller(finger.tipPosition[0]/speedfactor, (heightMax/2 - finger.tipPosition[1])/speedfactor);
+            }
+            //2 fingers rotate
+            else if(frame.pointables.length == 2){
+              slider(finger.tipPosition[0]/speedfactor, (heightMax/2 - finger.tipPosition[1])/speedfactor);
+            }
+
+          }
+        }, 10);
+      });
+
+      var slider = function(xDir, yDir) {
+        var frame = _this.lmController.frame();
+        _this.renderer.camera.rotate([-xDir, -yDir]);
+        _this.updateSceneView();
+      };
+  
+      var scroller = function(xDir, yDir) {
+        _this.volume.indexX += yDir;
+        _this.volume.children[1]['visible'] = false;
+        _this.volume.children[2]['visible'] = false;
+      };
+
+    _this.lmController.connect();
     }
   });
   
@@ -393,4 +494,6 @@ window.onload = function() {
   r.camera.position = [270, 250, 330];
   
   r.render();
+
+
 };
