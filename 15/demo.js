@@ -39,7 +39,7 @@ window.onload = function() {
 
   // create a new test_renderer
   var r = new X.renderer3D();
-  r.bgColor = [0.2, 0.25, 0.4];
+  // r.bgColor = [0.2, 0.25, 0.4];
   r.init();
   r.camera.position = [0, 300, 0];
   
