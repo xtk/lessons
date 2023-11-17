@@ -423,7 +423,8 @@ window.onload = function() {
   // create a X.volume
   volume = new X.volume();
   // .. and attach a volume
-  volume.file = 'http://x.babymri.org/?lesson17.nii.gz';
+  // volume.file = 'http://x.babymri.org/?lesson17.nii.gz';
+  volume.file = 'nicolas_brain.nrrd';
 
   // only add the volume for now, the mesh gets loaded on request
   r.add(volume);
